@@ -6,6 +6,7 @@ import requests
 #arguments=sys.orig_argv
 arguments2=sys.argv
 #print(arguments)
+sadfsad
 print(arguments2)
 #arguments 0 ankiadderall.py file name
 #arguments 1 deckname
