@@ -13,4 +13,6 @@ for i in ['../resource/oneway01-example.txt', \
             print(line)
             ankiadderall.card('linux', 'Basic', line)
 
+# ERROR :  Ctrl a "        [gnu screen] windowlist menu
+
 
