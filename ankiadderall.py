@@ -7,12 +7,19 @@ class card:
         ''' no deck and notetype. because cardlist has deck and notetype. '''
         deck = deck
         notetype = notetype
-        card_list = card_list.split(sep=' ')
-        front = card_list[0]
-        back = card_list[1]
-        tag = card_list[2]
+        card_list = card_list.split(sep='\t')
+        #card_list = card_list.split(sep=' ')
+        card  = self.check_notetype(notetype, card_list)
         #tag = card_list[3].split(sep=' ')
-        print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(deck, notetype, front, back, tag))
+        print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(deck, notetype, *card))
+
+    def check_notetype(self, notetype, card_list):
+        if notetype in ['Basic', 'BasicTwo']:
+            front = card_list[0]
+            back = card_list[1]
+            tag = card_list[2]
+            return front, back, tag
+        
 
 class ankiCardList:
     def __init__(self):
