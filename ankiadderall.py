@@ -7,12 +7,11 @@ class card:
         ''' no deck and notetype. because cardlist has deck and notetype. '''
         deck = deck
         notetype = notetype
+        # TODO : this may cause wrong split error.
+        # for example, escape key cards.
         card_list = card_list.split(sep='\t')
-        #card_list = card_list.split(sep=' ')
         card  = self.check_notetype(notetype, card_list)
-        return { 'deck' : deck,\
-                'notetype' : notetype,\
-                **card }
+        print(self.make_card(deck, notetype, **card))
         #print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(deck, notetype, *card))
 
     def check_notetype(self, notetype, card_list):
@@ -22,13 +21,32 @@ class card:
             back = card_list[1]
             # tag does not need to be splited
             #tag = card_list[3].split(sep=' ')
-            tag = card_list[2]
+            tag = self.is_tag(card_list[1], card_list[-1])
+            #print("card[1] {} card[-1] {} ".format(card_list[1], card_list[-1]))
+            #tag = card_list[2]
             return { 'front' : front, 'back' : back, 'tag': tag }
 
         # TODO : import config from outside.
-#        if notetype in ['cloze']:
-#            return pass
+        if notetype in ['cloze', 'Cloze']:
+            pass
+
+    def make_card(self, deck, notetype, **card):
+        return { 'deck' : deck,\
+                'notetype' : notetype,\
+                **card }
         
+    def is_tag(self, last_item_except_tag, tag_item):
+        '''
+        last card item can not be tag item.
+        therefore, if they are the same, there is no tag.
+        '''
+        if last_item_except_tag == tag_item:
+            return None
+        
+
+        if last_item_except_tag != tag_item:
+            return tag_item
+
 
 class ankiCardList:
     def __init__(self):

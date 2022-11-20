@@ -10,7 +10,8 @@ for i in ['../resource/oneway01-example.txt', \
     '/Users/constantinhong/TODO/ankiconnect-script/resource/oneway02-example.txt']:
     with open(i, encoding = 'utf-8') as f:
         for line in f.read().splitlines():
-            print(line)
+            #print(line)
+            #ankiadderall.card('linux', 'Basic', line).make_card()
             ankiadderall.card('linux', 'Basic', line)
 
 # ERROR :  Ctrl a "        [gnu screen] windowlist menu
