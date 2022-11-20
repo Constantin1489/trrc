@@ -10,8 +10,9 @@ class card:
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
         card_list = card_list.split(sep='\t')
-        card  = self.check_notetype(notetype, card_list)
-        print(self.make_card(deck, notetype, **card))
+        #card  = self.check_notetype(notetype, card_list)
+        print(self.make_card(deck, notetype, card_list))
+        #print(self.make_card(deck, notetype, **card))
         #print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(deck, notetype, *card))
 
     def check_notetype(self, notetype, card_list):
@@ -30,7 +31,8 @@ class card:
         if notetype in ['cloze', 'Cloze']:
             pass
 
-    def make_card(self, deck, notetype, **card):
+    def make_card(self, deck, notetype, card_list):
+        card = self.check_notetype(notetype, card_list)
         return { 'deck' : deck,\
                 'notetype' : notetype,\
                 **card }
