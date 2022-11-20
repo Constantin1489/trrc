@@ -12,7 +12,7 @@ class card:
         card  = self.check_notetype(notetype, card_list)
         return { 'deck' : deck,\
                 'notetype' : notetype,\
-                *card }
+                **card }
         #print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(deck, notetype, *card))
 
     def check_notetype(self, notetype, card_list):
@@ -26,8 +26,8 @@ class card:
             return { 'front' : front, 'back' : back, 'tag': tag }
 
         # TODO : import config from outside.
-        if notetype in ['cloze']:
-            return pass
+#        if notetype in ['cloze']:
+#            return pass
         
 
 class ankiCardList:
