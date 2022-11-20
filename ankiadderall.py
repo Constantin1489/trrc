@@ -10,16 +10,24 @@ class card:
         card_list = card_list.split(sep='\t')
         #card_list = card_list.split(sep=' ')
         card  = self.check_notetype(notetype, card_list)
-        print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(deck, notetype, *card))
+        return { 'deck' : deck,\
+                'notetype' : notetype,\
+                *card }
+        #print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(deck, notetype, *card))
 
     def check_notetype(self, notetype, card_list):
+        ''' return card content variables per notetype'''
         if notetype in ['Basic', 'BasicTwo']:
             front = card_list[0]
             back = card_list[1]
             # tag does not need to be splited
             #tag = card_list[3].split(sep=' ')
             tag = card_list[2]
-            return front, back, tag
+            return { 'front' : front, 'back' : back, 'tag': tag }
+
+        # TODO : import config from outside.
+        if notetype in ['cloze']:
+            return pass
         
 
 class ankiCardList:
