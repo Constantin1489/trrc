@@ -33,8 +33,8 @@ class card:
     def make_card(self, deck, notetype, splited_card_list):
         ''' return final card object to add DB. '''
         card = self.check_notetype(notetype, splited_card_list)
-        return { 'deck' : deck,\
-                'notetype' : notetype,\
+        return { 'decName' : deck,\
+                'modeluName' : notetype,\
                 **card }
         
     def is_tag(self, last_item_except_tag, tag_item):
@@ -59,6 +59,14 @@ class card:
             # TODO : return stderr
             print("does not have any cloze tag")
             exit
+    
+    def add_DB(self):
+        ''' add a card via ankiconnect '''
+        BASIC_CARD={ "action": "addNote", "version": 6, "params": { "note": { "deckName": deckname , "modelName": notetype, "fields": { "Front": front, "Back": back }, "tags": [ *tag ] } } }
+        CLOZE_CARD={ "action": "addNote", "version": 6, "params": { "note": { "deckName": deckname , "modelName": notetype, "fields": { "Front": front, "Back": back }, "tags": [ *tag ] } } }
+        CLOZE_CARD2={ "action": "addNote", "version": 6, "params": { "note": { "deckName": deckname , "modelName": notetype, "fields": card, "tags": [ *tag ] } } }
+        # card, tag = *self.make_card()
+        
 
 
 # TODO: merge the class below to the class above.
