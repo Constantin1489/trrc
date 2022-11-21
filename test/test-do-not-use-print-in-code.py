@@ -14,8 +14,16 @@ for i in ['../resource/cloze01-example.txt']:
             print(line)
             #ankiadderall.card('linux', 'Basic', line).make_card()
             a = ankiadderall.card('linux', 'cloze', line)
-            print(a.card)
+            # print(vars(a)) -> fail.
+            try:
+                print(a.card.card)
+            except:
+                pass
 
+            try:
+                print(a.card)
+            except:
+                pass
 
 #print("###custom cloze###")
 #ankiadderall.card('linux', 'cloze', custom_cloze)
