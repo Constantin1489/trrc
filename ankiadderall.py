@@ -12,7 +12,9 @@ class card:
         # for example, escape key cards.
         card_list = card_str.split(sep='\t')
         #card  = self.check_notetype(notetype, card_str)
-        print(self.make_card(deck, notetype, card_list))
+
+        # TODO : return card Object.
+        card = self.make_card(deck, notetype, card_list)
         #print(self.make_card(deck, notetype, **card))
         #print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(deck, notetype, *card))
 
@@ -31,7 +33,7 @@ class card:
         # TODO : import config from outside.
         # TODO : len(cloze) < 3 OR search('\t') < 2, check 'tag:' OR make error 
         if notetype in ['cloze', 'Cloze']:
-            Text = card_list[0]
+            Text = self.contain_cloze_tag(card_list[0])
             Extra = card_list[1]
             tag = self.is_tag(card_list[1], card_list[-1])
             return { 'Text' : Text, 'Extra' : Extra, 'tag': tag }
@@ -64,6 +66,7 @@ class card:
             exit
 
 
+# TODO: merge the class below to the class above.
 class ankiCardList:
     def __init__(self):
         CardList = None
