@@ -15,7 +15,7 @@ class card:
 
     def check_notetype(self, notetype, card_list):
         ''' return card content variables per notetype'''
-        if notetype in ['Basic', 'BasicTwo']:
+        if notetype in ['basic', 'Basic', 'BasicTwo']:
             front = card_list[0]
             back = card_list[1]
             # tag does not need to be splited
@@ -55,6 +55,9 @@ class card:
         if re.search(r'{{c\d+::.*}}', cloze):
             return cloze
         else:
+            # TODO : How to skip to next loop
+            # TODO : return stderr
+            print("does not have any cloze tag")
             exit
 
 
