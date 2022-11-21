@@ -11,7 +11,7 @@ class card:
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
         self.card_list = card_str.split(sep='\t')
-        self.card = self.make_card(self.deck, self.notetype, self.card_list)
+        self.card, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
 
     def check_notetype(self, notetype, card_list):
         ''' return card content variables per notetype'''
@@ -20,7 +20,7 @@ class card:
             back = card_list[1]
             # tag does not need to be splited
             tag = self.is_tag(card_list[1], card_list[-1])
-            return { 'front' : front, 'back' : back, 'tag': tag }
+            return { 'front' : front, 'back' : back }, tag
 
         # TODO : import config from outside.
         # TODO : len(cloze) < 3 OR search('\t') < 2, check 'tag:' OR make error 
@@ -28,14 +28,12 @@ class card:
             Text = self.contain_cloze_tag(card_list[0])
             Extra = card_list[1]
             tag = self.is_tag(card_list[1], card_list[-1])
-            return { 'Text' : Text, 'Extra' : Extra, 'tag': tag }
+            return { 'Text' : Text, 'Extra' : Extra }, tag
 
     def make_card(self, deck, notetype, splited_card_list):
         ''' return final card object to add DB. '''
         card = self.check_notetype(notetype, splited_card_list)
-        return { 'decName' : deck,\
-                'modeluName' : notetype,\
-                **card }
+        return card
         
     def is_tag(self, last_item_except_tag, tag_item):
         '''
@@ -62,9 +60,11 @@ class card:
     
     def add_DB(self):
         ''' add a card via ankiconnect '''
-        BASIC_CARD={ "action": "addNote", "version": 6, "params": { "note": { "deckName": deckname , "modelName": notetype, "fields": { "Front": front, "Back": back }, "tags": [ *tag ] } } }
-        CLOZE_CARD={ "action": "addNote", "version": 6, "params": { "note": { "deckName": deckname , "modelName": notetype, "fields": { "Front": front, "Back": back }, "tags": [ *tag ] } } }
-        CLOZE_CARD2={ "action": "addNote", "version": 6, "params": { "note": { "deckName": deckname , "modelName": notetype, "fields": card, "tags": [ *tag ] } } }
+#        BASIC_CARD={ "action": "addNote", "version": 6, "params": { "note": { "deckName": deckname , "modelName": notetype, "fields": { "Front": front, "Back": back }, "tags": [ *tag ] } } }
+#        CLOZE_CARD={ "action": "addNote", "version": 6, "params": { "note": { "deckName": deckname , "modelName": notetype, "fields": { "Front": front, "Back": back }, "tags": [ *tag ] } } }
+#
+#        # TODO : dict에서 특정한 (key value)만 필터링하기 힘듬. 따라서 전단계에서 나누기
+        #CLOZE_CARD2={ "action": "addNote", "version": 6, "params": { "note": { "deckName": self.deck , "modelName": self.notetype, "fields": self.card , "tags": self.tag } } }
         # card, tag = *self.make_card()
         
 

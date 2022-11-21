@@ -7,4 +7,4 @@ string = sys.argv
 print(sys.argv)
 print(sys.argv[1:])
 a = ankiadderall.card(*sys.argv[1:])
-print(a.card)
+print(a.card, a.tag)
