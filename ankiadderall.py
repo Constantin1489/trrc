@@ -6,16 +6,16 @@ import re
 class card:
     def __init__(self, deck, notetype, card_str):
         ''' no deck and notetype. because cardlist has deck and notetype. '''
-        deck = deck
-        notetype = notetype
+        self.deck = deck
+        self.notetype = notetype
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
-        card_list = card_str.split(sep='\t')
+        self.card_list = card_str.split(sep='\t')
         #card  = self.check_notetype(notetype, card_str)
 
         # TODO : return card Object.
-        card = self.make_card(deck, notetype, card_list)
-        print(card)
+        self.card = self.make_card(self.deck, self.notetype, self.card_list)
+        print(self.card)
         #print(self.make_card(deck, notetype, **card))
         
 
