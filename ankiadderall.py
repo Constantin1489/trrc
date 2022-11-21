@@ -11,17 +11,7 @@ class card:
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
         self.card_list = card_str.split(sep='\t')
-        #card  = self.check_notetype(notetype, card_str)
-
-        # TODO : return card Object.
         self.card = self.make_card(self.deck, self.notetype, self.card_list)
-        print(self.card)
-        #print(self.make_card(deck, notetype, **card))
-        
-
-        # DEL : card already has deck, and notetype
-        #print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(deck, notetype, *card))
-        #print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(*card))
 
     def check_notetype(self, notetype, card_list):
         ''' return card content variables per notetype'''
@@ -29,10 +19,7 @@ class card:
             front = card_list[0]
             back = card_list[1]
             # tag does not need to be splited
-            #tag = card_list[3].split(sep=' ')
             tag = self.is_tag(card_list[1], card_list[-1])
-            #print("card[1] {} card[-1] {} ".format(card_list[1], card_list[-1]))
-            #tag = card_list[2]
             return { 'front' : front, 'back' : back, 'tag': tag }
 
         # TODO : import config from outside.

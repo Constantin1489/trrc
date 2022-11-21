@@ -3,5 +3,10 @@ import sys
 sys.path.append('/Users/constantinhong/TODO/ankiconnect-script')
 import ankiadderall
 
-a = ankiadderall.card(*sys.argv)
+string = sys.argv
+print(sys.argv)
+print(sys.argv[1:])
+a = ankiadderall.card(*sys.argv[1:])
 print(a.card)
+#a = ankiadderall.card(*sys.argv)
+#print(a.card)
