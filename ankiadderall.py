@@ -15,8 +15,13 @@ class card:
 
         # TODO : return card Object.
         card = self.make_card(deck, notetype, card_list)
+        print(card)
         #print(self.make_card(deck, notetype, **card))
+        
+
+        # DEL : card already has deck, and notetype
         #print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(deck, notetype, *card))
+        #print("deck: {}\nnotetype: {}\nfront: {}\nback: {}\ntag: {}\n".format(*card))
 
     def check_notetype(self, notetype, card_list):
         ''' return card content variables per notetype'''
@@ -38,9 +43,9 @@ class card:
             tag = self.is_tag(card_list[1], card_list[-1])
             return { 'Text' : Text, 'Extra' : Extra, 'tag': tag }
 
-    def make_card(self, deck, notetype, card_list):
+    def make_card(self, deck, notetype, splited_card_list):
         ''' return final card object to add DB. '''
-        card = self.check_notetype(notetype, card_list)
+        card = self.check_notetype(notetype, splited_card_list)
         return { 'deck' : deck,\
                 'notetype' : notetype,\
                 **card }
