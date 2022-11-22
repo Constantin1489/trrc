@@ -25,6 +25,7 @@ class card:
             back = card_list[1]
             # tag does not need to be splited
             tag = self.is_tag(card_list[1], card_list[-1])
+            self.is_None(tag)
             return { 'front' : front, 'back' : back }, tag
 
         # TODO : import config from outside.
@@ -33,7 +34,12 @@ class card:
             Text = self.contain_cloze_tag(card_list[0])
             Extra = card_list[1]
             tag = self.is_tag(card_list[1], card_list[-1])
+            self.is_None(tag)
             return { 'Text' : Text, 'Extra' : Extra }, tag
+
+    def is_None(self, tag):
+        if isinstance(tag, type(None)):
+            sys.exit(1)
 
     def make_card(self, deck, notetype, splited_card_list):
         ''' return final card object to add DB. '''
@@ -46,7 +52,7 @@ class card:
         therefore, if they are the same, there is no tag.
         '''
         if last_item_except_tag == tag_item:
-            # this causes error
+            # this causes error : test-import-multiple-card.02-cloze.py
             return None
         
         if last_item_except_tag != tag_item:
@@ -66,8 +72,6 @@ class card:
     
     def add_DB(self):
         ''' add a card via ankiconnect '''
-#        BASIC_CARD={ "action": "addNote", "version": 6, "params": { "note": { "deckName": deckname , "modelName": notetype, "fields": { "Front": front, "Back": back }, "tags": [ *tag ] } } }
-#        CLOZE_CARD={ "action": "addNote", "version": 6, "params": { "note": { "deckName": deckname , "modelName": notetype, "fields": { "Front": front, "Back": back }, "tags": [ *tag ] } } }
 #
 #        # TODO : dict에서 특정한 (key value)만 필터링하기 힘듬. 따라서 전단계에서 나누기
         self.CLOZE_CARD2={ "action": "addNote", "version": 6, "params": { "note": { "deckName": self.deck , "modelName": self.notetype, "fields": self.card , "tags": [ *self.tag ] } } }
@@ -76,29 +80,9 @@ class card:
         
 
 
-# TODO: merge the class below to the class above.
-class ankiCardList:
-    def __init__(self):
-        CardList = None
-# []TODO : separate sys.argv from class.
-#        arguments2=sys.argv
-#        card=arguments2[1].split(sep='\t')
-        deckname = None
-        notetype = None
-        cards = []
-
     def classify_argv(self, argv):
         ''' check is it string contain a card OR a file.'''
         pass
-
-    def insert_list(self, deck, notetype, file):
-        CardList = file
-# []TODO : separate sys.argv from class.
-#        arguments2=sys.argv
-#        card=arguments2[1].split(sep='\t')
-        deckname = deck
-        notetype = notetype
-        cards = []
 
     def add_from_string(self, string):
 # []TODO : make card with a string from sys.argv
@@ -112,28 +96,3 @@ class ankiCardList:
 # file using automator, cli..
         pass
         return file
-
-    def make_one_card(self, csv_string):
-        front = none
-        back = none
-        tag = none
-        card = { front : front, back : back, tag : tag }
-        return card
-
-    def is_exist(self):
-        ''' check cards in the list already exist in the Anki DB '''
-        pass
-
-    def is_error(self):
-        ''' check cards whether is there any missing values to key. '''
-        pass
-
-    def add_to_Anki(self):
-        ''' add all the cards to Anki DB '''
-        pass
-        ''' use pickle to debug by compare pickles. '''
-        #r = requests.post('http://127.0.0.1:8765', json=BASIC_CARD)
-
-
-
-#print(card(*sys.argv[1:]))
