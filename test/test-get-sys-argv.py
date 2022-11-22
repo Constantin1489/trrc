@@ -8,4 +8,5 @@ print(sys.argv)
 print(sys.argv[1:])
 a = ankiadderall.card(*sys.argv[1:])
 print(a.card, a.tag)
+# bug
 print(a.CLOZE_CARD2)
