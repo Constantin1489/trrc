@@ -57,7 +57,7 @@ class card:
             # TODO : How to skip to next loop
             # TODO : return stderr
             print("does not have any cloze tag")
-            exit
+            sys.exit()
     
     def add_DB(self):
         ''' add a card via ankiconnect '''
