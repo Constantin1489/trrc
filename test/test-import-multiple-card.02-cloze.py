@@ -10,11 +10,11 @@ custom_cloze = "some long cloze sentence\t\tTAG"
 
 for i in ['../resource/cloze01-example.txt']:
     with open(i, encoding = 'utf-8') as f:
-        for line in *f.read().splitlines(), custom_cloze:
+        for line in custom_cloze, *f.read().splitlines():
             print(line)
             #ankiadderall.card('linux', 'Basic', line).make_card()
             a = ankiadderall.card('ETC', 'cloze', line)
-            print(a.card)
+            #print(a.card)
 
 
 

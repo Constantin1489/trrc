@@ -22,18 +22,34 @@ class card:
         ''' return card content variables per notetype'''
         if notetype in ['basic', 'Basic', 'BasicTwo']:
             front = card_list[0]
-            back = card_list[1]
+
+            try:
+                back = card_list[1]
+            except IndexError:
+                # TODO : stderr
+                sys.exit(1)
+
             # tag does not need to be splited
+            # suggestion : len(list) condition
             tag = self.is_tag(card_list[1], card_list[-1])
             self.is_None(tag)
+
             return { 'front' : front, 'back' : back }, tag
 
         # TODO : import config from outside.
         # TODO : len(cloze) < 3 OR search('\t') < 2, check 'tag:' OR make error 
         if notetype in ['cloze', 'Cloze']:
             Text = self.contain_cloze_tag(card_list[0])
-            Extra = card_list[1]
-            tag = self.is_tag(card_list[1], card_list[-1])
+            # suggestion : len(list) condition
+            try:
+                Extra = card_list[1]
+            except IndexError:
+                Extra = ''
+
+            # TODO: if len(card_list) == 1, is_tag's parameter is inapropriate.
+            # in this case, tag will be Text.
+            # in this case, parameter should be Text, Card_list[-1] 
+            tag = self.is_tag(Extra, card_list[-1])
             self.is_None(tag)
             return { 'Text' : Text, 'Extra' : Extra }, tag
 
@@ -51,8 +67,14 @@ class card:
         last card item can not be tag item.
         therefore, if they are the same, there is no tag.
         '''
+        if tag_item == '':
+            '''
+            this prevent to compare empty tag and last item of cloze
+            therefore, cloze can have only one item.
+            '''
+            return ''
+
         if last_item_except_tag == tag_item:
-            # this causes error : test-import-multiple-card.02-cloze.py
             return None
         
         if last_item_except_tag != tag_item:
@@ -68,7 +90,9 @@ class card:
             # TODO : How to skip to next loop
             # TODO : return stderr
             print("does not have any cloze tag")
-            return None
+            # this break all loops.
+            sys.exit(1)
+            #return None
     
     def add_DB(self):
         ''' add a card via ankiconnect '''
