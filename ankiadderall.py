@@ -12,7 +12,11 @@ class card:
         # for example, escape key cards.
         self.card_list = card_str.split(sep='\t')
         self.card, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
-        self.add_DB()
+        try:
+            self.add_DB()
+        except:
+            print("failed")
+
 
     def check_notetype(self, notetype, card_list):
         ''' return card content variables per notetype'''
@@ -42,6 +46,7 @@ class card:
         therefore, if they are the same, there is no tag.
         '''
         if last_item_except_tag == tag_item:
+            # this causes error
             return None
         
         if last_item_except_tag != tag_item:
@@ -57,7 +62,7 @@ class card:
             # TODO : How to skip to next loop
             # TODO : return stderr
             print("does not have any cloze tag")
-            sys.exit()
+            return None
     
     def add_DB(self):
         ''' add a card via ankiconnect '''
