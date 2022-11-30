@@ -12,6 +12,7 @@ class card:
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
         self.card_list = card_str.split(sep='\t')
+        #self.card, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
         self.content, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
         self.card = self.content, self.tag
 
@@ -105,14 +106,13 @@ class card:
             # TODO : return stderr
             print("does not have any cloze tag")
             # this break all loops.
-            sys.exit(1)
-            #return None
+            return None
     
     def add_DB(self):
         ''' add a card via ankiconnect '''
-#
+
 #        # TODO : dict에서 특정한 (key value)만 필터링하기 힘듬. 따라서 전단계에서 나누기
-        self.CLOZE_CARD2={ "action": "addNote", "version": 6, "params": { "note": { "deckName": self.deck , "modelName": self.notetype, "fields": self.card , "tags": [ *self.tag ] } } }
+        self.CLOZE_CARD2={ "action": "addNote", "version": 6, "params": { "note": { "deckName": self.deck , "modelName": self.notetype, "fields": self.content , "tags": [ *self.tag ] } } }
         # card, tag = *self.make_card()
         r = requests.post('http://127.0.0.1:8765', json=self.CLOZE_CARD2)
             # 
