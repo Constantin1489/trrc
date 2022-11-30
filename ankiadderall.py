@@ -12,7 +12,8 @@ class card:
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
         self.card_list = card_str.split(sep='\t')
-        self.card, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
+        self.content, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
+        self.card = self.content, self.tag
 
         try:
             # TODO[] : put if self.card != None: 
@@ -73,7 +74,8 @@ class card:
         ''' return final card object to add DB. '''
         card = self.check_notetype(notetype, splited_card_list)
         return card
-        
+
+
     def is_tag(self, last_item_except_tag, tag_item):
         '''
         last card item can not be tag item.
