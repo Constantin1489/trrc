@@ -38,7 +38,6 @@ class card:
             # tag does not need to be splited
             # suggestion : len(list) condition
             tag = self.is_tag(back, card_list[-1])
-
             self.is_None(tag)
 
             return { 'front' : front, 'back' : back }, tag
@@ -56,11 +55,15 @@ class card:
             # TODO: if len(card_list) == 1, is_tag's parameter is inapropriate.
             # in this case, tag will be Text.
             # in this case, parameter should be Text, Card_list[-1] 
+
+            # if a record has only a Text, then list[-1] is the Text. This cause
+            # an error.
+            if Text != card_list[-1]
             tag = self.is_tag(Extra, card_list[-1])
             self.is_None(tag)
             return { 'Text' : Text, 'Extra' : Extra }, tag
 
-    def is_None(tag):
+    def is_None(self, tag):
         if isinstance(tag, type(None)):
             return None
 
