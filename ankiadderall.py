@@ -6,13 +6,16 @@ import re
 class card:
     def __init__(self, deck, notetype, card_str):
         ''' no deck and notetype. because cardlist has deck and notetype. '''
+        # Does this way cause heavy memory?
         self.deck = deck
         self.notetype = notetype
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
         self.card_list = card_str.split(sep='\t')
         self.card, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
+
         try:
+            # TODO[] : put if self.card != None: 
             self.add_DB()
         except:
             print("failed")
@@ -20,18 +23,22 @@ class card:
 
     def check_notetype(self, notetype, card_list):
         ''' return card content variables per notetype'''
+
         if notetype in ['basic', 'Basic', 'BasicTwo']:
             front = card_list[0]
 
             try:
                 back = card_list[1]
+
+            # if card_list[1] doesn't exist, then return None.
             except IndexError:
-                # TODO : stderr
-                sys.exit(1)
+                # TODO : add stderr
+                return None
 
             # tag does not need to be splited
             # suggestion : len(list) condition
-            tag = self.is_tag(card_list[1], card_list[-1])
+            tag = self.is_tag(back, card_list[-1])
+
             self.is_None(tag)
 
             return { 'front' : front, 'back' : back }, tag
@@ -53,9 +60,9 @@ class card:
             self.is_None(tag)
             return { 'Text' : Text, 'Extra' : Extra }, tag
 
-    def is_None(self, tag):
+    def is_None(tag):
         if isinstance(tag, type(None)):
-            sys.exit(1)
+            return None
 
     def make_card(self, deck, notetype, splited_card_list):
         ''' return final card object to add DB. '''
@@ -101,22 +108,24 @@ class card:
         self.CLOZE_CARD2={ "action": "addNote", "version": 6, "params": { "note": { "deckName": self.deck , "modelName": self.notetype, "fields": self.card , "tags": [ *self.tag ] } } }
         # card, tag = *self.make_card()
         r = requests.post('http://127.0.0.1:8765', json=self.CLOZE_CARD2)
+            # 
+            # 
         
 
 
     def classify_argv(self, argv):
         ''' check is it string contain a card OR a file.'''
+        ''' if len(card_list) == 1:; is_file(card_list[0])'''
         pass
 
     def add_from_string(self, string):
-# []TODO : make card with a string from sys.argv
-# a feature that helps you add card from the selected \
-# string using automator, etc.
+        # []TODO : make card with a string from sys.argv
+        # a feature that helps you add card from the selected \
+        # string using automator, etc.
         pass
 
     def add_from_file(self, file):
-# []TODO : make card with a file path from sys.argv
-# a feature that helps you add card from the selected \
-# file using automator, cli..
+        # []TODO : make card with a file path from sys.argv
+        # a feature that helps you add card from the selected \
+        # file using automator, cli..
         pass
-        return file
