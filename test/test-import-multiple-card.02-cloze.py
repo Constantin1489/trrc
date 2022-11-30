@@ -6,11 +6,15 @@ import ankiadderall
 # test example : $python test-class-card.01.py linux cloze 'front back tag'
 
 
-custom_cloze = "some long cloze sentence\t\tTAG"
+custom_cloze = None
+#custom_cloze = "some long cloze sentence\t\tTAG"
 
 for i in ['../resource/cloze01-example.txt']:
     with open(i, encoding = 'utf-8') as f:
         for line in custom_cloze, *f.read().splitlines():
+            if line == None:
+# Nonetype breaks a program.
+                continue
             print(line)
             #ankiadderall.card('linux', 'Basic', line).make_card()
             a = ankiadderall.card('ETC', 'cloze', line)

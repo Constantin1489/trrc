@@ -58,8 +58,10 @@ class card:
 
             # if a record has only a Text, then list[-1] is the Text. This cause
             # an error.
-            if Text != card_list[-1]
-            tag = self.is_tag(Extra, card_list[-1])
+            tag = ''
+            if Text != card_list[-1]:
+                tag = self.is_tag(Extra, card_list[-1])
+
             self.is_None(tag)
             return { 'Text' : Text, 'Extra' : Extra }, tag
 
