@@ -12,11 +12,10 @@ import ankiadderall
 #for line in f.read().splitlines():
 
 line = sys.argv[1:]
+#print(line)
+print("{}{}".format(line, type(line)))
 print(line)
-#print(line.splitlines())
-#ankiadderall.card('linux', 'Basic', line).make_card()
-a = ankiadderall.card('linux', 'Basic', line)
-# a.card doesn't print tag
+a = ankiadderall.card('linux', 'Basic', *line)
 print(a.card)
 
 # ERROR :  Ctrl a "        [gnu screen] windowlist menu
