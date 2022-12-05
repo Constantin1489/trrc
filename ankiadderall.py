@@ -58,10 +58,10 @@ class card:
             # in this case, tag will be Text.
             # in this case, parameter should be Text, Card_list[-1] 
 
-            # if a record has only a Text, then list[-1] is the Text. This cause
-            # an error.
             tag = ''
             if Text != card_list[-1]:
+            # if a record has only Text, then list[-1] is the Text. This cause
+            #an error. 
                 tag = self.is_tag(Extra, card_list[-1])
 
             self.is_None(tag)
@@ -107,7 +107,7 @@ class card:
             print("does not have any cloze tag")
             # this break all loops.
             return None
-    
+
     def add_DB(self):
         ''' add a card via ankiconnect '''
 
@@ -115,10 +115,6 @@ class card:
         self.CLOZE_CARD2={ "action": "addNote", "version": 6, "params": { "note": { "deckName": self.deck , "modelName": self.notetype, "fields": self.content , "tags": [ *self.tag ] } } }
         # card, tag = *self.make_card()
         r = requests.post('http://127.0.0.1:8765', json=self.CLOZE_CARD2)
-            # 
-            # 
-        
-
 
     def classify_argv(self, argv):
         ''' check is it string contain a card OR a file.'''
