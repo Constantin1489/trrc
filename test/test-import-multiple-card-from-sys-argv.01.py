@@ -15,9 +15,15 @@ ANKIADDERALL_CONFIG = { 'DECK': 'Linux', 'TYPE':'Basic'  }
 
 
 line = sys.argv[1:]
+
 if len(line) == 0:
     print("No card {}".format(line))
     exit(1)
+
+# if it's a file, then read file and run loop to add strings as cards.
+if os.path.isfile(*line):
+    with 
+
 
 print("{}{}".format(line, type(line)))
 
