@@ -16,6 +16,8 @@ class card:
         self.content, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
         self.card = self.content, self.tag
 
+        # 차라리 card fuction에 데코레이터를 사용할까?
+        #self.add_DB()
         try:
             # TODO[] : put if self.card != None: 
             self.add_DB()
@@ -40,7 +42,7 @@ class card:
             # tag does not need to be splited
             # suggestion : len(list) condition
             tag = self.is_tag(back, card_list[-1])
-            self.is_None(tag)
+            tag = self.is_None(tag)
 
             return { 'front' : front, 'back' : back }, tag
 
@@ -64,12 +66,15 @@ class card:
             #an error. 
                 tag = self.is_tag(Extra, card_list[-1])
 
-            self.is_None(tag)
+            tag = self.is_None(tag)
+
             return { 'Text' : Text, 'Extra' : Extra }, tag
 
     def is_None(self, tag):
         if isinstance(tag, type(None)):
-            return None
+            return ''
+        else:
+            return tag
 
     def make_card(self, deck, notetype, splited_card_list):
         ''' return final card object to add DB. '''
@@ -112,6 +117,7 @@ class card:
         ''' add a card via ankiconnect '''
 
 #        # TODO : dict에서 특정한 (key value)만 필터링하기 힘듬. 따라서 전단계에서 나누기
+
         self.CLOZE_CARD2={ "action": "addNote", "version": 6, "params": { "note": { "deckName": self.deck , "modelName": self.notetype, "fields": self.content , "tags": [ *self.tag ] } } }
         # card, tag = *self.make_card()
         r = requests.post('http://127.0.0.1:8765', json=self.CLOZE_CARD2)
