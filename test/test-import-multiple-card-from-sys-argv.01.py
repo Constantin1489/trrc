@@ -1,4 +1,5 @@
 import sys
+import re
 # insert custom module path to the end of the PATH
 sys.path.append('/Users/constantinhong/TODO/ankiconnect-script')
 import ankiadderall
@@ -42,8 +43,14 @@ for i in card_candidate:
             lines = f.read().splitlines()
             # j is a single card.
             for j in lines:
-                a = ankiadderall.card(DECK, TYPE, j)
-                print(a.card)
+                if not j:
+                    continue
+                if re.findall(r'{{c\d::.*}}', j):
+                    a = ankiadderall.card(DECK, 'cloze', j)
+                    print(a.card)
+                else:
+                    a = ankiadderall.card(DECK, TYPE, j)
+                    print(a.card)
     else:
         print("{} type {}".format(i, type(i)))
         #print("{} type {}".format(i.encode("unicode_escape"), type(i)))
