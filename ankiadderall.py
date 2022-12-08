@@ -119,8 +119,10 @@ class card:
 #        # TODO : dict에서 특정한 (key value)만 필터링하기 힘듬. 따라서 전단계에서 나누기
 
         self.CLOZE_CARD2={ "action": "addNote", "version": 6, "params": { "note": { "deckName": self.deck , "modelName": self.notetype, "fields": self.content , "tags": [ *self.tag ] } } }
+        print(self.CLOZE_CARD2)
         # card, tag = *self.make_card()
         r = requests.post('http://127.0.0.1:8765', json=self.CLOZE_CARD2)
+        print(r)
 
     def classify_argv(self, argv):
         ''' check is it string contain a card OR a file.'''
