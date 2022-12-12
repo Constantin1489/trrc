@@ -38,7 +38,8 @@ if len(card_candidate) == 0:
 for i in card_candidate:
     if os.path.isfile(i):
         print(i)
-        with open(i, encoding='unicode_escape') as f:
+        with open(i) as f:
+        #with open(i, encoding='unicode_escape') as f:
             # lines is list of card in a file.
             lines = f.read().splitlines()
             # j is a single card.
