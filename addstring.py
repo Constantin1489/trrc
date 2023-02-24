@@ -9,7 +9,7 @@ import os
 
 
 # TODO [x] :중복된 카드는 추가가 되지 않는다.
-# TODO [] :실패한 카드는 stderr로 표시한다.
+# TODO [x] :실패한 카드는 stderr로 표시한다.
 
 ANKIADDERALL_CONFIG = { 'DECK': 'Linux', 'TYPE':'Basic'  }
 
@@ -23,26 +23,37 @@ TYPE  = os.environ['ANKIADDERALL_TYPE'] if 'ANKIADDERALL_TYPE' in os.environ.key
 card_candidate = sys.argv[1:]
 
 if len(card_candidate) == 0:
-    print("No card ")
-    exit(1)
+    print("No card", file=sys.stderr)
+    sys.exit(1)
 
 for i in card_candidate:
+
     if os.path.isfile(i):
-        print(i)
+
+        # print file name
+        print(i, file=sys.stdout)
+
         with open(i) as f:
         #with open(i, encoding='unicode_escape') as f:
             # lines is list of card in a file.
             lines = f.read().splitlines()
             # j is a single card.
             for j in lines:
+
+                # skip empty line.
                 if not j:
                     continue
+
+                # if a line has cloze tag, than the line is a cloze type.
                 if re.findall(r'{{c\d::.*}}', j):
                     a = ankiadderall.card(DECK, 'cloze', j)
+
                 else:
                     a = ankiadderall.card(DECK, TYPE, j)
 
-                print(a.card)
+                print(a.card, file=sys.stdout)
+
+    # if i is not a file, then consider i as a string and make a card.
     else:
         print("{} type {}".format(i, type(i)))
         #print("{} type {}".format(i.encode("unicode_escape"), type(i)))
