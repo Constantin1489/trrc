@@ -34,7 +34,6 @@ if len(card_candidate) == 0:
     print("No card ")
     exit(1)
 
-# TODO : async?
 for i in card_candidate:
     if os.path.isfile(i):
         print(i)
@@ -60,10 +59,6 @@ for i in card_candidate:
         #i = unicode(i, "utf-8")
         a = ankiadderall.card(DECK, TYPE, i)
         print(a.card)
-
-#print("{}{}".format(line, type(line)))
-
-
 
 
 # os.environ['ANKIADDERALL_IFS'] 를 만들어서 스페이스4가 아니면, \t으로 처리할지 정하자.
