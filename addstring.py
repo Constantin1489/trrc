@@ -48,10 +48,10 @@ for i in card_candidate:
                     continue
                 if re.findall(r'{{c\d::.*}}', j):
                     a = ankiadderall.card(DECK, 'cloze', j)
-                    print(a.card)
                 else:
                     a = ankiadderall.card(DECK, TYPE, j)
-                    print(a.card)
+
+                print(a.card)
     else:
         print("{} type {}".format(i, type(i)))
         #print("{} type {}".format(i.encode("unicode_escape"), type(i)))
