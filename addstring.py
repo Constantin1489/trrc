@@ -60,6 +60,8 @@ for i in card_candidate:
         a = ankiadderall.card(DECK, TYPE, i)
         print(a.card)
 
+exit(0)
+
 
 # os.environ['ANKIADDERALL_IFS'] 를 만들어서 스페이스4가 아니면, \t으로 처리할지 정하자.
 # 아니면 그냥 \\t같은 것을 이용해서 구분시킬까?
