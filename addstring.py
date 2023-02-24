@@ -31,7 +31,7 @@ except KeyError:
 card_candidate = sys.argv[1:]
 
 if len(card_candidate) == 0:
-    print("No card {}".format(card_candidate))
+    print("No card ")
     exit(1)
 
 # TODO : async?
