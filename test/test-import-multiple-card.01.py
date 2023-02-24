@@ -17,7 +17,7 @@ for i in ['../resource/oneway01-example.txt', \
             #ankiadderall.card('linux', 'Basic', line).make_card()
             a = ankiadderall.card('linux', 'Basic', line)
 # a.card doesn't print tag
-            print(a.card)
+            #print(a.card)
 
 # ERROR :  Ctrl a "        [gnu screen] windowlist menu
 
