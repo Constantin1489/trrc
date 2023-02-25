@@ -22,11 +22,16 @@ ANKIADDERALL_CONFIG = { 'DECK': 'Linux', 'TYPE':'Basic'  }
 DECK = os.environ['ANKIADDERALL_DECK'] if 'ANKIADDERALL_DECK' in os.environ.keys() else ANKIADDERALL_CONFIG['DECK']
 TYPE  = os.environ['ANKIADDERALL_TYPE'] if 'ANKIADDERALL_TYPE' in os.environ.keys() else ANKIADDERALL_CONFIG['TYPE']
 
-card_candidate = sys.argv[1:]
 
-if len(card_candidate) == 0:
-    print("No card", file=sys.stderr)
-    sys.exit(1)
+if len(sys.argv) > 1:
+    card_candidate = sys.argv[1:]
+
+#elif len(card_candidate) == 0:
+#    print("No card", file=sys.stderr)
+#    sys.exit(1)
+else :
+    card_candidate = sys.stdin.readlines()
+
 
 for i in card_candidate:
 
