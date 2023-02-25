@@ -1,3 +1,4 @@
+#!/usr/local/bin/python
 import sys
 import re
 # insert custom module path to the end of the PATH
