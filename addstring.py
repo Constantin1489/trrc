@@ -62,10 +62,11 @@ for i in card_candidate:
 
     # if i is not a file, then consider i as a string and make a card.
     else:
-        print("{} type {}".format(i, type(i)))
+        # print statements are for debug
+        #print("{} type {}".format(i, type(i)))
         #print("{} type {}".format(i.encode("unicode_escape"), type(i)))
-        print("{} ".format(i.isascii()))
-        print(isinstance(i, bytes))
+        #print("{} ".format(i.isascii()))
+        #print(isinstance(i, bytes))
         #i = unicode(i, "utf-8")
         a = ankiadderall.card(DECK, TYPE, i)
         print(a.card)
