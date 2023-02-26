@@ -8,19 +8,16 @@ class card:
         """
         no deck and notetype. because cardlist has deck and notetype.
         """
-        # Does this way cause heavy memory?
+
         self.deck = deck
         self.notetype = notetype
 
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
         self.card_list = card_str.split(sep='\t')
-        #self.card, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
         self.content, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
         self.card = self.content, self.tag
 
-        # 차라리 card fuction에 데코레이터를 사용할까?
-        #self.add_DB()
         try:
             # TODO[] : put if self.card != None: 
             self.add_DB()
@@ -52,7 +49,7 @@ class card:
             return { 'front' : front, 'back' : back }, tag
 
         # TODO : import config from outside.
-        # TODO : len(cloze) < 3 OR search('\t') < 2, check 'tag:' OR make error 
+        # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error 
         if notetype in ['cloze', 'Cloze']:
             Text = self.contain_cloze_tag(card_list[0])
             # suggestion : len(list) condition
@@ -131,7 +128,6 @@ class card:
 
         self.CLOZE_CARD2={ "action": "addNote", "version": 6, "params": { "note": { "deckName": self.deck , "modelName": self.notetype, "fields": self.content , "tags": [ *self.tag ] } } }
         print(self.CLOZE_CARD2)
-        # card, tag = *self.make_card()
         r = requests.post('http://127.0.0.1:8765', json=self.CLOZE_CARD2)
         print(r)
 
