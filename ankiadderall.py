@@ -26,8 +26,8 @@ class card:
 
 
     def check_notetype(self, notetype, card_list):
-        """ return
-        card content variables per notetype.
+        """ 
+        return card content variables per notetype.
         """
 
         if notetype in ['basic', 'Basic', 'BasicTwo']:
