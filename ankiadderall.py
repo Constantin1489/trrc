@@ -3,6 +3,12 @@ import sys
 import requests
 import re
 
+class bcolors:
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+
+
 class card:
     def __init__(self, deck, notetype, card_str):
         """
@@ -22,7 +28,8 @@ class card:
             # TODO[] : put if self.card != None: 
             self.add_DB()
         except:
-            print("failed")
+            # TODO : return the whole line
+            print(bcolors.FAIL +bcolors.BOLD + "failed" + bcolors.ENDC)
 
 
     def check_notetype(self, notetype, card_list):
