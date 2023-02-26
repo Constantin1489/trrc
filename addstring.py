@@ -26,11 +26,20 @@ TYPE  = os.environ['ANKIADDERALL_TYPE'] if 'ANKIADDERALL_TYPE' in os.environ.key
 if len(sys.argv) > 1:
     card_candidate = sys.argv[1:]
 
-#elif len(card_candidate) == 0:
-#    print("No card", file=sys.stderr)
-#    sys.exit(1)
-else :
-    card_candidate = sys.stdin.readlines()
+else:
+
+    # if there is pipe redirection, use it as input
+    if not sys.stdin.isatty(): 
+
+        # remove trailing \n in its card candidate.
+        card_candidate = [card.rstrip('\n') for card in sys.stdin.readlines()]
+
+    # show an usage if no input nor file nor pipe redirection.
+    else:
+        print("""usage: addstring [file ...]
+        cat [file ...] | addstring""")
+        exit(2)
+
 
 
 for i in card_candidate:
