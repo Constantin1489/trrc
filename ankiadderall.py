@@ -3,17 +3,6 @@ import sys
 import requests
 import re
 
-def function(arg1):
-    """TODO: Docstring for function.
-
-    :arg1: TODO
-    :returns: TODO
-
-    """
-    pass
-
-
-
 class card:
     def __init__(self, deck, notetype, card_str):
         """
