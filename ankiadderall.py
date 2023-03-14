@@ -29,7 +29,7 @@ class card:
             self.add_DB()
         except:
             # TODO : return the whole line
-            print(bcolors.FAIL +bcolors.BOLD + "failed" + bcolors.ENDC)
+            print(bcolors.FAIL +bcolors.BOLD + "failed" + bcolors.ENDC, file=sys.stderr)
 
 
     def check_notetype(self, notetype, card_list):
@@ -46,6 +46,7 @@ class card:
             # if card_list[1] doesn't exist, then return None.
             except IndexError:
                 # TODO : add stderr
+                print("index error", file=sys.stderr)
                 return None
 
             # tag does not need to be splited
@@ -122,7 +123,7 @@ class card:
         else:
             # TODO : How to skip to next loop
             # TODO : return stderr
-            print("does not have any cloze tag")
+            print("does not have any cloze tag", file=sys.stderr)
             # this break all loops.
             return None
 
