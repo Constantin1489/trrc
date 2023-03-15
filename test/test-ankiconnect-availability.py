@@ -1,7 +1,7 @@
 import urllib.request
 import sys
 
-# check an AnkiConnect availability.
+# Check an AnkiConnect availability.
 # To check Anki is running, use another test.
 
 try:
