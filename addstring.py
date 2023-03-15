@@ -2,16 +2,11 @@
 
 import sys
 import re
+import os
 # insert custom module path to the end of the PATH
 sys.path.append('/Users/constantinhong/TODO/ankiadderall')
 import ankiadderall
-import os
-
-# test example : $python test-class-card.01.py linux cloze 'front back tag'
-
-
-# TODO [x] :중복된 카드는 추가가 되지 않는다.
-# TODO [x] :실패한 카드는 stderr로 표시한다.
+import argparse
 
 ANKIADDERALL_CONFIG = { 'DECK': 'Linux', 'TYPE':'Basic'  }
 
@@ -52,10 +47,7 @@ for i in card_candidate:
         print(i, file=sys.stdout)
 
         with open(i) as f:
-        #with open(i, encoding='unicode_escape') as f:
-            # lines is list of card in a file.
             lines = f.read().splitlines()
-            # j is a single card.
             for j in lines:
 
                 # skip empty line.
