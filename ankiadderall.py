@@ -8,7 +8,41 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
 
+class userAnkiConnect:
 
+    """A class for an AnkiConnect user configure . """
+#    _webBindAddress = 'localhost'
+#    _webBindPort = 8765
+
+
+    def __init__(self, webBindAddress='localhost', webBindPort=8765):
+        """
+        A class used to represent an AnkiConnect Configure
+
+        webBindAddress: str 
+            a webBindAddress in your AnkiConnect confirue.
+        webBindPort: int
+            a webBindPort in your AnkiConnect confirue.
+        """
+
+        self._webBindAddress = webBindAddress
+        self._webBindPort = webBindPort
+
+    def webBindAddressHandle(self, webBindAddress):
+        """
+        if there is http:// or https://, r'{Address}:{Port}'
+        else, r'http://{Address}:{Port}'
+        """
+
+        if 'http://' or 'https://' in webBindAddress:
+            return r"{Address}:{Port}"
+        else:
+            return r"http://{Address}:{Port}"
+
+    def returnURL(self):
+        urlPattern = self.webBindAddressHandle(self._webBindAddress)
+        return urlPattern.format(Address=self._webBindAddress, Port=self._webBindPort)
+        
 class card:
     def __init__(self, deck, notetype, card_str):
         """
