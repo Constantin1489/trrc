@@ -86,7 +86,7 @@ class card:
             # tag does not need to be splited
             # suggestion : len(list) condition
             tag = self.is_tag(back, card_list[-1])
-            tag = self.is_None(tag)
+            tag = self.is_Notag(tag)
 
             return { 'front' : front, 'back' : back }, tag
 
@@ -110,11 +110,11 @@ class card:
             #an error. 
                 tag = self.is_tag(Extra, card_list[-1])
 
-            tag = self.is_None(tag)
+            tag = self.is_Notag(tag)
 
             return { 'Text' : Text, 'Extra' : Extra }, tag
 
-    def is_None(self, tag):
+    def is_Notag(self, tag):
         if isinstance(tag, type(None)):
             return ''
         else:
