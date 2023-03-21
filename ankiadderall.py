@@ -39,7 +39,7 @@ class userAnkiConnect:
         else:
             return r"http://{Address}:{Port}"
 
-    def returnURL(self):
+    def get_AnkiConnect_URL(self):
         urlPattern = self.webBindAddressHandle(self._webBindAddress)
         return urlPattern.format(Address=self._webBindAddress, Port=self._webBindPort)
         
