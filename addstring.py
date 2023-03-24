@@ -21,5 +21,5 @@ if __name__ == '__main__' :
     TYPE  = os.environ['ANKIADDERALL_TYPE'] if 'ANKIADDERALL_TYPE' in os.environ.keys() else ANKIADDERALL_CONFIG['TYPE']
 
     card_candidate = parse_argument(sys.argv)
-    parse_card(card_candidate)
+    parse_card(card_candidate, DECK, TYPE)
     exit(0)

@@ -29,7 +29,7 @@ def parse_argument(argv):
             exit(2)
 
 
-def parse_card(card_candidate):
+def parse_card(card_candidate, DECK, TYPE):
     for i in card_candidate:
 
         if os.path.isfile(i):
