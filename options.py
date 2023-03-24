@@ -1,7 +1,7 @@
 def parse_argument(argv):
     # if there is a file or a string input, use it as input
-    if len(sys.argv) > 1:
-        card_candidate = sys.argv[1:]
+    if len(argv) > 1:
+        card_candidate = argv[1:]
         return card_candidate
 
     else:
