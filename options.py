@@ -1,3 +1,11 @@
+import sys
+import os
+import re
+sys.path.append('/Users/constantinhong/TODO/ankiadderall')
+import ankiadderall
+# TODO
+import argparse
+
 def parse_argument(argv):
     # if there is a file or a string input, use it as input
     if len(argv) > 1:
