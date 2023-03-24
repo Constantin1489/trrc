@@ -48,20 +48,21 @@ for i in card_candidate:
 
         with open(i) as f:
             lines = f.read().splitlines()
-            for j in lines:
 
-                # skip empty line.
-                if not j:
-                    continue
+        for j in lines:
 
-                # if a line has cloze tag, than the line is a cloze type.
-                if re.findall(r'{{c\d::.*}}', j):
-                    a = ankiadderall.card(DECK, 'cloze', j)
+            # skip empty line.
+            if not j:
+                continue
 
-                else:
-                    a = ankiadderall.card(DECK, TYPE, j)
+            # if a line has cloze tag, than the line is a cloze type.
+            if re.findall(r'{{c\d::.*}}', j):
+                a = ankiadderall.card(DECK, 'cloze', j)
 
-                print(a.card, file=sys.stdout)
+            else:
+                a = ankiadderall.card(DECK, TYPE, j)
+
+            print(a.card, file=sys.stdout)
 
     # if i is not a file, then consider i as a string and make a card.
     else:
