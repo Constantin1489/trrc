@@ -36,7 +36,7 @@ class userAnkiConnect:
         else, r'http://{Address}:{Port}'
         """
 
-        if 'http://' or 'https://' in webBindAddress:
+        if ('http://' or 'https://') in webBindAddress:
             return r"{Address}:{Port}"
         else:
             return r"http://{Address}:{Port}"
