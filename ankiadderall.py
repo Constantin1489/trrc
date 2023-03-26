@@ -51,11 +51,13 @@ class card:
         no deck and notetype. because cardlist has deck and notetype.
         """
 
+        # TODO : argparse IFS
         self.deck = deck
         self.notetype = notetype
 
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
+        # TODO : argparse IFS
         self.card_list = card_str.split(sep='\t')
         self.content, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
         self.card = self.content, self.tag
