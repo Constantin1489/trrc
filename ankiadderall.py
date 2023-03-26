@@ -174,22 +174,3 @@ class card:
         # TODO : self.ankiconnectPORT
         r = requests.post('http://127.0.0.1:8765', json=self.CLOZE_CARD)
         print(r)
-
-    def classify_argv(self, argv):
-        """
-        check is it string contain a card OR a file.
-         if len(card_list) == 1:; is_file(card_list[0])
-         """
-        pass
-
-    def add_from_string(self, string):
-        # []TODO : make card with a string from sys.argv
-        # a feature that helps you add card from the selected \
-        # string using automator, etc.
-        pass
-
-    def add_from_file(self, file):
-        # []TODO : make card with a file path from sys.argv
-        # a feature that helps you add card from the selected \
-        # file using automator, cli..
-        pass
