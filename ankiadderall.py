@@ -62,7 +62,7 @@ class card:
         self.content, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
         self.card = self.content, self.tag
 
-    def check_notetype(self, notetype, card_list):
+    def __check_notetype(self, notetype, card_list):
         """ 
         return card content variables per notetype.
         """
@@ -81,22 +81,22 @@ class card:
 
             # tag does not need to be splited
             # suggestion : len(list) condition
-            tag = self.is_tag(back, card_list[-1])
-            tag = self.is_Notag(tag)
+            tag = self.__is_tag(back, card_list[-1])
+            tag = self.__is_Notag(tag)
 
             return { 'front' : front, 'back' : back }, tag
 
         # TODO : import config from outside.
         # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error 
         if notetype in ['cloze', 'Cloze']:
-            Text = self.contain_cloze_tag(card_list[0])
+            Text = self.__contain_cloze_tag(card_list[0])
             # suggestion : len(list) condition
             try:
                 Extra = card_list[1]
             except IndexError:
                 Extra = ''
 
-            # TODO: if len(card_list) == 1, is_tag's parameter is inapropriate.
+            # TODO: if len(card_list) == 1, __is_tag's parameter is inapropriate.
             # in this case, tag will be Text.
             # in this case, parameter should be Text, Card_list[-1] 
 
@@ -104,13 +104,13 @@ class card:
             if Text != card_list[-1]:
             # if a record has only Text, then list[-1] is the Text. This cause
             #an error. 
-                tag = self.is_tag(Extra, card_list[-1])
+                tag = self.__is_tag(Extra, card_list[-1])
 
-            tag = self.is_Notag(tag)
+            tag = self.__is_Notag(tag)
 
             return { 'Text' : Text, 'Extra' : Extra }, tag
 
-    def is_Notag(self, tag):
+    def __is_Notag(self, tag):
         if isinstance(tag, type(None)):
             return ''
         else:
@@ -120,15 +120,16 @@ class card:
         """
         return final card object to add DB.
         """
-        card = self.check_notetype(notetype, splited_card_list)
+        card = self.__check_notetype(notetype, splited_card_list)
         return card
 
 
-    def is_tag(self, last_item_except_tag, tag_item):
+    def __is_tag(self, last_item_except_tag, tag_item):
         """
         last card item can not be tag item.
         therefore, if they are the same, there is no tag.
         """
+
         if tag_item == '':
             """
             this prevent to compare empty tag and last item of cloze
@@ -143,7 +144,7 @@ class card:
             return tag_item.split(' ')
 
 
-    def contain_cloze_tag(self, cloze):
+    def __contain_cloze_tag(self, cloze):
         """
         check whether Text contains cloze tag. if not, report and skip.
         """
