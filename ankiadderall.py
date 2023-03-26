@@ -9,8 +9,10 @@ class bcolors:
     BOLD = '\033[1m'
 
 class userAnkiConnect:
+    """
+    A class for an AnkiConnect user configure .
+    """
 
-    """A class for an AnkiConnect user configure . """
 #    _webBindAddress = 'localhost'
 #    _webBindPort = 8765
 
