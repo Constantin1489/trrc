@@ -58,14 +58,6 @@ class card:
         self.content, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
         self.card = self.content, self.tag
 
-        try:
-            # TODO[] : put if self.card != None: 
-            self.add_DB()
-        except:
-            # TODO : return the whole line
-            print(bcolors.FAIL +bcolors.BOLD + "failed" + bcolors.ENDC, file=sys.stderr)
-
-
     def check_notetype(self, notetype, card_list):
         """ 
         return card content variables per notetype.
@@ -161,16 +153,24 @@ class card:
             # this break all loops.
             return None
 
-    def add_DB(self):
-        """
-        add a card via ankiconnect
-        """
+def create_card(card):
+    """
+    send a json card to a AnkiConnect to create a card.
+    """
 
-#        # TODO : dict에서 특정한 (key value)만 필터링하기 힘듬. 따라서 전단계에서 나누기
+    CLOZE_CARD={ "action": "addNote", "version": 6, "params": { "note": { "deckName": card.deck , "modelName":
+                                                                         card.notetype, "fields": card.content , "tags":
+                                                                         [ *card.tag ] } } }
 
-        self.CLOZE_CARD={ "action": "addNote", "version": 6, "params": { "note": { "deckName": self.deck , "modelName": self.notetype, "fields": self.content , "tags": [ *self.tag ] } } }
-        print(self.CLOZE_CARD)
-        # TODO : self.ankiconnectURL
-        # TODO : self.ankiconnectPORT
-        r = requests.post('http://127.0.0.1:8765', json=self.CLOZE_CARD)
+    # TODO : logging
+    print("#####alt version########")
+    print(CLOZE_CARD)
+    try:
+        # TODO : ankiconnectURL
+        # TODO : ankiconnectPORT
+        r = requests.post('http://127.0.0.1:8765', json=CLOZE_CARD)
         print(r)
+
+    except:
+        # TODO : return the whole line
+        print(bcolors.FAIL +bcolors.BOLD + "failed" + bcolors.ENDC, file=sys.stderr)

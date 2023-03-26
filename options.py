@@ -48,11 +48,10 @@ def parse_card(card_candidate, DECK, TYPE):
 
                 # if a line has cloze tag, than the line is a cloze type.
                 if re.findall(r'{{c\d::.*}}', j):
-                    a = ankiadderall.card(DECK, 'cloze', j)
+                    TYPE = 'cloze'
 
-                else:
-                    a = ankiadderall.card(DECK, TYPE, j)
-
+                a = ankiadderall.card(DECK, TYPE, j)
+                ankiadderall.create_card(a)
                 print(a.card, file=sys.stdout)
 
         # if i is not a file, then consider i as a string and make a card.
@@ -64,4 +63,5 @@ def parse_card(card_candidate, DECK, TYPE):
             #print(isinstance(i, bytes))
             #i = unicode(i, "utf-8")
             a = ankiadderall.card(DECK, TYPE, i)
+            ankiadderall.create_card(a)
             print(a.card)
