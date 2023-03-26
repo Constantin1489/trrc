@@ -158,7 +158,7 @@ class card:
             # this break all loops.
             return None
 
-def create_card(card):
+def create_card(AnkiConnect_URL, card):
     """
     send a json card to a AnkiConnect to create a card.
     """
@@ -171,9 +171,7 @@ def create_card(card):
     print("#####alt version########")
     print(CLOZE_CARD)
     try:
-        # TODO : ankiconnectURL
-        # TODO : ankiconnectPORT
-        r = requests.post('http://127.0.0.1:8765', json=CLOZE_CARD)
+        r = requests.post(AnkiConnect_URL, json=CLOZE_CARD)
         print(r)
 
     except:
