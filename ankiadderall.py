@@ -28,6 +28,7 @@ class userAnkiConnect:
 
     def webBindAddressHandle(self, webBindAddress):
         """
+        Return string pattern
         if there is http:// or https://, r'{Address}:{Port}'
         else, r'http://{Address}:{Port}'
         """
@@ -42,6 +43,10 @@ class userAnkiConnect:
         return urlPattern.format(Address=self._webBindAddress, Port=self._webBindPort)
         
 class card:
+    """
+    A class for card object
+    """
+
     def __init__(self, deck, notetype, card_str):
         """
         no deck and notetype. because cardlist has deck and notetype.
@@ -133,6 +138,7 @@ class card:
             """
             return ''
 
+        # Last item should not be a tag
         if last_item_except_tag == tag_item:
             return None
         
