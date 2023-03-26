@@ -13,10 +13,6 @@ class userAnkiConnect:
     A class for an AnkiConnect user configure .
     """
 
-#    _webBindAddress = 'localhost'
-#    _webBindPort = 8765
-
-
     def __init__(self, webBindAddress='localhost', webBindPort=8765):
         """
         A class used to represent an AnkiConnect Configure
