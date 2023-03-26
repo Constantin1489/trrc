@@ -51,6 +51,8 @@ def parse_card(card_candidate, DECK, TYPE):
                     TYPE = 'cloze'
 
                 a = ankiadderall.card(DECK, TYPE, j)
+                # logging
+                #print(ankiadderall.userAnkiConnect().get_AnkiConnect_URL())
                 ankiadderall.create_card(ankiadderall.userAnkiConnect().get_AnkiConnect_URL(), a)
                 print(a.card, file=sys.stdout)
 
@@ -63,5 +65,7 @@ def parse_card(card_candidate, DECK, TYPE):
             #print(isinstance(i, bytes))
             #i = unicode(i, "utf-8")
             a = ankiadderall.card(DECK, TYPE, i)
+            # logging
+            #print(ankiadderall.userAnkiConnect().get_AnkiConnect_URL())
             ankiadderall.create_card(ankiadderall.userAnkiConnect().get_AnkiConnect_URL(), a)
             print(a.card)

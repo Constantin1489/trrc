@@ -40,6 +40,7 @@ class userAnkiConnect:
 
     def get_AnkiConnect_URL(self):
         urlPattern = self.webBindAddressHandle(self._webBindAddress)
+        # logging urlPattern
         return urlPattern.format(Address=self._webBindAddress, Port=self._webBindPort)
         
 class card:
