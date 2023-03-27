@@ -5,11 +5,22 @@ sys.path.append('/Users/constantinhong/TODO/ankiadderall')
 import ankiadderall
 # TODO
 import argparse
+# TODO
+#import logging
 
 def parse_argument(argv):
+
+    # add parser
+#    parser = create_parser()
+#    args = parser.parse_args(argv)
+
     # if there is a file or a string input, use it as input
+    # it can't take multiple contents
     if len(argv) > 1:
+        print("argv>1")
+
         card_candidate = argv[1:]
+        print(card_candidate)
         return card_candidate
 
     else:
@@ -23,10 +34,30 @@ def parse_argument(argv):
 
         # show an usage if no input nor file nor pipe redirection.
         else:
-            # TODO : argparse
+            # TODO : argparse?
+            # TODO : raise?
             print("""usage: addstring [file ...]
             cat [file ...] | addstring""")
             exit(2)
+
+def create_parser():
+    parser = argparse.ArgumentParser(
+            prog='Ankiadderall',
+            description='a command line application to create anki cards',
+            epilog='Constantin Hong'
+            )
+
+    parser.add_argument('positional', action='store', nargs='?')
+    parser.add_argument(
+        '-F', '--IFS',
+        action='store', dest='IFS', default=False,
+        help=(
+        'a sed-like IFS option.'
+        ''
+        ))
+
+
+    return parser
 
 
 def parse_card(card_candidate, DECK, TYPE):
@@ -34,6 +65,7 @@ def parse_card(card_candidate, DECK, TYPE):
 
         if os.path.isfile(i):
 
+            # TODO logging
             # print file name
             print(i, file=sys.stdout)
 
@@ -58,6 +90,7 @@ def parse_card(card_candidate, DECK, TYPE):
 
         # if i is not a file, then consider i as a string and make a card.
         else:
+            # TODO logging
             # print statements are for debug
             #print("{} type {}".format(i, type(i)))
             #print("{} type {}".format(i.encode("unicode_escape"), type(i)))

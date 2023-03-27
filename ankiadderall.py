@@ -82,10 +82,12 @@ class card:
                 return None
 
             # tag does not need to be splited
+            # TODO : def function
             # suggestion : len(list) condition
             tag = self.__is_tag(back, card_list[-1])
             tag = self.__is_Notag(tag)
 
+            # is it good idea? obj: json
             return { 'front' : front, 'back' : back }, tag
 
         # TODO : import config from outside.
