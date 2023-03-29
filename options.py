@@ -40,24 +40,6 @@ def parse_argument(argv):
             cat [file ...] | addstring""")
             exit(2)
 
-def create_parser():
-    parser = argparse.ArgumentParser(
-            prog='Ankiadderall',
-            description='a command line application to create anki cards',
-            epilog='Constantin Hong'
-            )
-
-    parser.add_argument('positional', action='store', nargs='?')
-    parser.add_argument(
-        '-F', '--IFS',
-        action='store', dest='IFS', default=False,
-        help=(
-        'a sed-like IFS option.'
-        ''
-        ))
-
-
-    return parser
 
 
 def parse_card(card_candidate, DECK, TYPE):
