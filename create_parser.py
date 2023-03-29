@@ -1,6 +1,10 @@
 import argparse
 # create_parser
 def create_parser():
+    """
+     create_parser
+    """
+
     parser = argparse.ArgumentParser(
             prog='Ankiadderall',
             description='a command line application to create anki cards',
@@ -20,6 +24,7 @@ def create_parser():
             'set a AnkiConnect ip.'
             ))
     # mutually exclusive with positional value liked cardContents
+    # ~/.acprc OR optional .acprc
     parser.add_argument(
             '-f', '--file',
             action='store', dest='file', nargs='*',
@@ -27,6 +32,7 @@ def create_parser():
             'set a ip.'
             ))
 
+    # TODO : Execute configparse to a string object.
     parser.add_argument(
             '-c', '--config',
             action='store', dest='config',
@@ -34,6 +40,8 @@ def create_parser():
             'set a config.'
             ))
 
+    # get an alias from a config file.
+    # TODO : Execute configparse to a string object.
     parser.add_argument(
             '--alias',
             action='store', dest='alias',
