@@ -17,12 +17,28 @@ def create_parser():
             help=(
             'a contents of a card'
             ))
+
+    parser.add_argument(
+            '-D', '--deck',
+            action='store', dest='deck', default='Default',
+            help=(
+            'set a Deck.'
+            ))
+
+    parser.add_argument(
+            '-t', '--type',
+            action='store', dest='cardtype', default='basic',
+            help=(
+            'set a card type.'
+            ))
+
     parser.add_argument(
             '-i', '--ip',
             action='store', dest='ip', default='127.0.0.1',
             help=(
             'set a AnkiConnect ip.'
             ))
+
     # mutually exclusive with positional value liked cardContents
     # ~/.acprc OR optional .acprc
     parser.add_argument(
