@@ -79,3 +79,15 @@ def create_parser():
             ))
 
     return parser
+
+# TODO: import config logic. card's deck & type => variables in bash file  OR export variables OR a temporary variable \
+# => (rc-file =>) hard coded defaults
+def get_proper_deck(deck_argparse_option, stdDECK):
+
+    # If no deck_argparse_option, then return stdDeck
+    if not deck_argparse_option:
+        if not conf_Deck:
+            return stdDeck
+        return conf_Deck
+
+    return deck_argparse_option
