@@ -82,12 +82,42 @@ def create_parser():
 
 # TODO: import config logic. card's deck & type => variables in bash file  OR export variables OR a temporary variable \
 # => (rc-file =>) hard coded defaults
-def get_proper_deck(deck_argparse_option, stdDECK):
+def get_proper_deck(argparse_deck, stdin_DECK):
+    """
+    get a card deck. 
+    order: card's deck & type => variables in bash file  OR export variables OR a temporary variable => (rc-file =>) hard coded defaults
+    """
 
-    # If no deck_argparse_option, then return stdDeck
-    if not deck_argparse_option:
-        if not conf_Deck:
-            return stdDeck
-        return conf_Deck
+    if argparse_deck:
+        return argparse_deck
 
-    return deck_argparse_option
+    if stdin_Deck:
+        return stdin_Deck
+
+    if rc_Deck:
+        return rc_Deck
+
+    # return a default deck
+    return 'Default'
+
+# TODO: import config logic. card's deck & type => variables in bash file  OR export variables OR a temporary variable \
+# => (rc-file =>) hard coded defaults
+def get_proper_cardType(argparse_cardType, stdin_cardType):
+    """
+    get a card type. 
+    order: card's deck & type => variables in bash file  OR export variables OR a temporary variable => (rc-file =>) hard coded defaults
+    """
+
+    if argparse_cardType:
+        return argparse_cardType
+
+    if stdin_cardType:
+        return stdin_cardType
+
+    if rc_cardType:
+        return rc_cardType
+
+    # return a default cardType
+    return 'basic'
+
+
