@@ -1,14 +1,20 @@
 import os
 import sys
+import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from create_parser import create_parser, parse_argument
 # create_parser.create_parser
 
-def test_create_parser():
+
+@pytest.fixture
+def parser():
+    return create_parser()
+
+
+def test_create_parser(parser):
     """
     Test a port option
     """
-
-    parser = create_parser()
 
     # a short port option
     result = parser.parse_args('-p 30 some'.split())
@@ -23,11 +29,11 @@ def test_create_parser():
     assert  result.port == 8765
 
 
-def test_file_option():
+def test_file_option(parser):
     """
     Test a file input option
     """
-    parser = create_parser()
+
     thisFile = os.path.abspath(__file__)
 
     # a short file option
@@ -44,12 +50,11 @@ def test_file_option():
     result = parser.parse_args(f'--file {os.path.abspath(__file__)} {os.path.abspath(__file__)}'.split())
     assert result.file == [os.path.abspath(__file__), os.path.abspath(__file__)]
 
-def test_IFS_option():
+def test_IFS_option(parser):
     """
     Test a IFS option
     """
 
-    parser = create_parser()
     result = parser.parse_args(f"-F 'x'".split())
 
     assert result.IFS == "'x'"
@@ -59,12 +64,11 @@ def test_IFS_option():
     assert result.IFS == 'x'
     assert len(result.IFS) == 1
 
-def test_card_deck():
+def test_card_deck(parser):
     """
     Test a card deck.
     """
 
-    parser = create_parser()
     testdeck = 'linux::algo'
 
     # test a default deck value.
@@ -72,20 +76,19 @@ def test_card_deck():
     result = parser.parse_args(f'-F x'.split())
     assert result.deck == 'Default'
 
-    # a short file option with an arbitrary test deck.
+    # a short deck option with an arbitrary test deck.
     result = parser.parse_args(f'-D {testdeck}'.split())
     assert result.deck == 'linux::algo'
 
-    # a long file option with an arbitrary test deck.
+    # a long deck option with an arbitrary test deck.
     result = parser.parse_args(f'--deck {testdeck}'.split())
     assert result.deck == 'linux::algo'
 
-def test_card_type():
+def test_card_type(parser):
     """
     Test a card type.
     """
 
-    parser = create_parser()
     testCardType = 'cloze123'
 
     # test a default deck value.
@@ -94,9 +97,10 @@ def test_card_type():
     assert result.cardtype == 'basic'
 
     # a short file option with an arbitrary test deck.
-    result = parser.parse_args(f'-D {testCardType}'.split())
-    assert result.deck == testCardType
+    result = parser.parse_args(f'-t {testCardType}'.split())
+    assert result.cardtype == testCardType
 
     # a long file option with an arbitrary test deck.
-    result = parser.parse_args(f'--deck {testCardType}'.split())
-    assert result.deck == testCardType
+    result = parser.parse_args(f'--type {testCardType}'.split())
+    assert result.cardtype == testCardType
+
