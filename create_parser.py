@@ -184,7 +184,7 @@ def cardcontentsHandle(card):
     """
 
     if card.cardContents and os.path.isfile(card.cardContents):
-        card.file = card.file.append(card.cardContents) if card.file else [card.cardContents]
+        card.file.append(card.cardContents) if card.file else [card.cardContents]
         card.cardContents = None
 
     return card
