@@ -14,10 +14,4 @@ def main():
     parse_card(card_candidate)
 
 if __name__ == '__main__' :
-
-
-    # assign a card deck.
-    # seek the shell env variable. if it doesn't exist, then use a compiled DECK value.
-    # let's just get all environment value and check all.
-    # if deck and type is not configed then use Anki program default Deck and card type setting.
     sys.exit(main())
