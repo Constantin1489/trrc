@@ -33,7 +33,7 @@ def create_parser():
     # TODO: fix default
     parser.add_argument(
             '-t', '--type',
-            action='store', dest='cardtype', default='basic',
+            action='store', dest='cardtype',
             help=(
             'set a card type.'
             ))
