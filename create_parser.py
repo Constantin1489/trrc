@@ -4,6 +4,7 @@ sys.path.append('/Users/constantinhong/TODO/ankiadderall')
 import os
 import re
 import ankiadderall
+import logging
 
 def create_parser():
     """
@@ -86,6 +87,13 @@ def create_parser():
             'a sed-like IFS option'
             ))
 
+    parser.add_argument(
+            '--debug',
+            action='store_true', dest='debug',
+            help=(
+            'a debug option'
+            ))
+
     return parser
 
 # TODO : test argparse
@@ -101,6 +109,9 @@ def parse_argument():
 
         # TODO: logging
         print("argv>1")
+        if card.debug:
+            logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
+            main_logger = logging.getLogger(__name__)
         card_candidate: List[parser] = [parser.parse_args(sys.argv[1:])]
         return card_candidate
 
@@ -114,6 +125,12 @@ def parse_argument():
                 some = [card.rstrip('\n')] + sys.argv[1:]
                 card: parser = parser.parse_args(some)
                 print(f'{card.cardContents=}\n{type(card.cardContents)=}')
+                # if debug turn on, show logging messages.
+                if card.debug:
+                    logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
+                main_logger = logging.getLogger(__name__)
+
+                main_logger.debug(f'{card.cardContents=}\n{type(card.cardContents)=}')
                 a = ankiadderall.card(get_proper_deck(card.deck), get_proper_cardType(card.cardtype), card.cardContents)
                 ankiadderall.create_card(ankiadderall.userAnkiConnect().get_AnkiConnect_URL(), a)
                 print(a.card, file=sys.stdout)
