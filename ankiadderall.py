@@ -113,6 +113,8 @@ class card:
             tag = self.__is_Notag(tag)
 
             return { 'Text' : Text, 'Extra' : Extra }, tag
+        
+        print(bcolors.FAIL +bcolors.BOLD + "ERROR: 'def __check_notetype' No predefined notetype is here", bcolors.ENDC, file=sys.stderr)
 
     def __is_Notag(self, tag):
         if isinstance(tag, type(None)):
@@ -158,8 +160,7 @@ class card:
             return cloze
         else:
             # TODO : How to skip to next loop
-            # TODO : return stderr
-            print("does not have any cloze tag", file=sys.stderr)
+            print(bcolors.FAIL +bcolors.BOLD + f"{cloze} does not have any cloze tag", bcolors.ENDC, file=sys.stderr)
             # this break all loops.
             return None
 
