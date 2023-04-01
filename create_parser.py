@@ -22,6 +22,7 @@ def create_parser():
             'a positional contents of a card'
             ))
 
+    # TODO: fix default
     parser.add_argument(
             '-D', '--deck',
             action='store', dest='deck', default='Default',
@@ -29,6 +30,7 @@ def create_parser():
             'set a Deck.'
             ))
 
+    # TODO: fix default
     parser.add_argument(
             '-t', '--type',
             action='store', dest='cardtype', default='basic',
@@ -36,6 +38,7 @@ def create_parser():
             'set a card type.'
             ))
 
+    # TODO: fix default
     parser.add_argument(
             '-i', '--ip',
             action='store', dest='ip', default='127.0.0.1',
@@ -45,6 +48,7 @@ def create_parser():
 
     # mutually exclusive with positional value liked cardContents
     # ~/.acprc OR optional .acprc
+    # parser.file: List
     parser.add_argument(
             '-f', '--file',
             action='store', dest='file', nargs='*',
@@ -84,6 +88,7 @@ def create_parser():
 
     return parser
 
+# TODO : test argparse
 def parse_argument(argv):
 
     # TODO parser
