@@ -36,9 +36,16 @@ def test_file_option(parser):
 
     thisFile = os.path.abspath(__file__)
 
+    # a short file option for a empty input
+    result = parser.parse_args(f'--port 30'.split())
+    assert type(result.file) == type(None)
+
     # a short file option
     result = parser.parse_args(f'-f {thisFile}'.split())
     assert result.file == [os.path.abspath(__file__)]
+
+    # check whether is a list
+    assert type(result.file) == type([])
     # TODO : Do I need this?
     assert os.path.isfile(*result.file) == True
 
