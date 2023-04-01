@@ -10,14 +10,8 @@ def makeParser():
 
 def main():
 
-    ANKIADDERALL_CONFIG = { 'DECK': 'Linux', 'TYPE':'Basic'  }
-    # DECK -> stdDECK
-    stdDECK = os.environ['ANKIADDERALL_DECK'] if 'ANKIADDERALL_DECK' in os.environ.keys() else ANKIADDERALL_CONFIG['DECK']
-    # TYPE -> stdTYPE
-    TYPE = os.environ['ANKIADDERALL_TYPE'] if 'ANKIADDERALL_TYPE' in os.environ.keys() else ANKIADDERALL_CONFIG['TYPE']
-
-    card_candidate = parse_argument(sys.argv)
-    parse_card(card_candidate, stdDECK, stdTYPE)
+    card_candidate: List[parser] = parse_argument()
+    parse_card(card_candidate)
 
 if __name__ == '__main__' :
 
