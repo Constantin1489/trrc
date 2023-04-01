@@ -25,7 +25,7 @@ def create_parser():
     # TODO: fix default
     parser.add_argument(
             '-D', '--deck',
-            action='store', dest='deck', default='Default',
+            action='store', dest='deck',
             help=(
             'set a Deck.'
             ))
