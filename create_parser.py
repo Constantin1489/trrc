@@ -175,20 +175,35 @@ def get_proper_cardType(argparse_cardType=None):
     # ex) Korean -> '기본'
     return 'basic'
 
+def cardcontentsHandle(card):
+    """
+    TODO: Docstring for fileHandle.
+
+    :arg1: TODO
+    :returns: TODO
+    """
+
+    if card.cardContents and os.path.isfile(card.cardContents):
+        card.file = card.file.append(card.cardContents) if card.file else [card.cardContents]
+        card.cardContents = None
+
+    return card
 
 # parse cards, card's deck and type in the input.
-def parse_card(card_candidate, DECK, TYPE):
+def parse_card(card_candidate):
 
     for card in card_candidate:
 
         # os.path.isfile(--file option)
-        if os.path.isfile(card.file):
-
+        card = cardcontentsHandle(card)
+        if card.file:
             # logging?
             print(card.file, file=sys.stdout)
 
-            with open(card) as f:
-                lines = f.read().splitlines()
+            lines = []
+            for afile in card.file:
+                with open(afile) as f:
+                    lines += f.read().splitlines()
 
             for j in lines:
 
@@ -201,11 +216,12 @@ def parse_card(card_candidate, DECK, TYPE):
                 if re.findall(r'{{c\d::.*}}', j):
                     TYPE = 'cloze'
 
-                a = ankiadderall.card(DECK, TYPE, j)
+                a = ankiadderall.card(get_proper_deck(card.deck), get_proper_cardType(card.cardtype), j)
                 ankiadderall.create_card(ankiadderall.userAnkiConnect().get_AnkiConnect_URL(), a)
                 print(a.card, file=sys.stdout)
 
+
         else:
-            a = ankiadderall.card(card.deck, card.type, card)
+            a = ankiadderall.card(get_proper_deck(card.deck), get_proper_cardType(card.cardtype), card.cardContents)
             ankiadderall.create_card(ankiadderall.userAnkiConnect().get_AnkiConnect_URL(), a)
             print(a.card, file=sys.stdout)
