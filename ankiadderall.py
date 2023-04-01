@@ -164,20 +164,21 @@ class card:
             # this break all loops.
             return None
 
+# TODO: put AnkiConnectURL in argument
 def create_card(AnkiConnect_URL, card):
     """
     send a json card to a AnkiConnect to create a card.
     """
 
-    CLOZE_CARD={ "action": "addNote", "version": 6, "params": { "note": { "deckName": card.deck , "modelName":
+    CARD_JSON={ "action": "addNote", "version": 6, "params": { "note": { "deckName": card.deck , "modelName":
                                                                          card.notetype, "fields": card.content , "tags":
                                                                          [ *card.tag ] } } }
 
     # TODO : logging
     print("#####alt version########")
-    print(CLOZE_CARD)
+    print(CARD_JSON)
     try:
-        r = requests.post(AnkiConnect_URL, json=CLOZE_CARD)
+        r = requests.post(AnkiConnect_URL, json=CARD_JSON)
         print(r)
 
     except:
