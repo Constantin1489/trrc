@@ -16,11 +16,10 @@ def create_parser():
             epilog='Constantin Hong'
             )
 
-    #positional values
     parser.add_argument(
             'cardContents', action='store', nargs='?',
             help=(
-            'a contents of a card'
+            'a positional contents of a card'
             ))
 
     parser.add_argument(
