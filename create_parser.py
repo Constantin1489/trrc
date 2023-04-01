@@ -7,7 +7,7 @@ import ankiadderall
 
 def create_parser():
     """
-     create_parser
+    create_parser
     """
 
     parser = argparse.ArgumentParser(
