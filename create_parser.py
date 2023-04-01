@@ -89,7 +89,7 @@ def create_parser():
     return parser
 
 # TODO : test argparse
-def parse_argument(argv):
+def parse_argument():
 
     # TODO parser
     parser = create_parser()
@@ -97,11 +97,11 @@ def parse_argument(argv):
     # add parser
     # if there is a file or a string input, use it as input
     # it can't take multiple contents
-    if len(argv) > 1:
+    if len(sys.argv) > 1 and sys.stdin.isatty():
 
         # TODO: logging
         print("argv>1")
-        card_candidate: List[parser] = [parser.parse_args(argv[1:])]
+        card_candidate: List[parser] = [parser.parse_args(sys.argv[1:])]
         return card_candidate
 
     else:
@@ -110,10 +110,15 @@ def parse_argument(argv):
 
             # results?
             # card.rstrip('\n').split() for parse_args?
-            card_candidate = [parser.parse_args(card.rstrip('\n')) for card in sys.stdin.readlines()]
+            for card in sys.stdin.readlines():
+                some = [card.rstrip('\n')] + sys.argv[1:]
+                card: parser = parser.parse_args(some)
+                print(f'{card.cardContents=}\n{type(card.cardContents)=}')
+                a = ankiadderall.card(get_proper_deck(card.deck), get_proper_cardType(card.cardtype), card.cardContents)
+                ankiadderall.create_card(ankiadderall.userAnkiConnect().get_AnkiConnect_URL(), a)
+                print(a.card, file=sys.stdout)
             # async?
             # results?
-            return card_candidate
 
         else:
             print("""usage: addstring [file ...]
