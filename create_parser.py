@@ -128,7 +128,7 @@ def parse_argument():
 
 # TODO: import config logic. card's deck & type => variables in bash file  OR export variables OR a temporary variable \
 # => (rc-file =>) hard coded defaults
-def get_proper_deck(argparse_deck, stdin_DECK):
+def get_proper_deck(argparse_deck=None):
     """
     get a card deck. 
     order: card's deck & type => variables in bash file  OR export variables OR a temporary variable => (rc-file =>) hard coded defaults
@@ -137,18 +137,21 @@ def get_proper_deck(argparse_deck, stdin_DECK):
     if argparse_deck:
         return argparse_deck
 
+    ANKIADDERALL_CONFIG = { 'DECK': 'Linux', 'TYPE':'Basic'  }
+    stdin_Deck = os.environ['ANKIADDERALL_DECK'] if 'ANKIADDERALL_DECK' in os.environ.keys() else ANKIADDERALL_CONFIG['DECK']
     if stdin_Deck:
         return stdin_Deck
 
-    if rc_Deck:
-        return rc_Deck
+# TODO: configparse
+#    if rc_Deck:
+#        return rc_Deck
 
     # return a default deck
     return 'Default'
 
 # TODO: import config logic. card's deck & type => variables in bash file  OR export variables OR a temporary variable \
 # => (rc-file =>) hard coded defaults
-def get_proper_cardType(argparse_cardType, stdin_cardType):
+def get_proper_cardType(argparse_cardType=None):
     """
     get a card type. 
     order: card's deck & type => variables in bash file  OR export variables OR a temporary variable => (rc-file =>) hard coded defaults
@@ -157,11 +160,14 @@ def get_proper_cardType(argparse_cardType, stdin_cardType):
     if argparse_cardType:
         return argparse_cardType
 
+    ANKIADDERALL_CONFIG = { 'DECK': 'Linux', 'TYPE':'Basic'  }
+    stdin_cardType = os.environ['ANKIADDERALL_TYPE'] if 'ANKIADDERALL_TYPE' in os.environ.keys() else ANKIADDERALL_CONFIG['TYPE']
     if stdin_cardType:
         return stdin_cardType
 
-    if rc_cardType:
-        return rc_cardType
+# TODO: configparse
+#    if rc_cardType:
+#        return rc_cardType
 
     # return a default cardType
     # TODO: fix default
