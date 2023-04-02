@@ -96,20 +96,18 @@ def create_parser():
 
     return parser
 
+# TODO: test argparse
+# TODO: isn't it a main()?
 def parse_argument():
 
-    # TODO parser
     parser = create_parser()
 
-    # add parser
-    # if there is a file or a string input, use it as input
-    # it can't take multiple contents
     if len(sys.argv) > 1 and sys.stdin.isatty():
 
         # TODO: logging
-        print("argv>1")
         if '--debug' in sys.argv[1:]:
             logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
+
         main_logger = logging.getLogger(__name__)
         card_candidate: List[parser] = [parser.parse_args(sys.argv[1:])]
         return card_candidate
@@ -126,7 +124,6 @@ def parse_argument():
                 card_candidate.append(parser.parse_args(some))
 
             return card_candidate
-
 
         else:
             parser.print_help()
@@ -201,9 +198,10 @@ def parse_card(card_candidate):
 
     for card in card_candidate:
 
-        # os.path.isfile(--file option)
         card = cardcontentsHandle(card)
+        # TODO: file argparse exclusive with positional?
         if card.file:
+            #and os.path.isfile(card.file)
             # logging?
             print(card.file, file=sys.stdout)
 
@@ -229,6 +227,7 @@ def parse_card(card_candidate):
 
 
         else:
+            # TODO: ERROR #main_logger.debug(f'######## {card_candidate=}\n{type(card_candidate)=}')
             a = ankiadderall.card(get_proper_deck(card.deck), get_proper_cardType(card.cardtype), card.cardContents)
             ankiadderall.create_card(ankiadderall.userAnkiConnect().get_AnkiConnect_URL(), a)
             print(a.card, file=sys.stdout)
