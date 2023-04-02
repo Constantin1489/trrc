@@ -108,9 +108,9 @@ def parse_argument():
 
         # TODO: logging
         print("argv>1")
-        if card.debug:
+        if '--debug' in sys.argv[1:]:
             logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
-            main_logger = logging.getLogger(__name__)
+        main_logger = logging.getLogger(__name__)
         card_candidate: List[parser] = [parser.parse_args(sys.argv[1:])]
         return card_candidate
 
