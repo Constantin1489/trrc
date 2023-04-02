@@ -42,6 +42,7 @@ def create_parser():
             'set a card type.'
             ))
 
+    # TODO:
     parser.add_argument(
             '-i', '--ip',
             action='store', dest='ip', default='127.0.0.1',
@@ -49,6 +50,7 @@ def create_parser():
             'set a AnkiConnect ip.'
             ))
 
+    # TODO:
     parser.add_argument(
             '-p', '--port',
             action='store', dest='port', type=int, default=8765,
@@ -83,6 +85,7 @@ def create_parser():
             'set an alias.'
             ))
 
+    # TODO:
     parser.add_argument(
             '-F', '--IFS',
             action='store', dest='IFS',
@@ -147,6 +150,7 @@ def get_proper_deck(argparse_deck=None):
     if stdin_Deck:
         return stdin_Deck
 
+# TODO: after configparse option developed, fix stdin_deck
 # TODO: configparse
 #    if rc_Deck:
 #        return rc_Deck
