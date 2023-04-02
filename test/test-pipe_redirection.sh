@@ -6,6 +6,8 @@ echo "test 3"
 echo 'basic_type_front_slashtab\tbasic_type_back\tbasic_type_tag' | ../addstring.py
 echo "test 4"
 cat test_card_strings.txt | ../addstring.py
+echo "test 4-1"
+cat test_card_strings.txt | ../addstring.py --debug
 echo "test 5"
 ../addstring.py 'basic_type_front_stdin	basic_type_back	basic_type_tag'
 echo "test 6"
