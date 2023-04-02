@@ -47,16 +47,22 @@ def create_parser():
             'set a AnkiConnect ip.'
             ))
 
-    # mutually exclusive with positional value liked cardContents
-    # ~/.acprc OR optional .acprc
-    # parser.file: List
+    parser.add_argument(
+            '-p', '--port',
+            action='store', dest='port', type=int, default=8765,
+            help=(
+            'set a AnkiConnect port.'
+            ))
+
     parser.add_argument(
             '-f', '--file',
             action='store', dest='file', nargs='*',
             help=(
-            'set a ip.'
+            'set a file to create cards.'
             ))
 
+    # ~/.acprc OR optional .acprc
+    # parser.file: List
     # TODO : Execute configparse to a string object.
     parser.add_argument(
             '-c', '--config',
@@ -66,6 +72,7 @@ def create_parser():
             ))
 
     # get an alias from a config file.
+    # looking for ~/.acprc OR ANKIADDERALL_CONFIG
     # TODO : Execute configparse to a string object.
     parser.add_argument(
             '--alias',
@@ -74,12 +81,6 @@ def create_parser():
             'set an alias.'
             ))
 
-    parser.add_argument(
-            '-p', '--port',
-            action='store', dest='port', type=int, default=8765,
-            help=(
-            'set a AnkiConnect port.'
-            ))
     parser.add_argument(
             '-F', '--IFS',
             action='store', dest='IFS',
@@ -194,9 +195,6 @@ def get_proper_cardType(argparse_cardType=None):
 def cardcontentsHandle(card):
     """
     TODO: Docstring for fileHandle.
-
-    :arg1: TODO
-    :returns: TODO
     """
 
     if card.cardContents and os.path.isfile(card.cardContents):
