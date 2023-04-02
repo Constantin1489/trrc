@@ -115,13 +115,11 @@ def parse_argument():
         return card_candidate
 
     else:
+        if '--debug' in sys.argv[1:]:
+            logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
+        main_logger = logging.getLogger(__name__)
 
         if not sys.stdin.isatty():
-            if '--debug' in sys.argv[1:]:
-                logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
-            main_logger = logging.getLogger(__name__)
-            # results?
-            # card.rstrip('\n').split() for parse_args?
             card_candidate = []
             for card in sys.stdin.readlines():
                 some = [card.rstrip('\n')] + sys.argv[1:]
