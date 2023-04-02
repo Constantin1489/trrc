@@ -5,6 +5,7 @@ import os
 import re
 import ankiadderall
 import logging
+main_logger = logging.getLogger(__name__)
 
 def create_parser():
     """
@@ -110,14 +111,12 @@ def parse_argument():
         if '--debug' in sys.argv[1:]:
             logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
-        main_logger = logging.getLogger(__name__)
         card_candidate: List[parser] = [parser.parse_args(sys.argv[1:])]
         return card_candidate
 
     else:
         if '--debug' in sys.argv[1:]:
             logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
-        main_logger = logging.getLogger(__name__)
 
         if not sys.stdin.isatty():
             card_candidate = []
@@ -229,7 +228,10 @@ def parse_card(card_candidate):
 
 
         else:
-            # TODO: ERROR #main_logger.debug(f'######## {card_candidate=}\n{type(card_candidate)=}')
+            if not card.cardContents:
+                main_logger.debug(f'no card or a empty line')
+                continue
+            main_logger.debug(f'{card.cardContents=}\n{type(card.cardContents)=}')
             a = ankiadderall.card(get_proper_deck(card.deck), get_proper_cardType(card.cardtype), card.cardContents)
             ankiadderall.create_card(ankiadderall.userAnkiConnect().get_AnkiConnect_URL(), a)
             print(a.card, file=sys.stdout)
