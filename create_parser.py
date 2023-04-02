@@ -89,7 +89,7 @@ def create_parser():
 
     parser.add_argument(
             '--debug',
-            action='store_true', dest='debug',
+            action='store_const', dest='debug', const=logging.DEBUG,
             help=(
             'a debug option'
             ))
@@ -126,8 +126,7 @@ def parse_argument():
                 card: parser = parser.parse_args(some)
                 print(f'{card.cardContents=}\n{type(card.cardContents)=}')
                 # if debug turn on, show logging messages.
-                if card.debug:
-                    logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
+                logging.basicConfig(encoding='utf-8', level=card.debug)
                 main_logger = logging.getLogger(__name__)
 
                 main_logger.debug(f'{card.cardContents=}\n{type(card.cardContents)=}')
