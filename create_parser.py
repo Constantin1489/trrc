@@ -122,19 +122,12 @@ def parse_argument():
             main_logger = logging.getLogger(__name__)
             # results?
             # card.rstrip('\n').split() for parse_args?
+            card_candidate = []
             for card in sys.stdin.readlines():
                 some = [card.rstrip('\n')] + sys.argv[1:]
-                card: parser = parser.parse_args(some)
-                # if debug turn on, show logging messages.
-                logging.basicConfig(encoding='utf-8', level=card.debug)
-                main_logger = logging.getLogger(__name__)
+                card_candidate.append(parser.parse_args(some))
 
-                main_logger.debug(f'{card.cardContents=}\n{type(card.cardContents)=}')
-                a = ankiadderall.card(get_proper_deck(card.deck), get_proper_cardType(card.cardtype), card.cardContents)
-                ankiadderall.create_card(ankiadderall.userAnkiConnect().get_AnkiConnect_URL(), a)
-                print(a.card, file=sys.stdout)
-            # async?
-            # results?
+            return card_candidate
 
 
         else:
