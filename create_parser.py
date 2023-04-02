@@ -39,7 +39,6 @@ def create_parser():
             'set a card type.'
             ))
 
-    # TODO: fix default
     parser.add_argument(
             '-i', '--ip',
             action='store', dest='ip', default='127.0.0.1',
@@ -97,7 +96,6 @@ def create_parser():
 
     return parser
 
-# TODO : test argparse
 def parse_argument():
 
     # TODO parser
@@ -125,7 +123,6 @@ def parse_argument():
             for card in sys.stdin.readlines():
                 some = [card.rstrip('\n')] + sys.argv[1:]
                 card: parser = parser.parse_args(some)
-                print(f'{card.cardContents=}\n{type(card.cardContents)=}')
                 # if debug turn on, show logging messages.
                 logging.basicConfig(encoding='utf-8', level=card.debug)
                 main_logger = logging.getLogger(__name__)
@@ -136,6 +133,7 @@ def parse_argument():
                 print(a.card, file=sys.stdout)
             # async?
             # results?
+
 
         else:
             print("""usage: addstring [file ...]
