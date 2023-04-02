@@ -24,6 +24,7 @@ def create_parser():
             ))
 
     # TODO: fix default
+    # TODO: LOCALE
     parser.add_argument(
             '-D', '--deck',
             action='store', dest='deck',
@@ -32,6 +33,7 @@ def create_parser():
             ))
 
     # TODO: fix default
+    # TODO: LOCALE
     parser.add_argument(
             '-t', '--type',
             action='store', dest='cardtype',
