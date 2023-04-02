@@ -91,6 +91,9 @@ def test_card_deck(parser):
     result = parser.parse_args(f'--deck {testdeck}'.split())
     assert result.deck == 'linux::algo'
 
+    result = parser.parse_args(f'--deck {testdeck} second'.split())
+    assert result.deck == 'linux::algo'
+
 def test_card_type(parser):
     """
     Test a card type.
