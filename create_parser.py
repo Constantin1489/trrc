@@ -114,6 +114,7 @@ def parse_argument():
         if '--debug' in sys.argv[1:]:
             logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
+        main_logger.debug('sys.stdin.isatty')
         card_candidate: List[parser] = [parser.parse_args(sys.argv[1:])]
         return card_candidate
 
@@ -122,6 +123,7 @@ def parse_argument():
             logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
         if not sys.stdin.isatty():
+            main_logger.debug('not sys.stdin.isatty')
             card_candidate = []
             for card in sys.stdin.readlines():
                 some = [card.rstrip('\n')] + sys.argv[1:]
