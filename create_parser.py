@@ -131,8 +131,7 @@ def parse_argument():
 
 
         else:
-            print("""usage: addstring [file ...]
-            cat [file ...] | addstring""")
+            parser.print_help()
             exit(2)
 
 
