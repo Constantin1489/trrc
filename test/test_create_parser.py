@@ -81,7 +81,7 @@ def test_card_deck(parser):
     # test a default deck value.
     # To get a default deck value, put an arbitrary argument with a valid option.
     result = parser.parse_args(f'-F x'.split())
-    assert result.deck == 'Default'
+    assert result.deck == None
 
     # a short deck option with an arbitrary test deck.
     result = parser.parse_args(f'-D {testdeck}'.split())
@@ -101,7 +101,7 @@ def test_card_type(parser):
     # test a default deck value.
     # To get a default deck value, put an arbitrary argument with a valid option.
     result = parser.parse_args(f'-F x'.split())
-    assert result.cardtype == 'basic'
+    assert result.cardtype == None
 
     # a short file option with an arbitrary test deck.
     result = parser.parse_args(f'-t {testCardType}'.split())
@@ -116,15 +116,13 @@ def test_debug_option(parser):
     Test a debug-on option
     """
 
-    # a short port option
     result = parser.parse_args('--debug'.split())
-    assert  result.debug == True
+    assert  result.debug == 10
 
 def test_debug_option_off(parser):
     """
     Test a debug-off option
     """
 
-    # a short port option
     result = parser.parse_args(''.split())
-    assert  result.debug == False
+    assert  result.debug == None
