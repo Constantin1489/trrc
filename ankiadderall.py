@@ -2,6 +2,8 @@
 import sys
 import requests
 import re
+import logging
+main_logger = logging.getLogger(__name__)
 
 class bcolors:
     FAIL = '\033[91m'
@@ -61,6 +63,7 @@ class card:
         # for example, escape key cards.
         # TODO : argparse IFS
         self.card_list = card_str.split(sep='\t')
+        main_logger.debug(f'{self.card_list=}\n{type(self.card_list)=}')
         self.content, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
         self.card = self.content, self.tag
 
@@ -77,8 +80,7 @@ class card:
 
             # if card_list[1] doesn't exist, then return None.
             except IndexError:
-                # TODO : add stderr
-                print("index error", file=sys.stderr)
+                main_logger.debug(f'index error: {card_list=}\n{type(card_list)=}')
                 return None
 
             # tag does not need to be splited
@@ -174,13 +176,11 @@ def create_card(AnkiConnect_URL, card):
                                                                          card.notetype, "fields": card.content , "tags":
                                                                          [ *card.tag ] } } }
 
-    # TODO : logging
-    print("#####alt version########")
-    print(CARD_JSON)
+    main_logger.debug(f'{CARD_JSON=}\n{type(CARD_JSON)=}')
     try:
         r = requests.post(AnkiConnect_URL, json=CARD_JSON)
         print(r)
 
     except:
         # TODO : return the whole line
-        print(bcolors.FAIL +bcolors.BOLD + "failed" + bcolors.ENDC, file=sys.stderr)
+        main_logger.debug(bcolors.FAIL +bcolors.BOLD + "failed" + bcolors.ENDC)
