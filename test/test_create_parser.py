@@ -111,3 +111,20 @@ def test_card_type(parser):
     result = parser.parse_args(f'--type {testCardType}'.split())
     assert result.cardtype == testCardType
 
+def test_debug_option(parser):
+    """
+    Test a debug-on option
+    """
+
+    # a short port option
+    result = parser.parse_args('--debug'.split())
+    assert  result.debug == True
+
+def test_debug_option_off(parser):
+    """
+    Test a debug-off option
+    """
+
+    # a short port option
+    result = parser.parse_args(''.split())
+    assert  result.debug == False
