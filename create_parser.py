@@ -134,7 +134,7 @@ def parse_argument():
 # => (rc-file =>) hard coded defaults
 def get_proper_deck(argparse_deck=None):
     """
-    get a card deck. 
+    get a card deck.
     order: card's deck & type => variables in bash file  OR export variables OR a temporary variable => (rc-file =>) hard coded defaults
     """
 
@@ -157,7 +157,7 @@ def get_proper_deck(argparse_deck=None):
 # => (rc-file =>) hard coded defaults
 def get_proper_cardType(argparse_cardType=None):
     """
-    get a card type. 
+    get a card type.
     order: card's deck & type => variables in bash file  OR export variables OR a temporary variable => (rc-file =>) hard coded defaults
     """
 
