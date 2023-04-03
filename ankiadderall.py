@@ -157,7 +157,7 @@ class card:
             # this break all loops.
             return None
 
-    def make_card(self, deck, notetype, splited_card_list):
+    def make_card(self, notetype, splited_card_list):
         """
         return final card object to add DB.
         card: tuple[self.content: dict[str, str], self.tag: list[str]]
