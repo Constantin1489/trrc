@@ -61,32 +61,32 @@ class card:
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
         # TODO : argparse IFS
-        self.card_list: list[str] = card_str.split(sep='\t')
-        self.content, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
-        #self.content: dict[str, str], self.tag: list[str] = self.make_card(self.deck, self.notetype, self.card_list)
+        self.card_contents_list: list[str] = card_str.split(sep=IFS)
+        self.content, self.tag = self.make_card(self.notetype, self.card_contents_list)
+        #self.content: dict[str, str], self.tag: list[str] = self.make_card(self.deck, self.notetype, self.card_contents_list)
         self.card: tuple[dict[str], list[str]] = self.content, self.tag
         #self.card: tuple[dict[str,str], list[str]] = self.content, self.tag
 
-    def __check_notetype(self, notetype, card_list):
+    def __check_notetype(self, notetype, card_contents_list):
         """ 
         return card content variables per notetype.
         """
 
         if notetype in ['basic', 'Basic', 'BasicTwo']:
-            front = card_list[0]
+            front = card_contents_list[0]
 
             try:
-                back = card_list[1]
+                back = card_contents_list[1]
 
-            # if card_list[1] doesn't exist, then return None.
+            # if card_contents_list[1] doesn't exist, then return None.
             except IndexError:
-                main_logger.debug(f'index error: {card_list=}\n{type(card_list)=}')
+                main_logger.debug(f'index error: {card_contents_list=}\n{type(card_contents_list)=}')
                 return None
 
             # tag does not need to be splited
             # TODO : def function
             # suggestion : len(list) condition
-            tag = self.__is_tag(back, card_list[-1])
+            tag = self.__is_tag(back, card_contents_list[-1])
             tag = self.__is_Notag(tag)
 
             # is it good idea? obj: json
@@ -95,22 +95,22 @@ class card:
         # TODO : import config from outside.
         # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error 
         if notetype in ['cloze', 'Cloze']:
-            Text = self.__contain_cloze_tag(card_list[0])
+            Text = self.__contain_cloze_tag(card_contents_list[0])
             # suggestion : len(list) condition
             try:
-                Extra = card_list[1]
+                Extra = card_contents_list[1]
             except IndexError:
                 Extra = ''
 
-            # TODO: if len(card_list) == 1, __is_tag's parameter is inapropriate.
+            # TODO: if len(card_contents_list) == 1, __is_tag's parameter is inapropriate.
             # in this case, tag will be Text.
-            # in this case, parameter should be Text, Card_list[-1] 
+            # in this case, parameter should be Text, card_contents_list[-1] 
 
             tag = ''
-            if Text != card_list[-1]:
+            if Text != card_contents_list[-1]:
             # if a record has only Text, then list[-1] is the Text. This cause
             #an error. 
-                tag = self.__is_tag(Extra, card_list[-1])
+                tag = self.__is_tag(Extra, card_contents_list[-1])
 
             tag = self.__is_Notag(tag)
 
@@ -169,12 +169,14 @@ def create_card(AnkiConnect_URL, card):
     """
     send a json card to a AnkiConnect to create a card.
     card: Type[ankiadderall.card]
-        card.deck: str
-        card.notetype: str
-        card.tag: list[str]
+    card.deck: str
+    card.notetype: str
+    card.tag: list[str]
     """
 
 
+    # TODO: what the fuck is [ *card.tag ]
+    #main_logger.debug(f'investigate {card.notetype=}: {type(card.notetype)=}')
     CARD_JSON: dict = { "action": "addNote",
                        "version": 6,
                        "params": { "note": { "deckName": card.deck,
@@ -182,6 +184,8 @@ def create_card(AnkiConnect_URL, card):
                                             "fields": card.content,
                                             "tags": card.tag } } }
 
+    main_logger.debug(f'investigate {CARD_JSON=}: {type(CARD_JSON)=}')
+    #main_logger.debug(f'{CARD_JSON=}\n{type(CARD_JSON)=}')
     try:
         r = requests.post(AnkiConnect_URL, json=CARD_JSON)
         print(r)
