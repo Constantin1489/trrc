@@ -181,6 +181,7 @@ def create_card(AnkiConnect_URL, card):
     card.deck: str
     card.notetype: str
     card.tag: list[str]
+    card.content: dict[str: str]
     """
 
 
