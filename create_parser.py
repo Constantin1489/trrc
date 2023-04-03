@@ -228,7 +228,10 @@ def parse_card(card_candidate):
                 if re.findall(r'{{c\d::.*}}', j):
                     TYPE = 'cloze'
 
-                tempCardObject = ankiadderall.card(get_proper_deck(card.deck), get_proper_cardType(card.cardtype), j)
+                tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
+                                                   get_proper_cardType(card.cardtype),
+                                                   j,
+                                                   card.IFS)
                 AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port).get_AnkiConnect_URL()
                 ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
                 print(tempCardObject.card, file=sys.stdout)
@@ -239,7 +242,10 @@ def parse_card(card_candidate):
                 main_logger.debug(f'no card or a empty line')
                 continue
             main_logger.debug(f'{card.cardContents=}\n{type(card.cardContents)=}')
-            tempCardObject = ankiadderall.card(get_proper_deck(card.deck), get_proper_cardType(card.cardtype), card.cardContents)
+            tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
+                                               get_proper_cardType(card.cardtype),
+                                               card.cardContents,
+                                               card.IFS)
             AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port).get_AnkiConnect_URL()
             ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
             print(tempCardObject.card, file=sys.stdout)
