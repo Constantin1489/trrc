@@ -174,11 +174,14 @@ def create_card(AnkiConnect_URL, card):
         card.tag: list[str]
     """
 
-    CARD_JSON={ "action": "addNote", "version": 6, "params": { "note": { "deckName": card.deck , "modelName":
-                                                                         card.notetype, "fields": card.content , "tags":
-                                                                         [ *card.tag ] } } }
 
-    main_logger.debug(f'{CARD_JSON=}\n{type(CARD_JSON)=}')
+    CARD_JSON: dict = { "action": "addNote",
+                       "version": 6,
+                       "params": { "note": { "deckName": card.deck,
+                                            "modelName": card.notetype,
+                                            "fields": card.content,
+                                            "tags": card.tag } } }
+
     try:
         r = requests.post(AnkiConnect_URL, json=CARD_JSON)
         print(r)
