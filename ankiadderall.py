@@ -61,10 +61,17 @@ class card:
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
         # TODO : argparse IFS
+        main_logger.debug(f'investigate {IFS=}: {type(IFS)=}')
+        main_logger.debug(f'investigate {card_str=}: {type(card_str)=}')
         self.card_contents_list: list[str] = card_str.split(sep=IFS)
+        main_logger.debug(f'investigate {self.notetype=}: {type(self.notetype)=}')
+        main_logger.debug(f'investigate {self.card_contents_list=}: {type(self.card_contents_list)=}')
         self.content, self.tag = self.make_card(self.notetype, self.card_contents_list)
+        main_logger.debug(f'investigate {self.content=}: {type(self.content)=}')
+        main_logger.debug(f'investigate {self.tag=}: {type(self.tag)=}')
         #self.content: dict[str, str], self.tag: list[str] = self.make_card(self.deck, self.notetype, self.card_contents_list)
         self.card: tuple[dict[str], list[str]] = self.content, self.tag
+        main_logger.debug(f'investigate {self.card=}: {type(self.card)=}')
         #self.card: tuple[dict[str,str], list[str]] = self.content, self.tag
 
     def __check_notetype(self, notetype, card_contents_list):
