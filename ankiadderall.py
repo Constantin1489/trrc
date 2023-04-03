@@ -50,7 +50,7 @@ class card:
     A class for card object
     """
 
-    def __init__(self, deck: str, notetype: str, card_str: str):
+    def __init__(self, deck: str, notetype: str, card_str: str, IFS='\t'):
         """
         no deck and notetype. because cardlist has deck and notetype.
         """
