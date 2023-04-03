@@ -50,7 +50,7 @@ class card:
     A class for card object
     """
 
-    def __init__(self, deck: str, notetype: str, card_str: str, IFS='\t'):
+    def __init__(self, deck: str, notetype: str, card_str: str, column: list[str], IFS='\t'):
         """
         no deck and notetype. because cardlist has deck and notetype.
         """
@@ -66,7 +66,7 @@ class card:
         self.card_contents_list: list[str] = card_str.split(sep=IFS)
         main_logger.debug(f'investigate {self.notetype=}: {type(self.notetype)=}')
         main_logger.debug(f'investigate {self.card_contents_list=}: {type(self.card_contents_list)=}')
-        self.content, self.tag = self.make_card(self.notetype, self.card_contents_list)
+        self.content, self.tag = self.make_card(self.notetype, self.card_contents_list, column)
         main_logger.debug(f'investigate {self.content=}: {type(self.content)=}')
         main_logger.debug(f'investigate {self.tag=}: {type(self.tag)=}')
         #self.content: dict[str, str], self.tag: list[str] = self.make_card(self.deck, self.notetype, self.card_contents_list)
@@ -74,12 +74,12 @@ class card:
         main_logger.debug(f'investigate {self.card=}: {type(self.card)=}')
         #self.card: tuple[dict[str,str], list[str]] = self.content, self.tag
 
-    def __check_notetype(self, notetype, card_contents_list):
+    def __check_notetype(self, notetype, card_contents_list: list[str], column: list[str]):
         """ 
         return card content variables per notetype.
         """
 
-        if notetype in ['basic', 'Basic', 'BasicTwo']:
+        if column is None and notetype in ['basic', 'Basic', 'BasicTwo']:
             front = card_contents_list[0]
 
             try:
@@ -101,7 +101,7 @@ class card:
 
         # TODO : import config from outside.
         # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error 
-        if notetype in ['cloze', 'Cloze']:
+        if column is None and notetype in ['cloze', 'Cloze']:
             Text = self.__contain_cloze_tag(card_contents_list[0])
             # suggestion : len(list) condition
             try:
@@ -122,8 +122,28 @@ class card:
             tag = self.__is_Notag(tag)
 
             return { 'Text' : Text, 'Extra' : Extra }, tag
+
+        if column is not None:
+            merged_contents: dict = self.__merge_card_contents_list_W_column(column, card_contents_list)
+            if ('tag' or 'tags') not in column:
+                return merged_contents, ['']
+
+            try:
+                tag: str = merged_contents.pop('tag')
+                tag: list = tag.split(sep=' ')
+            except:
+                tag: str = merged_contents.pop('tags')
+                tag: list = tag.split(sep=' ')
+
+            return merged_contents, tag
         
         print(bcolors.FAIL +bcolors.BOLD + "ERROR: 'def __check_notetype' No predefined notetype is here", bcolors.ENDC, file=sys.stderr)
+
+    def __merge_card_contents_list_W_column(self, column: list, card_contents_list: list):
+
+        if len(column) >= len(card_contents_list):
+            return dict(zip(column, card_contents_list))
+        raise Exception('column is smaller than actual contents of a card')
 
     def __is_Notag(self, tag):
         if isinstance(tag, type(None)):
@@ -164,13 +184,13 @@ class card:
             # this break all loops.
             return None
 
-    def make_card(self, notetype, splited_card_list):
+    def make_card(self, notetype, splited_card_list, column):
         """
         return final card object to add DB.
         card: tuple[self.content: dict[str, str], self.tag: list[str]]
         """
 
-        card: tuple = self.__check_notetype(notetype, splited_card_list)
+        card: tuple = self.__check_notetype(notetype, splited_card_list, column)
         return card
 
 # TODO: put AnkiConnectURL in argument

@@ -94,6 +94,13 @@ def create_parser():
             ))
 
     parser.add_argument(
+            '--column', action='store', dest='column', nargs='?',
+            type=lambda s: [i for i in s.split(':')],
+            help=(
+            'a positional contents of a card'
+            ))
+
+    parser.add_argument(
             '--debug',
             action='store_const', dest='debug', const=logging.DEBUG,
             help=(
@@ -231,6 +238,7 @@ def parse_card(card_candidate):
                 tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
                                                    get_proper_cardType(card.cardtype),
                                                    j,
+                                                   card.column,
                                                    card.IFS)
                 AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port).get_AnkiConnect_URL()
                 ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
@@ -245,6 +253,7 @@ def parse_card(card_candidate):
             tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
                                                get_proper_cardType(card.cardtype),
                                                card.cardContents,
+                                               card.column,
                                                card.IFS)
             AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port).get_AnkiConnect_URL()
             ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
