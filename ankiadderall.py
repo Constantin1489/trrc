@@ -160,8 +160,10 @@ class card:
     def make_card(self, deck, notetype, splited_card_list):
         """
         return final card object to add DB.
+        card: tuple[self.content: dict[str, str], self.tag: list[str]]
         """
-        card = self.__check_notetype(notetype, splited_card_list)
+
+        card: tuple = self.__check_notetype(notetype, splited_card_list)
         return card
 
 # TODO: put AnkiConnectURL in argument
