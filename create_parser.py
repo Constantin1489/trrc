@@ -88,7 +88,7 @@ def create_parser():
     # TODO:
     parser.add_argument(
             '-F', '--IFS',
-            action='store', dest='IFS',
+            action='store', dest='IFS', default='\t',
             help=(
             'a sed-like IFS option'
             ))
