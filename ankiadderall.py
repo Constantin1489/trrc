@@ -50,22 +50,22 @@ class card:
     A class for card object
     """
 
-    def __init__(self, deck, notetype, card_str):
+    def __init__(self, deck: str, notetype: str, card_str: str):
         """
         no deck and notetype. because cardlist has deck and notetype.
         """
-
         # TODO : argparse IFS
-        self.deck = deck
-        self.notetype = notetype
+        self.deck: str = deck
+        self.notetype: str = notetype
 
         # TODO : this may cause wrong split error.
         # for example, escape key cards.
         # TODO : argparse IFS
-        self.card_list = card_str.split(sep='\t')
-        main_logger.debug(f'{self.card_list=}\n{type(self.card_list)=}')
+        self.card_list: list[str] = card_str.split(sep='\t')
         self.content, self.tag = self.make_card(self.deck, self.notetype, self.card_list)
-        self.card = self.content, self.tag
+        #self.content: dict[str, str], self.tag: list[str] = self.make_card(self.deck, self.notetype, self.card_list)
+        self.card: tuple[dict[str], list[str]] = self.content, self.tag
+        #self.card: tuple[dict[str,str], list[str]] = self.content, self.tag
 
     def __check_notetype(self, notetype, card_list):
         """ 
@@ -168,6 +168,10 @@ class card:
 def create_card(AnkiConnect_URL, card):
     """
     send a json card to a AnkiConnect to create a card.
+    card: Type[ankiadderall.card]
+        card.deck: str
+        card.notetype: str
+        card.tag: list[str]
     """
 
     CARD_JSON={ "action": "addNote", "version": 6, "params": { "note": { "deckName": card.deck , "modelName":
@@ -181,4 +185,4 @@ def create_card(AnkiConnect_URL, card):
 
     except:
         # TODO : return the whole line
-        main_logger.debug(bcolors.FAIL +bcolors.BOLD + "failed" + bcolors.ENDC)
+        main_logger.debug(bcolors.FAIL +bcolors.BOLD + "Sending a card to AnkiConnect is failed" + bcolors.ENDC)
