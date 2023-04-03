@@ -1,7 +1,7 @@
 echo "test 1"
 echo 'basic_type_front_normal_tab with option	basic_type_back	basic_type_tag' | ../addstring.py -D "Linux::algo"
 echo "test 2"
-echo 'basic_type_front_normal_tab	basic_type_back	basic_type_tag' | ../addstring.py
+echo 'basic_type_front_normal_tab	basic_type_back	basic_type_tag basic_type_tag2' | ../addstring.py
 echo "test 2-1"
 echo 'basic_type_front_normal_tab_debug	basic_type_back	basic_type_tag' | ../addstring.py --debug
 echo "test 3"
