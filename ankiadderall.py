@@ -124,14 +124,6 @@ class card:
         else:
             return tag
 
-    def make_card(self, deck, notetype, splited_card_list):
-        """
-        return final card object to add DB.
-        """
-        card = self.__check_notetype(notetype, splited_card_list)
-        return card
-
-
     def __is_tag(self, last_item_except_tag, tag_item):
         """
         last card item can not be tag item.
@@ -152,7 +144,6 @@ class card:
         if last_item_except_tag != tag_item:
             return tag_item.split(' ')
 
-
     def __contain_cloze_tag(self, cloze):
         """
         check whether Text contains cloze tag. if not, report and skip.
@@ -165,6 +156,13 @@ class card:
             print(bcolors.FAIL +bcolors.BOLD + f"{cloze} does not have any cloze tag", bcolors.ENDC, file=sys.stderr)
             # this break all loops.
             return None
+
+    def make_card(self, deck, notetype, splited_card_list):
+        """
+        return final card object to add DB.
+        """
+        card = self.__check_notetype(notetype, splited_card_list)
+        return card
 
 # TODO: put AnkiConnectURL in argument
 def create_card(AnkiConnect_URL, card):
