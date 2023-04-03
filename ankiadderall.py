@@ -144,16 +144,16 @@ class card:
         if last_item_except_tag != tag_item:
             return tag_item.split(' ')
 
-    def __contain_cloze_tag(self, cloze):
+    def __contain_cloze_tag(self, clozeContent):
         """
         check whether Text contains cloze tag. if not, report and skip.
         """
         # TODO [] : break if failed.
-        if re.search(r'{{c\d+::.*}}', cloze):
-            return cloze
+        if re.search(r'{{c\d+::.*}}', clozeContent):
+            return clozeContent
         else:
             # TODO : How to skip to next loop
-            print(bcolors.FAIL +bcolors.BOLD + f"{cloze} does not have any cloze tag", bcolors.ENDC, file=sys.stderr)
+            print(bcolors.FAIL +bcolors.BOLD + f"{clozeContent} does not have any cloze tag", bcolors.ENDC, file=sys.stderr)
             # this break all loops.
             return None
 
