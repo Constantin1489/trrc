@@ -152,16 +152,19 @@ def get_proper_deck(argparse_deck=None):
     """
 
     if argparse_deck:
+        main_logger.debug('argparse_deck is on')
         return argparse_deck
 
     ANKIADDERALL_CONFIG = { 'DECK': 'Linux', 'TYPE':'Basic'  }
     stdin_Deck = os.environ['ANKIADDERALL_DECK'] if 'ANKIADDERALL_DECK' in os.environ.keys() else ANKIADDERALL_CONFIG['DECK']
     if stdin_Deck:
+        main_logger.debug('stdin_Deck is on')
         return stdin_Deck
 
 # TODO: after configparse option developed, fix stdin_deck
 # TODO: configparse
 #    if rc_Deck:
+#        main_logger.debug('rc_Deck is on')
 #        return rc_Deck
 
     # return a default deck
@@ -224,15 +227,20 @@ def parse_card(card_candidate):
                 with open(afile) as f:
                     lines += f.read().splitlines()
 
+            main_logger.debug('read a file')
+
             for j in lines:
 
                 # skipping an empty line.
                 if not j:
+                    main_logger.debug('skip a line')
                     continue
 
+                main_logger.debug(f'investigate {j=}: {type(j)=}')
                 # if a line has cloze tag, than the line is a cloze type.
                 # note type handler
                 if re.findall(r'{{c\d::.*}}', j):
+                    main_logger.debug('found a cloze')
                     TYPE = 'cloze'
 
                 tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
@@ -242,13 +250,15 @@ def parse_card(card_candidate):
                                                    card.IFS)
                 AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port).get_AnkiConnect_URL()
                 ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
-                print(tempCardObject.card, file=sys.stdout)
+                print(vars(tempCardObject), file=sys.stdout)
+                print(*tempCardObject.card, file=sys.stdout)
 
 
         else:
             if not card.cardContents:
                 main_logger.debug(f'no card or a empty line')
                 continue
+            main_logger.debug('It\'s not a file')
             main_logger.debug(f'{card.cardContents=}\n{type(card.cardContents)=}')
             tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
                                                get_proper_cardType(card.cardtype),
@@ -257,4 +267,5 @@ def parse_card(card_candidate):
                                                card.IFS)
             AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port).get_AnkiConnect_URL()
             ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
-            print(tempCardObject.card, file=sys.stdout)
+            print(vars(tempCardObject), file=sys.stdout)
+            print(*tempCardObject.card, file=sys.stdout)
