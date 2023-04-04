@@ -204,7 +204,8 @@ def get_proper_cardType(argparse_cardType=None):
     # return a default cardType
     # TODO: the default term depends on the language user uses may vary.
     # ex) Korean -> '기본'
-    return 'basic'
+    main_logger.debug(f"type is 'Basic'")
+    return 'Basic'
 
 def cardcontentsHandle(card):
     """
