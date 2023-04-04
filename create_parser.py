@@ -35,7 +35,6 @@ EXAMPLE
             'a positional contents of a card'
             ))
 
-    # TODO: fix default
     # TODO: LOCALE
     parser.add_argument(
             '-D', '--deck',
@@ -44,7 +43,6 @@ EXAMPLE
             'set a Deck.'
             ))
 
-    # TODO: fix default
     # TODO: LOCALE
     parser.add_argument(
             '-t', '--type',
@@ -53,7 +51,6 @@ EXAMPLE
             'set a card type.'
             ))
 
-    # TODO:
     parser.add_argument(
             '-i', '--ip',
             action='store', dest='ip', default='127.0.0.1',
@@ -61,7 +58,6 @@ EXAMPLE
             'set a AnkiConnect ip.'
             ))
 
-    # TODO:
     parser.add_argument(
             '-p', '--port',
             action='store', dest='port', type=int, default=8765,
@@ -96,7 +92,6 @@ EXAMPLE
             'set an alias.'
             ))
 
-    # TODO:
     parser.add_argument(
             '-F', '--IFS',
             action='store', dest='IFS', default='\t',
@@ -199,17 +194,14 @@ def get_proper_cardType(argparse_cardType=None):
     if argparse_cardType:
         return argparse_cardType
 
-    ANKIADDERALL_CONFIG = { 'DECK': 'Linux', 'TYPE':'Basic'  }
-    stdin_cardType = os.environ['ANKIADDERALL_TYPE'] if 'ANKIADDERALL_TYPE' in os.environ.keys() else ANKIADDERALL_CONFIG['TYPE']
-    if stdin_cardType:
-        return stdin_cardType
+    if 'ANKIADDERALL_TYPE' in os.environ.keys():
+        return os.environ['ANKIADDERALL_TYPE']
 
 # TODO: configparse
 #    if rc_cardType:
 #        return rc_cardType
 
     # return a default cardType
-    # TODO: fix default
     # TODO: the default term depends on the language user uses may vary.
     # ex) Korean -> '기본'
     return 'basic'
@@ -234,10 +226,7 @@ def parse_card(card_candidate):
     for card in card_candidate:
 
         card = cardcontentsHandle(card)
-        # TODO: file argparse exclusive with positional?
         if card.file:
-            #and os.path.isfile(card.file)
-            # logging?
             print(card.file, file=sys.stdout)
 
             lines = []
