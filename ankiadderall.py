@@ -80,6 +80,7 @@ class card:
         """
 
         if column is None and notetype in ['basic', 'Basic', 'BasicTwo']:
+            main_logger.debug('basic is on')
             front = card_contents_list[0]
 
             try:
@@ -102,6 +103,7 @@ class card:
         # TODO : import config from outside.
         # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error 
         if column is None and notetype in ['cloze', 'Cloze']:
+            main_logger.debug('cloze is on')
             Text = self.__contain_cloze_tag(card_contents_list[0])
             # suggestion : len(list) condition
             try:
@@ -124,6 +126,7 @@ class card:
             return { 'Text' : Text, 'Extra' : Extra }, tag
 
         if column is not None:
+            main_logger.debug('column is on')
             merged_contents: dict = self.__merge_card_contents_list_W_column(column, card_contents_list)
             if ('tag' or 'tags') not in column:
                 return merged_contents, ['']
@@ -131,13 +134,15 @@ class card:
             try:
                 tag: str = merged_contents.pop('tag')
                 tag: list = tag.split(sep=' ')
+
             except:
                 tag: str = merged_contents.pop('tags')
                 tag: list = tag.split(sep=' ')
 
             return merged_contents, tag
         
-        print(bcolors.FAIL +bcolors.BOLD + "ERROR: 'def __check_notetype' No predefined notetype is here", bcolors.ENDC, file=sys.stderr)
+        print(bcolors.FAIL + bcolors.BOLD + "ERROR: 'def __check_notetype' No predefined notetype is here", bcolors.ENDC, file=sys.stderr)
+        print(bcolors.BOLD + "suggestion: use --type and --column option." + bcolors.ENDC, file=sys.stderr)
 
     def __merge_card_contents_list_W_column(self, column: list, card_contents_list: list):
 
