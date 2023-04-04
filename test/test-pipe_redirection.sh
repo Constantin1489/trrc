@@ -26,3 +26,7 @@ echo "test 7"
 ANKIADDERALL_DECK='somedeck' ANKIADDERALL_TYPE='cloze1' ../addstring.py 'env_variable_basic_type_front_stdin	basic_type_back	basic_type_tag'
 echo "test 8"
 ../addstring.py --ip 192.123.123.123 --port 1234 --debug -f test_card_strings2.txt
+echo "test 9: cloze with basic"
+cat cloze_with_basic_string.txt | ../addstring.py --debug
+echo "test 10: cat cloze test"
+cat test_cloze.txt | ../addstring.py --debug
