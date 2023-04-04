@@ -165,7 +165,7 @@ def get_proper_deck(argparse_deck=None):
     """
 
     if argparse_deck:
-        main_logger.debug('argparse_deck is on')
+        main_logger.debug(f'deck is {argparse_deck}')
         return argparse_deck
 
     if 'ANKIADDERALL_DECK' in os.environ.keys():
@@ -179,6 +179,7 @@ def get_proper_deck(argparse_deck=None):
 #        return rc_Deck
 
     # return a default deck
+    main_logger.debug(f"deck is 'Default'")
     return 'Default'
 
 # TODO: import config logic. card's deck & type => variables in bash file  OR export variables OR a temporary variable \
@@ -190,9 +191,11 @@ def get_proper_cardType(argparse_cardType=None):
     """
 
     if argparse_cardType:
+        main_logger.debug(f'type is {argparse_cardType}')
         return argparse_cardType
 
     if 'ANKIADDERALL_TYPE' in os.environ.keys():
+        main_logger.debug(f"type is {os.environ['ANKIADDERALL_DECK']}")
         return os.environ['ANKIADDERALL_TYPE']
 
 # TODO: configparse
@@ -239,9 +242,11 @@ def parse_card(card_candidate):
 
                 # skipping an empty line.
                 if not j:
+                    print(f'empty line: {j}', file=sys.stdout)
                     main_logger.debug('skip a line')
                     continue
 
+                print(j, file=sys.stdout)
                 main_logger.debug(f'investigate {j=}: {type(j)=}')
                 # if a line has cloze tag, than the line is a cloze type.
                 # note type handler
@@ -265,7 +270,7 @@ def parse_card(card_candidate):
                 main_logger.debug(f'no card or a empty line')
                 continue
             main_logger.debug('It\'s not a file')
-            main_logger.debug(f'{card.cardContents=}\n{type(card.cardContents)=}')
+            main_logger.debug(f'{card.cardContents=}: {type(card.cardContents)=}')
 
             TYPE = check_cloze_is_mistakely_there(card.cardContents, card.cardtype)
 
