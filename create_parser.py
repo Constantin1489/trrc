@@ -168,11 +168,9 @@ def get_proper_deck(argparse_deck=None):
         main_logger.debug('argparse_deck is on')
         return argparse_deck
 
-    ANKIADDERALL_CONFIG = { 'DECK': 'Linux', 'TYPE':'Basic'  }
-    stdin_Deck = os.environ['ANKIADDERALL_DECK'] if 'ANKIADDERALL_DECK' in os.environ.keys() else ANKIADDERALL_CONFIG['DECK']
-    if stdin_Deck:
-        main_logger.debug('stdin_Deck is on')
-        return stdin_Deck
+    if 'ANKIADDERALL_DECK' in os.environ.keys():
+        main_logger.debug(f"deck is {os.environ['ANKIADDERALL_DECK']}")
+        return os.environ['ANKIADDERALL_DECK']
 
 # TODO: after configparse option developed, fix stdin_deck
 # TODO: configparse
