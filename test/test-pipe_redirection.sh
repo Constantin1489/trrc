@@ -30,3 +30,5 @@ echo "test 9: cloze with basic"
 cat cloze_with_basic_string.txt | ../addstring.py --debug
 echo "test 10: cat cloze test"
 cat test_cloze.txt | ../addstring.py --debug
+echo "test 11: empty lines"
+cat various_empty_lines.txt | ../addstring.py --debug
