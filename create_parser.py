@@ -112,6 +112,13 @@ EXAMPLE
             ))
 
     parser.add_argument(
+            '--dry-run',
+            action='store_true', dest='dryrun',
+            help=(
+            'Print the cards that would be created and options that would be applied, but do not execute the command.'
+            ))
+
+    parser.add_argument(
             '--debug',
             action='store_const', dest='debug', const=logging.DEBUG,
             help=(
@@ -262,8 +269,10 @@ def parse_card(card_candidate):
                                                    card.column,
                                                    card.IFS)
                 AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port).get_AnkiConnect_URL()
-                ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
-                print(vars(tempCardObject), file=sys.stdout)
+                # TODO: dryrun
+                if not card.dryrun:
+                    ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
+                main_logger.debug(f'result: {vars(tempCardObject)=}')
                 print(*tempCardObject.card, file=sys.stdout)
 
 
@@ -286,6 +295,8 @@ def parse_card(card_candidate):
                                                card.column,
                                                card.IFS)
             AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port).get_AnkiConnect_URL()
-            ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
-            print(vars(tempCardObject), file=sys.stdout)
+            # TODO: dryrun
+            if not card.dryrun:
+                ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
+            main_logger.debug(f'result: {vars(tempCardObject)=}')
             print(*tempCardObject.card, file=sys.stdout)
