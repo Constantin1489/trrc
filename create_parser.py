@@ -242,9 +242,11 @@ def parse_card(card_candidate):
                 if re.findall(r'{{c\d::.*}}', j):
                     main_logger.debug('found a cloze')
                     TYPE = 'cloze'
+                else:
+                    TYPE = get_proper_cardType(card.cardtype)
 
                 tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
-                                                   get_proper_cardType(card.cardtype),
+                                                   TYPE,
                                                    j,
                                                    card.column,
                                                    card.IFS)
@@ -260,8 +262,15 @@ def parse_card(card_candidate):
                 continue
             main_logger.debug('It\'s not a file')
             main_logger.debug(f'{card.cardContents=}\n{type(card.cardContents)=}')
+
+            if re.findall(r'{{c\d::.*}}', card.cardContents):
+                main_logger.debug('found a cloze')
+                TYPE = 'cloze'
+            else:
+                TYPE = get_proper_cardType(card.cardtype)
+
             tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
-                                               get_proper_cardType(card.cardtype),
+                                               TYPE,
                                                card.cardContents,
                                                card.column,
                                                card.IFS)
