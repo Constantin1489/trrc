@@ -246,12 +246,8 @@ def parse_card(card_candidate):
                 main_logger.debug(f'investigate {j=}: {type(j)=}')
                 # if a line has cloze tag, than the line is a cloze type.
                 # note type handler
-                if re.findall(r'{{c\d::.*}}', j):
-                    main_logger.debug('found a cloze')
-                    TYPE = 'cloze'
-                else:
-                    TYPE = get_proper_cardType(card.cardtype)
 
+                TYPE = check_cloze_is_mistakely_there(j, card.cardtype)
                 tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
                                                    TYPE,
                                                    j,
@@ -272,20 +268,31 @@ def parse_card(card_candidate):
             main_logger.debug('It\'s not a file')
             main_logger.debug(f'{card.cardContents=}\n{type(card.cardContents)=}')
 
-            if re.findall(r'{{c\d::.*}}', card.cardContents):
-                main_logger.debug('found a cloze')
-                TYPE = 'cloze'
-            else:
-                TYPE = get_proper_cardType(card.cardtype)
+            TYPE = check_cloze_is_mistakely_there(card.cardContents, card.cardtype)
 
             tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
                                                TYPE,
                                                card.cardContents,
                                                card.column,
                                                card.IFS)
+
             AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port).get_AnkiConnect_URL()
             # TODO: dryrun
             if not card.dryrun:
                 ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
             main_logger.debug(f'result: {vars(tempCardObject)=}')
             print(*tempCardObject.card, file=sys.stdout)
+
+def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
+    """TODO: Docstring for check_cloze_is_mistakely_there.
+
+    :card_contents: TODO
+    :returns: TODO
+
+    """
+
+    if re.findall(r'{{c\d::.*}}', card_contents):
+        main_logger.debug('found a cloze')
+        return 'cloze'
+    else:
+        return get_proper_cardType(cardtype)
