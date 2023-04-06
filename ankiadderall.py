@@ -220,8 +220,8 @@ def create_card(AnkiConnect_URL, card):
     #main_logger.debug(f'{CARD_JSON=}\n{type(CARD_JSON)=}')
     try:
         r = requests.post(AnkiConnect_URL, json=CARD_JSON)
-        print(r)
+        print(f'{r}: {card.content}')
 
     except:
         # TODO : return the whole line
-        main_logger.debug(bcolors.FAIL +bcolors.BOLD + "Sending a card to AnkiConnect is failed" + bcolors.ENDC)
+        main_logger.debug(bcolors.FAIL +bcolors.BOLD + ErrorMessages.network + bcolors.ENDC)
