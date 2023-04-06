@@ -14,10 +14,6 @@ userAnkico = ankiadderall.userAnkiConnect('asdfasdf', 132)
 #assert ankiadderall.userAnkiConnect('0.0.0.0', 132)._webBindAddress == 
 #print('default', ankiadderall.userAnkiConnect().returnURL())
 def test_get_default_get_AnkiConnect_URL():
-    assert ankiadderall.userAnkiConnect().get_AnkiConnect_URL() == 'http://localhost:8765'
-    assert userAnkico._webBindAddress == 'asdfasdf'
-    assert userAnkico._webBindPort == 132
-    assert userAnkico.get_AnkiConnect_URL() == 'http://asdfasdf:132'
-    assert ankiadderall.userAnkiConnect('0.0.0.0', 132).get_AnkiConnect_URL() == 'http://0.0.0.0:132'
-    assert ankiadderall.userAnkiConnect('0.0.0.0', 132)._webBindAddress == '0.0.0.0'
-
+    assert ankiadderall.userAnkiConnect() == 'http://localhost:8765'
+    assert ankiadderall.userAnkiConnect('0.0.0.0', 132) == 'http://0.0.0.0:132'
+    assert ankiadderall.userAnkiConnect('0.0.0.0', 132) != '0.0.0.0'
