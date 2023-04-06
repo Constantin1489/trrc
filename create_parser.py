@@ -262,6 +262,7 @@ def parse_card(card_candidate):
                                                        card.column,
                                                        card.IFS)
                 except Exception as e:
+                    print('failed: ' + card.cardContents)
                     continue
 
                 AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port)
@@ -275,6 +276,7 @@ def parse_card(card_candidate):
                 main_logger.debug(f'no card or a empty line')
                 continue
 
+            main_logger.debug("It's not a file")
 
             TYPE = check_cloze_is_mistakely_there(card.cardContents,
                                                   card.cardtype)
@@ -286,6 +288,8 @@ def parse_card(card_candidate):
                                                    card.column,
                                                    card.IFS)
             except Exception as e:
+                print(f'failed: {card.cardContents}')
+                print(e, file=sys.stderr)
                 continue
 
             AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port)
