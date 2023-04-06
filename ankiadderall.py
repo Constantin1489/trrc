@@ -53,40 +53,41 @@ class card:
         self.deck: str = deck
         self.notetype: str = notetype
 
-        # TODO : this may cause wrong split error.
-        # for example, escape key cards.
-        # TODO : argparse IFS
-        main_logger.debug(f'investigate {IFS=}: {type(IFS)=}')
-        main_logger.debug(f'investigate {card_str=}: {type(card_str)=}')
-        self.card_contents_list: list[str] = card_str.split(sep=IFS)
-        main_logger.debug(f'investigate {self.notetype=}: {type(self.notetype)=}')
-        main_logger.debug(f'investigate {self.card_contents_list=}: {type(self.card_contents_list)=}')
-        self.content, self.tag = self.make_card(self.notetype, self.card_contents_list, column)
-        main_logger.debug(f'investigate {self.content=}: {type(self.content)=}')
-        main_logger.debug(f'investigate {self.tag=}: {type(self.tag)=}')
-        #self.content: dict[str, str], self.tag: list[str] = self.make_card(self.deck, self.notetype, self.card_contents_list)
+        main_logger.debug(f'card object: {self.notetype=}: {type(self.notetype)=}')
+        main_logger.debug(f'card object: {IFS=}: {type(IFS)=}')
+        main_logger.debug(f'card object: {card_str=}: {type(card_str)=}')
+        main_logger.debug(f'card object: {card_str.split(sep=IFS)=}: {type(card_str.split(sep=IFS))=}')
+        try:
+            self.content, self.tag = self.make_card(self.notetype,
+                                                    card_str.split(sep=IFS),
+                                                    column)
+        except Exception as e:
+            raise Exception('ERROR', e)
+        main_logger.debug(f'card object: {self.content=}: {type(self.content)=}')
+        main_logger.debug(f'card object: {self.tag=}: {type(self.tag)=}')
 
-    def __check_notetype(self, notetype, card_contents_list: list[str], column: list[str]):
+    def __check_notetype(self, notetype, splited_card_list: list[str], column: list[str]):
         """ 
         return card content variables per notetype.
         """
 
         if column is None and notetype in ['basic', 'Basic', 'BasicTwo']:
             main_logger.debug('basic is on')
-            front = card_contents_list[0]
+            front = splited_card_list[0]
 
             try:
-                back = card_contents_list[1]
+                back = splited_card_list[1]
 
-            # if card_contents_list[1] doesn't exist, then return None.
+            # if splited_card_list[1] doesn't exist, then return None.
             except IndexError:
-                main_logger.debug(f'index error: {card_contents_list=}\n{type(card_contents_list)=}')
-                return None
+                main_logger.debug(f'index error: {splited_card_list=}\n{type(splited_card_list)=}')
+                #return None
+                raise Exception('TEMP raise!!!!!!!!')
 
             # tag does not need to be splited
             # TODO : def function
             # suggestion : len(list) condition
-            tag = self.__is_tag(back, card_contents_list[-1])
+            tag = self.__is_tag(back, splited_card_list[-1])
             tag = self.__is_Notag(tag)
 
             # is it good idea? obj: json
@@ -99,19 +100,19 @@ class card:
             Text = self.__contain_cloze_tag(card_contents_list[0])
             # suggestion : len(list) condition
             try:
-                Extra = card_contents_list[1]
+                Extra = splited_card_list[1]
             except IndexError:
                 Extra = ''
 
-            # TODO: if len(card_contents_list) == 1, __is_tag's parameter is inapropriate.
+            # TODO: if len(splited_card_list) == 1, __is_tag's parameter is inapropriate.
             # in this case, tag will be Text.
-            # in this case, parameter should be Text, card_contents_list[-1] 
+            # in this case, parameter should be Text, splited_card_list[-1] 
 
             tag = ''
-            if Text != card_contents_list[-1]:
+            if Text != splited_card_list[-1]:
             # if a record has only Text, then list[-1] is the Text. This cause
             #an error. 
-                tag = self.__is_tag(Extra, card_contents_list[-1])
+                tag = self.__is_tag(Extra, splited_card_list[-1])
 
             tag = self.__is_Notag(tag)
 
@@ -119,7 +120,7 @@ class card:
 
         if column is not None:
             main_logger.debug('column is on')
-            merged_contents: dict = self.__merge_card_contents_list_W_column(column, card_contents_list)
+            merged_contents: dict = self.__merge_splited_card_list_W_column(column, splited_card_list)
             if ('tag' or 'tags') not in column:
                 return merged_contents, ['']
 
@@ -136,7 +137,7 @@ class card:
         print(bcolors.FAIL + bcolors.BOLD + "ERROR: 'def __check_notetype' No predefined notetype is here", bcolors.ENDC, file=sys.stderr)
         print(bcolors.BOLD + "suggestion: use --type and --column option." + bcolors.ENDC, file=sys.stderr)
 
-    def __merge_card_contents_list_W_column(self, column: list, card_contents_list: list):
+    def __merge_splited_card_list_W_column(self, column: list, card_contents_list: list):
 
         if len(column) >= len(card_contents_list):
             return dict(zip(column, card_contents_list))
