@@ -97,7 +97,7 @@ class card:
         # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error 
         if column is None and notetype in ['cloze', 'Cloze']:
             main_logger.debug('cloze is on')
-            Text = self.__contain_cloze_tag(card_contents_list[0])
+            Text = self.__cloze_contain_cloze_tag(splited_card_list[0])
             # suggestion : len(list) condition
             try:
                 Extra = splited_card_list[1]
@@ -169,7 +169,7 @@ class card:
         if last_item_except_tag != tag_item:
             return tag_item.split(' ')
 
-    def __contain_cloze_tag(self, clozeContent):
+    def __cloze_contain_cloze_tag(self, clozeContent):
         """
         check whether Text contains cloze tag. if not, report and skip.
         """
