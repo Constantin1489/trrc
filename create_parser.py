@@ -253,11 +253,7 @@ def parse_card(card_candidate):
                     main_logger.debug('skip a line')
                     continue
 
-                print(j, file=sys.stdout)
-                main_logger.debug(f'investigate {j=}: {type(j)=}')
                 # if a line has cloze tag, than the line is a cloze type.
-                # note type handler
-
                 TYPE = check_cloze_is_mistakely_there(j, card.cardtype)
                 tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
                                                    TYPE,
@@ -265,19 +261,14 @@ def parse_card(card_candidate):
                                                    card.column,
                                                    card.IFS)
                 AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port).get_AnkiConnect_URL()
-                # TODO: dryrun
                 if not card.dryrun:
                     ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
-                main_logger.debug(f'result: {vars(tempCardObject)=}')
-                print(*tempCardObject.card, file=sys.stdout)
 
 
         else:
             if not card.cardContents:
                 main_logger.debug(f'no card or a empty line')
                 continue
-            main_logger.debug('It\'s not a file')
-            main_logger.debug(f'{card.cardContents=}: {type(card.cardContents)=}')
 
             TYPE = check_cloze_is_mistakely_there(card.cardContents, card.cardtype)
 
@@ -290,8 +281,6 @@ def parse_card(card_candidate):
             AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port)
             if not card.dryrun:
                 ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
-            main_logger.debug(f'result: {vars(tempCardObject)=}')
-            print(*tempCardObject.card, file=sys.stdout)
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     """TODO: Docstring for check_cloze_is_mistakely_there.
