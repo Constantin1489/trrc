@@ -210,16 +210,20 @@ def get_proper_cardType(argparse_cardType=None):
 
 def cardcontentsHandle(card):
     """
-    TODO: Docstring for fileHandle.
+    If card.cardContents is a file, then insert it into --file option.
     """
 
     if card.cardContents and os.path.isfile(card.cardContents):
+
         if card.file :
             card.file.append(card.cardContents)
+
+        # If card.file is None, then insert the list to --file option.
         else:
             card.file = [card.cardContents]
         card.cardContents = None
 
+    # if there is no card OR a sole fole --file option
     return card
 
 # parse cards, card's deck and type in the input.
@@ -227,7 +231,10 @@ def parse_card(card_candidate):
 
     for card in card_candidate:
 
+        # print a current card.
+        print(card.cardContents, end='\r')
         card = cardcontentsHandle(card)
+
         if card.file:
             print(card.file, file=sys.stdout)
 
