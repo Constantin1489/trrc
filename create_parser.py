@@ -255,11 +255,15 @@ def parse_card(card_candidate):
 
                 # if a line has cloze tag, than the line is a cloze type.
                 TYPE = check_cloze_is_mistakely_there(j, card.cardtype)
-                tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
-                                                   TYPE,
-                                                   j,
-                                                   card.column,
-                                                   card.IFS)
+                try:
+                    tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
+                                                       TYPE,
+                                                       j,
+                                                       card.column,
+                                                       card.IFS)
+                except Exception as e:
+                    continue
+
                 AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port)
                 if not card.dryrun:
                     ankiadderall.create_card(AnkiConnectInfo,
@@ -272,14 +276,17 @@ def parse_card(card_candidate):
                 continue
 
 
-            tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
-                                               TYPE,
-                                               card.cardContents,
-                                               card.column,
-                                               card.IFS)
             TYPE = check_cloze_is_mistakely_there(card.cardContents,
                                                   card.cardtype)
 
+            try:
+                tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
+                                                   TYPE,
+                                                   card.cardContents,
+                                                   card.column,
+                                                   card.IFS)
+            except Exception as e:
+                continue
 
             AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port)
             if not card.dryrun:
