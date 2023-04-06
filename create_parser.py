@@ -146,8 +146,8 @@ def parse_argument():
             main_logger.debug('not sys.stdin.isatty')
             card_candidate = []
             for card in sys.stdin.readlines():
-                some = [card.rstrip('\n')] + sys.argv[1:]
-                card_candidate.append(parser.parse_args(some))
+                parsed_a_line = parser.parse_args([card.rstrip('\n')] + sys.argv[1:])
+                card_candidate.append(parsed_a_line)
 
             return card_candidate
 
