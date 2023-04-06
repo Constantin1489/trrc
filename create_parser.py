@@ -262,7 +262,8 @@ def parse_card(card_candidate):
                                                    card.IFS)
                 AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port)
                 if not card.dryrun:
-                    ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
+                    ankiadderall.create_card(AnkiConnectInfo,
+                                             tempCardObject)
 
 
         else:
@@ -270,13 +271,15 @@ def parse_card(card_candidate):
                 main_logger.debug(f'no card or a empty line')
                 continue
 
-            TYPE = check_cloze_is_mistakely_there(card.cardContents, card.cardtype)
 
             tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
                                                TYPE,
                                                card.cardContents,
                                                card.column,
                                                card.IFS)
+            TYPE = check_cloze_is_mistakely_there(card.cardContents,
+                                                  card.cardtype)
+
 
             AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port)
             if not card.dryrun:
