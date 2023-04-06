@@ -194,7 +194,11 @@ class card:
         card: tuple[self.content: dict[str, str], self.tag: list[str]]
         """
 
-        card: tuple = self.__check_notetype(notetype, splited_card_list, column)
+        try:
+            card: tuple = self.__check_notetype(notetype, splited_card_list, column)
+        except Exception as e:
+            print('ERROR', e)
+
         return card
 
 # TODO: put AnkiConnectURL in argument
