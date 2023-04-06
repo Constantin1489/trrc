@@ -2,8 +2,9 @@ import sys
 import re
 import os
 # insert custom module path to the end of the PATH
-sys.path.append('/Users/constantinhong/TODO/ankiadderall')
-import ankiadderall
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import ankiadderall.ankiadderall as ankiadderall
 import argparse
 
 userAnkico = ankiadderall.userAnkiConnect('asdfasdf', 132)
