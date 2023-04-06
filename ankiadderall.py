@@ -49,7 +49,7 @@ class card:
         """
         no deck and notetype. because cardlist has deck and notetype.
         """
-        # TODO : argparse IFS
+
         self.deck: str = deck
         self.notetype: str = notetype
 
@@ -65,9 +65,6 @@ class card:
         main_logger.debug(f'investigate {self.content=}: {type(self.content)=}')
         main_logger.debug(f'investigate {self.tag=}: {type(self.tag)=}')
         #self.content: dict[str, str], self.tag: list[str] = self.make_card(self.deck, self.notetype, self.card_contents_list)
-        self.card: tuple[dict[str], list[str]] = self.content, self.tag
-        main_logger.debug(f'investigate {self.card=}: {type(self.card)=}')
-        #self.card: tuple[dict[str,str], list[str]] = self.content, self.tag
 
     def __check_notetype(self, notetype, card_contents_list: list[str], column: list[str]):
         """ 
