@@ -18,25 +18,11 @@ Check list
 2. Currently AnkiServer is not supported.
 3. ip and port config
 4. Does your serverside allow port?
-class userAnkiConnect:
-    """
-    A class for an AnkiConnect user configure .
     """
 
-    def __init__(self, webBindAddress='localhost', webBindPort=8765):
-        """
-        A class used to represent an AnkiConnect Configure
+def userAnkiConnect(webBindAddress='localhost', webBindPort=8765):
 
-        webBindAddress: str 
-            a webBindAddress in your AnkiConnect confirue.
-        webBindPort: int
-            a webBindPort in your AnkiConnect confirue.
-        """
-
-        self._webBindAddress = webBindAddress
-        self._webBindPort = webBindPort
-
-    def webBindAddressHandle(self, webBindAddress):
+    def webBindAddressHandle(webBindAddress):
         """
         Return string pattern
         if there is http:// or https://, r'{Address}:{Port}'
@@ -48,11 +34,12 @@ class userAnkiConnect:
         else:
             return r"http://{Address}:{Port}"
 
-    def get_AnkiConnect_URL(self):
-        urlPattern = self.webBindAddressHandle(self._webBindAddress)
-        # logging urlPattern
-        return urlPattern.format(Address=self._webBindAddress, Port=self._webBindPort)
+    def get_AnkiConnect_URL(webBindAddress, webBindPort):
+        urlPattern = webBindAddressHandle(webBindAddress)
+        return urlPattern.format(Address=webBindAddress, Port=webBindPort)
         
+    return get_AnkiConnect_URL(webBindAddress, webBindPort)
+
 class card:
     """
     A class for card object
