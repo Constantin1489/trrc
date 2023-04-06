@@ -280,8 +280,7 @@ def parse_card(card_candidate):
                                                card.column,
                                                card.IFS)
 
-            AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port).get_AnkiConnect_URL()
-            # TODO: dryrun
+            AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port)
             if not card.dryrun:
                 ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
             main_logger.debug(f'result: {vars(tempCardObject)=}')
