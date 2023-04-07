@@ -196,7 +196,7 @@ class card:
         return card
 
 # TODO: put AnkiConnectURL in argument
-def create_card(AnkiConnect_URL, card):
+def create_cardjson(AnkiConnect_URL, card):
     """
     send a json card to a AnkiConnect to create a card.
     card: Type[ankiadderall.card]

@@ -152,8 +152,8 @@ def parse_card(card_candidates):
                     continue
 
                 if candidate.dryrun is not True:
-                    ankiadderall.create_card(AnkiConnectInfo,
-                                             tempCardObject)
+                    ankiadderall.create_cardjson(AnkiConnectInfo,
+                                                 tempCardObject)
 
 
         else:
@@ -178,7 +178,8 @@ def parse_card(card_candidates):
                 continue
 
             if candidate.dryrun is not True:
-                ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
+                ankiadderall.create_cardjson(AnkiConnectInfo,
+                                             tempCardObject)
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     """TODO: Docstring for check_cloze_is_mistakely_there.
