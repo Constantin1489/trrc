@@ -66,7 +66,7 @@ class card:
         main_logger.debug(f'card object: {self.content=}: {type(self.content)=}')
         main_logger.debug(f'card object: {self.tag=}: {type(self.tag)=}')
 
-    def __check_notetype(self, notetype, splited_card_list: list[str], column: list[str]):
+    def _check_notetype(self, notetype, splited_card_list: list[str], column: list[str]):
         """ 
         return card content variables per notetype.
         """
@@ -87,8 +87,8 @@ class card:
             # tag does not need to be splited
             # TODO : def function
             # suggestion : len(list) condition
-            tag = self.__is_tag(back, splited_card_list[-1])
-            tag = self.__is_Notag(tag)
+            tag = self._is_tag(back, splited_card_list[-1])
+            tag = self._is_Notag(tag)
 
             # is it good idea? obj: json
             return { 'front' : front, 'back' : back }, tag
@@ -97,14 +97,14 @@ class card:
         # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error 
         if column is None and notetype in ['cloze', 'Cloze']:
             main_logger.debug('cloze is on')
-            Text = self.__cloze_contain_cloze_tag(splited_card_list[0])
+            Text = self._cloze_contain_cloze_tag(splited_card_list[0])
             # suggestion : len(list) condition
             try:
                 Extra = splited_card_list[1]
             except IndexError:
                 Extra = ''
 
-            # TODO: if len(splited_card_list) == 1, __is_tag's parameter is inapropriate.
+            # TODO: if len(splited_card_list) == 1, _is_tag's parameter is inapropriate.
             # in this case, tag will be Text.
             # in this case, parameter should be Text, splited_card_list[-1] 
 
@@ -112,15 +112,15 @@ class card:
             if Text != splited_card_list[-1]:
             # if a record has only Text, then list[-1] is the Text. This cause
             #an error. 
-                tag = self.__is_tag(Extra, splited_card_list[-1])
+                tag = self._is_tag(Extra, splited_card_list[-1])
 
-            tag = self.__is_Notag(tag)
+            tag = self._is_Notag(tag)
 
             return { 'Text' : Text, 'Extra' : Extra }, tag
 
         if column is not None:
             main_logger.debug('column is on')
-            merged_contents: dict = self.__merge_splited_card_list_W_column(column, splited_card_list)
+            merged_contents: dict = self._merge_splited_card_list_W_column(column, splited_card_list)
             if ('tag' or 'tags') not in column:
                 return merged_contents, ['']
 
@@ -134,22 +134,22 @@ class card:
 
             return merged_contents, tag
         
-        print(bcolors.FAIL + bcolors.BOLD + "ERROR: 'def __check_notetype' No predefined notetype is here", bcolors.ENDC, file=sys.stderr)
+        print(bcolors.FAIL + bcolors.BOLD + "ERROR: 'def _check_notetype' No predefined notetype is here", bcolors.ENDC, file=sys.stderr)
         print(bcolors.BOLD + "suggestion: use --type and --column option." + bcolors.ENDC, file=sys.stderr)
 
-    def __merge_splited_card_list_W_column(self, column: list, card_contents_list: list):
+    def _merge_splited_card_list_W_column(self, column: list, card_contents_list: list):
 
         if len(column) >= len(card_contents_list):
             return dict(zip(column, card_contents_list))
         raise Exception('column is smaller than actual contents of a card')
 
-    def __is_Notag(self, tag):
+    def _is_Notag(self, tag):
         if isinstance(tag, type(None)):
             return ''
         else:
             return tag
 
-    def __is_tag(self, last_item_except_tag, tag_item):
+    def _is_tag(self, last_item_except_tag, tag_item):
         """
         last card item can not be tag item.
         therefore, if they are the same, there is no tag.
@@ -169,7 +169,7 @@ class card:
         if last_item_except_tag != tag_item:
             return tag_item.split(' ')
 
-    def __cloze_contain_cloze_tag(self, clozeContent):
+    def _cloze_contain_cloze_tag(self, clozeContent):
         """
         check whether Text contains cloze tag. if not, report and skip.
         """
@@ -189,7 +189,7 @@ class card:
         """
 
         try:
-            card: tuple = self.__check_notetype(notetype, splited_card_list, column)
+            card: tuple = self._check_notetype(notetype, splited_card_list, column)
         except Exception as e:
             print('ERROR', e)
 
