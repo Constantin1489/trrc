@@ -112,19 +112,20 @@ def cardcontentsHandle(card):
     return card
 
 # parse cards, card's deck and type in the input.
-def parse_card(card_candidate):
+def parse_card(card_candidates):
 
-    for card in card_candidate:
+    for candidate in card_candidates:
 
         # print a current card.
-        print(card.cardContents, end='\r')
-        card = cardcontentsHandle(card)
-
-        if card.file:
-            print(card.file, file=sys.stdout)
+        print(candidate.cardContents, end='\r')
+        candidate = cardcontentsHandle(candidate)
+        AnkiConnectInfo = ankiadderall.userAnkiConnect(candidate.ip,
+                                                       candidate.port)
+        if candidate.file:
+            print(candidate.file, file=sys.stdout)
 
             lines = []
-            for afile in card.file:
+            for afile in candidate.file:
                 with open(afile) as f:
                     lines += f.read().splitlines()
 
@@ -139,46 +140,44 @@ def parse_card(card_candidate):
                     continue
 
                 # if a line has cloze tag, than the line is a cloze type.
-                TYPE = check_cloze_is_mistakely_there(j, card.cardtype)
+                TYPE = check_cloze_is_mistakely_there(j, candidate.cardtype)
                 try:
-                    tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
+                    tempCardObject = ankiadderall.card(get_proper_deck(candidate.deck),
                                                        TYPE,
                                                        j,
-                                                       card.column,
-                                                       card.IFS)
+                                                       candidate.column,
+                                                       candidate.IFS)
                 except Exception as e:
                     print('failed: ' + card.cardContents)
                     continue
 
-                AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port)
-                if not card.dryrun:
+                if candidate.dryrun is not True:
                     ankiadderall.create_card(AnkiConnectInfo,
                                              tempCardObject)
 
 
         else:
-            if not card.cardContents:
+            if not candidate.cardContents:
                 main_logger.debug(f'no card or a empty line')
                 continue
 
             main_logger.debug("It's not a file")
 
-            TYPE = check_cloze_is_mistakely_there(card.cardContents,
-                                                  card.cardtype)
+            TYPE = check_cloze_is_mistakely_there(candidate.cardContents,
+                                                  candidate.cardtype)
 
             try:
-                tempCardObject = ankiadderall.card(get_proper_deck(card.deck),
+                tempCardObject = ankiadderall.card(get_proper_deck(candidate.deck),
                                                    TYPE,
-                                                   card.cardContents,
-                                                   card.column,
-                                                   card.IFS)
+                                                   candidate.cardContents,
+                                                   candidate.column,
+                                                   candidate.IFS)
             except Exception as e:
                 print(f'failed: {card.cardContents}')
                 print(e, file=sys.stderr)
                 continue
 
-            AnkiConnectInfo = ankiadderall.userAnkiConnect(card.ip, card.port)
-            if not card.dryrun:
+            if candidate.dryrun is not True:
                 ankiadderall.create_card(AnkiConnectInfo, tempCardObject)
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
