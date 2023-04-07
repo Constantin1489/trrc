@@ -4,9 +4,6 @@ import re
 import os
 from create_parser import parse_argument, parse_card
 
-def makeParser():
-    pass
-
 def main():
 
     card_candidate: List[parser] = parse_argument()
