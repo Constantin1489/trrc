@@ -148,7 +148,7 @@ def parse_card(card_candidates):
                                                        candidate.column,
                                                        candidate.IFS)
                 except Exception as e:
-                    print('failed: ' + card.cardContents)
+                    print('failed: ' + candidate.cardContents)
                     continue
 
                 if candidate.dryrun is not True:
@@ -173,7 +173,7 @@ def parse_card(card_candidates):
                                                    candidate.column,
                                                    candidate.IFS)
             except Exception as e:
-                print(f'failed: {card.cardContents}')
+                print(f'failed: {candidate.cardContents}')
                 print(e, file=sys.stderr)
                 continue
 
