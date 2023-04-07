@@ -80,7 +80,7 @@ class card:
 
             # if splited_card_list[1] doesn't exist, then return None.
             except IndexError:
-                main_logger.debug(f'index error: {splited_card_list=}\n{type(splited_card_list)=}')
+                main_logger.debug(f'index error: {splited_card_list=}: {type(splited_card_list)=}')
                 #return None
                 raise Exception('TEMP raise!!!!!!!!')
 
