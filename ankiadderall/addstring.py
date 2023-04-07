@@ -2,7 +2,8 @@
 import sys
 import re
 import os
-from create_parser import parse_argument, parse_card
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from ankiadderall.create_parser import parse_argument, parse_card
 
 def main():
 
