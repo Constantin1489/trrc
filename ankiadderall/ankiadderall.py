@@ -217,5 +217,3 @@ class card:
                                     "modelName": self.notetype,
                                     "fields": self.content,
                                     "tags": self.tag } } }
-
-    #main_logger.debug(f'{CARD_JSON=}\n{type(CARD_JSON)=}')
