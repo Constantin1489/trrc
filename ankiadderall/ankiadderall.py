@@ -66,6 +66,8 @@ class card:
         main_logger.debug(f'card object: {self.content=}: {type(self.content)=}')
         main_logger.debug(f'card object: {self.tag=}: {type(self.tag)=}')
 
+        self.json = self.create_cardjson()
+
     def _check_notetype(self, notetype, splited_card_list: list[str], column: list[str]):
         """ 
         return card content variables per notetype.
@@ -196,32 +198,24 @@ class card:
         return card
 
 # TODO: put AnkiConnectURL in argument
-def create_cardjson(AnkiConnect_URL, card):
-    """
-    send a json card to a AnkiConnect to create a card.
-    card: Type[ankiadderall.card]
-    card.deck: str
-    card.notetype: str
-    card.tag: list[str]
-    card.content: dict[str: str]
-    """
+    def create_cardjson(self):
+        """
+        send a json card to a AnkiConnect to create a card.
+        card: Type[ankiadderall.card]
+        card.deck: str
+        card.notetype: str
+        card.tag: list[str]
+        card.content: dict[str: str]
+        """
 
 
-    # TODO: what the fuck is [ *card.tag ]
-    #main_logger.debug(f'investigate {card.notetype=}: {type(card.notetype)=}')
-    CARD_JSON: dict = { "action": "addNote",
-                       "version": 6,
-                       "params": { "note": { "deckName": card.deck,
-                                            "modelName": card.notetype,
-                                            "fields": card.content,
-                                            "tags": card.tag } } }
+        # TODO: what the fuck is [ *card.tag ]
+        #main_logger.debug(f'investigate {card.notetype=}: {type(card.notetype)=}')
+        return { "action": "addNote",
+               "version": 6,
+               "params": { "note": { "deckName": self.deck,
+                                    "modelName": self.notetype,
+                                    "fields": self.content,
+                                    "tags": self.tag } } }
 
-    main_logger.debug(f'investigate {CARD_JSON=}: {type(CARD_JSON)=}')
     #main_logger.debug(f'{CARD_JSON=}\n{type(CARD_JSON)=}')
-    try:
-        r = requests.post(AnkiConnect_URL, json=CARD_JSON)
-        print(f'{r}: {card.content}')
-
-    except:
-        # TODO : return the whole line
-        main_logger.debug(bcolors.FAIL +bcolors.BOLD + ErrorMessages.network + bcolors.ENDC)
