@@ -28,7 +28,7 @@ def parse_argument():
             logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
         if sys.stdin.isatty() is False:
-            main_logger.debug('not sys.stdin.isatty')
+            main_logger.debug('not sys.stdin.isatty. Pipe redirection')
             card_candidate = []
             for card in sys.stdin.readlines():
                 parsed_a_line = parser.parse_args([card.rstrip('\n')] + sys.argv[1:])
