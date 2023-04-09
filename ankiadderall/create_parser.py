@@ -1,9 +1,11 @@
 import argparse
 import sys
+import requests
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import re
 import ankiadderall.ankiadderall as ankiadderall
+from ankiadderall.ankiadderall import bcolors, ErrorMessages
 from ankiadderall.parserOpts import create_parser
 import logging
 main_logger = logging.getLogger(__name__)
