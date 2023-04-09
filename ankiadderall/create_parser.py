@@ -142,21 +142,7 @@ def parse_card(card_candidates):
                     continue
 
                 # if a line has cloze tag, than the line is a cloze type.
-                TYPE = check_cloze_is_mistakely_there(j, candidate.cardtype)
-                try:
-                    tempCardObject = ankiadderall.card(get_proper_deck(candidate.deck),
-                                                       TYPE,
-                                                       j,
-                                                       candidate.column,
-                                                       candidate.IFS)
-                except Exception as e:
-                    print('failed: ' + candidate.cardContents)
-                    continue
-
-                if candidate.dryrun is not True:
-                    ankiadderall.create_cardjson(AnkiConnectInfo,
-                                                 tempCardObject)
-
+                process_card(j, candidate, AnkiConnectInfo)
 
         else:
             if not candidate.cardContents:
@@ -165,23 +151,39 @@ def parse_card(card_candidates):
 
             main_logger.debug("It's not a file")
 
-            TYPE = check_cloze_is_mistakely_there(candidate.cardContents,
-                                                  candidate.cardtype)
-
             try:
-                tempCardObject = ankiadderall.card(get_proper_deck(candidate.deck),
-                                                   TYPE,
-                                                   candidate.cardContents,
-                                                   candidate.column,
-                                                   candidate.IFS)
-            except Exception as e:
-                print(f'failed: {candidate.cardContents}')
-                print(e, file=sys.stderr)
+                process_card(candidate.cardContents, candidate, AnkiConnectInfo)
+            except:
                 continue
 
-            if candidate.dryrun is not True:
-                ankiadderall.create_cardjson(AnkiConnectInfo,
-                                             tempCardObject)
+def process_card(cardcontents, candidate, AnkiConnectInfo):
+    # if a line has cloze tag, than the line is a cloze type.
+    TYPE = check_cloze_is_mistakely_there(cardcontents, candidate.cardtype)
+    try:
+        tempCardObject = ankiadderall.card(get_proper_deck(candidate.deck),
+                                           TYPE,
+                                           cardcontents,
+                                           candidate.column,
+                                           candidate.IFS)
+    except Exception as e:
+        print('failed: ' + cardcontents)
+
+    send_card_AnkiConnect(AnkiConnectInfo, tempCardObject.json, candidate.dryrun)
+
+def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun):
+
+    print(f'#################{CARD_JSON}', end='\r' )
+
+    if dryrun is not True:
+        try:
+            r = requests.post(AnkiConnectInfo, json=CARD_JSON)
+            print(f'{r}: {CARD_JSON}')
+
+        except:
+            main_logger.debug(bcolors.FAIL +bcolors.BOLD + ErrorMessages.network + bcolors.ENDC)
+    else:
+        print('')
+
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     """TODO: Docstring for check_cloze_is_mistakely_there.
