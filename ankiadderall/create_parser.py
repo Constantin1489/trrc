@@ -176,7 +176,7 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun):
 
     if dryrun is not True:
         try:
-            r = requests.post(AnkiConnectInfo, json=CARD_JSON)
+            r = requests.post(AnkiConnectInfo, json=CARD_JSON, timeout=(1,1))
             print(f'{r}: {CARD_JSON}')
             print(r.status_code)
             print(r.text.strip('{}').split(', '))
