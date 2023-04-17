@@ -178,6 +178,9 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun):
         try:
             r = requests.post(AnkiConnectInfo, json=CARD_JSON)
             print(f'{r}: {CARD_JSON}')
+            print(r.status_code)
+            print(r.text.strip('{}').split(', '))
+            print(type(r.text))
 
         except:
             main_logger.debug(bcolors.FAIL +bcolors.BOLD + ErrorMessages.network + bcolors.ENDC)
