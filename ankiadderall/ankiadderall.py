@@ -13,8 +13,8 @@ class ErrorMessages:
     network = f"""
 Sending a card to AnkiConnect is failed.
 Check list
-0. Is your AnkiConnect plugin installed in your Anki?
-1. Is your Anki running now? your Anki must be running to use AnkiConnect.
+0. Is your Anki running now? your Anki must be running to use AnkiConnect.
+1. Is your AnkiConnect plugin installed in your Anki application and enabled?
 2. Currently AnkiServer is not supported.
 3. ip and port config
 4. Does your serverside allow port?
