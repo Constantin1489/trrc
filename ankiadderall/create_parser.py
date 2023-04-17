@@ -183,7 +183,10 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun):
             print(type(r.text))
 
         except:
-            main_logger.debug(bcolors.FAIL +bcolors.BOLD + ErrorMessages.network + bcolors.ENDC)
+            # debug: critical
+            print(bcolors.FAIL +bcolors.BOLD + ErrorMessages.network + bcolors.ENDC, file=sys.stderr)
+            exit(4)
+
     else:
         # close carriage return
         print('')
