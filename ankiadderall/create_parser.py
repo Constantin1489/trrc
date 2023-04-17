@@ -22,8 +22,8 @@ def parse_argument():
             logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
         main_logger.debug('sys.stdin.isatty')
-        card_candidate: List[parser] = [parser.parse_args(sys.argv[1:])]
-        return card_candidate
+        card_candidates: List[parser] = [parser.parse_args(sys.argv[1:])]
+        return card_candidates
 
     else:
         if '--debug' in sys.argv[1:]:
@@ -31,12 +31,12 @@ def parse_argument():
 
         if sys.stdin.isatty() is False:
             main_logger.debug('not sys.stdin.isatty. Pipe redirection')
-            card_candidate = []
+            card_candidates = []
             for card in sys.stdin.readlines():
                 parsed_a_line = parser.parse_args([card.rstrip('\n')] + sys.argv[1:])
-                card_candidate.append(parsed_a_line)
+                card_candidates.append(parsed_a_line)
 
-            return card_candidate
+            return card_candidates
 
         else:
             parser.print_help()
