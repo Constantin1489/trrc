@@ -33,3 +33,6 @@ echo "test 10: cat cloze test"
 cat test_cloze.txt | ../ankiadderall/addstring.py
 echo "test 11: empty lines"
 cat various_empty_lines.txt | ../ankiadderall/addstring.py
+echo "test 12: column option"
+../ankiadderall/addstring.py --column 'back:front:tag' $'back\t20testfront\tvim' --debug
+../ankiadderall/addstring.py --column 'back:front:tag' $'{{c1::back}}\t21testfront\tvim' --debug
