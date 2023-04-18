@@ -172,25 +172,31 @@ def process_card(cardcontents, candidate, AnkiConnectInfo):
 
 def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun):
 
-    print(f'#################{CARD_JSON}', end='\r' )
+    print(f'{CARD_JSON}', end='\r' )
 
     if dryrun is not True:
         try:
-            r = requests.post(AnkiConnectInfo, json=CARD_JSON, timeout=(1,1))
-            print(f'{r}: {CARD_JSON}')
-            print(r.status_code)
-            print(r.text.strip('{}').split(', '))
-            print(type(r.text))
+            response = requests.post(AnkiConnectInfo, json=CARD_JSON, timeout=(1,1))
+            print('')
+            check_response(response.text)
 
         except:
-            # debug: critical
-            print(bcolors.FAIL +bcolors.BOLD + ErrorMessages.network + bcolors.ENDC, file=sys.stderr)
+        # if the requests statements failed, then alert.
+            print(bcolors.FAIL + bcolors.BOLD + ErrorMessages.network + bcolors.ENDC, file=sys.stderr)
             exit(4)
 
     else:
         # close carriage return
         print('')
 
+def check_response(responsetext):
+    """
+    Parse response text to debug if the AnkiConnect doesn't add the card.
+    """
+
+    match_result = re.match('^{"result": (.*), "error": (.*)}', responsetext)
+    if match_result.group(1) == 'null':
+        print(bcolors.FAIL + bcolors.BOLD + match_result.group(2) + bcolors.ENDC, file=sys.stderr)
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     """TODO: Docstring for check_cloze_is_mistakely_there.
