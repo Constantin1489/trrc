@@ -1,2 +1,2 @@
-5basic_type_front_cat1	basic_type_back	basic_type_tag
-6basic_type_front_cat2	basic_type_back	basic_type_tag
+5basic_type_front_cat1	basic_type_back	test
+6basic_type_front_cat2	basic_type_back	test

@@ -16,7 +16,7 @@ echo "test 4-3"
 cat test_card_strings-empty2.txt | ../ankiadderall/addstring.py --debug
 echo "test 4-4"
 ../ankiadderall/addstring.py --debug test_card_strings2.txt
-echo "test 4-5"
+echo "test 4-5: duplicate of the test 4-4"
 ../ankiadderall/addstring.py -f test_card_strings2.txt
 echo "test 5"
 ../ankiadderall/addstring.py '11basic_type_front_stdin	basic_type_back	test'
