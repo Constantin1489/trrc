@@ -124,7 +124,7 @@ def parse_card(card_candidates):
         AnkiConnectInfo = ankiadderall.userAnkiConnect(candidate.ip,
                                                        candidate.port)
         if candidate.file:
-            print(candidate.file, file=sys.stdout)
+            main_logger.debug(f'{candidate.file=}')
 
             lines = []
             for afile in candidate.file:
