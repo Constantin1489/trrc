@@ -17,24 +17,32 @@ def parse_argument():
 
     if len(sys.argv) > 1 and sys.stdin.isatty() is True:
 
-        # TODO: logging
-        if '--debug' in sys.argv[1:]:
-            logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
-
-        main_logger.debug('stdin: sys.stdin.isatty')
         card_candidates: List[parser] = [parser.parse_args(sys.argv[1:])]
+        logging.basicConfig(encoding='utf-8', level=get_logging_level(card_candidates[0]))
+        main_logger.debug('stdin: sys.stdin.isatty')
         return card_candidates
 
     else:
-        if '--debug' in sys.argv[1:]:
-            logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
         if sys.stdin.isatty() is False:
-            main_logger.debug('Pipe redirection: not sys.stdin.isatty.')
             card_candidates = []
             for card in sys.stdin.readlines():
                 parsed_a_line = parser.parse_args([card.rstrip('\n')] + sys.argv[1:])
                 card_candidates.append(parsed_a_line)
+
+            try:
+                logging.basicConfig(encoding='utf-8', level=get_logging_level(card_candidates[0]))
+
+            # if a pipe redirection is only an empty line, run exception.
+            except:
+                if '--debug' in sys.argv[1:]:
+                    logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
+                elif ('--verbose' or '-v') in sys.argv[1:]:
+                    logging.basicConfig(encoding='utf-8', level=logging.INFO)
+
+                print(f'no card or a empty line', file=sys.stderr)
+
+            main_logger.debug('Pipe redirection: not sys.stdin.isatty.')
 
             return card_candidates
 
@@ -42,6 +50,13 @@ def parse_argument():
             parser.print_help()
             exit(2)
 
+def get_logging_level(parser):
+    if parser.debug:
+        return parser.debug
+    elif parser.verbose:
+        return parser.verbose
+    else:
+        return None
 
 # TODO: import config logic. card's deck & type => variables in bash file  OR export variables OR a temporary variable \
 # => (rc-file =>) hard coded defaults
