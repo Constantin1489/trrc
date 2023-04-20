@@ -114,7 +114,10 @@ def cardcontentsHandle(card):
         card.cardContents = None
 
     else:
-        main_logger.debug(f"No file in card.CardContents")
+        if card.cardContents:
+            main_logger.debug(f"No file in card.CardContents")
+        else:
+            main_logger.debug(f"empty card.CardContents")
 
     # if there is no card OR a sole fole --file option
     return card
@@ -155,7 +158,7 @@ def parse_card(card_candidates):
                 main_logger.debug(f'no card or a empty line')
                 continue
 
-            main_logger.debug("It's not a file")
+            main_logger.debug("--file option off")
 
             try:
                 process_card(candidate.cardContents, candidate, AnkiConnectInfo)
