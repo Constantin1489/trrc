@@ -35,6 +35,7 @@ echo "test 11: empty lines"
 cat various_empty_lines.txt | ../ankiadderall/addstring.py
 echo "test 12: column option"
 ../ankiadderall/addstring.py --column 'back:front:tag' $'back\t20testfront\ttest' --debug
+echo "test 12-1: recognized cloze but improper field."
 ../ankiadderall/addstring.py --column 'back:front:tag' $'{{c1::back}}\t21testfront\ttest' --debug
 echo "test 13: deck doesn't exist"
-../ankiadderall/addstring.py -D 'asfasdf' 'some<br>       bas     test'
+../ankiadderall/addstring.py -D 'asfasdf' 'some<br>	bas	test'
