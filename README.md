@@ -66,10 +66,16 @@ Ankiadderall will interpret `Linux::kickstart Linux::vm` as a list which contain
 
 ## TODO
 
+* [ ] verbose option
+    * [ ] verbose is critical and info.
+    * [ ] if (verbose and debug), debug overwrites verbose. or other algo
+        * [ ] if debug:; elif verbose:; else; return None
+
 * [ ] add reliable and insightful pytests
 * [ ] config file option
 * [ ] HTML interpret on-off mode.
     * [ ] \<br\> &lt, &gt & HTML on <-> HTML off and `\n`
+        * [ ] First, change every HTML tags to &gt &lt. then change \n to <br>
     * [ ] should it be a HTML off mode a default?
 * [ ] Embedding modules: allow ankiadderall as a module to use in python script.
 * [ ] Error message: file doesn't exist. (if stdin file without option, then ...)
