@@ -13,12 +13,11 @@ class ErrorMessages:
     network = f"""
 Sending a card to AnkiConnect is failed.
 Check list
-0. Is your Anki running now? your Anki must be running to use AnkiConnect.
-1. Is your AnkiConnect plugin installed in your Anki application and enabled?
-2. Currently AnkiServer is not supported.
-3. ip and port config
+1. Is your Anki running now? your Anki must be running to use AnkiConnect.
+2. Is your AnkiConnect plugin installed in your Anki application and enabled?
+3. Is an ip and port config correct?
 4. Does your serverside allow port?
-    """
+"""
 
 def userAnkiConnect(webBindAddress='localhost', webBindPort=8765):
 
