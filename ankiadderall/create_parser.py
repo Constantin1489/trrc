@@ -21,7 +21,7 @@ def parse_argument():
         if '--debug' in sys.argv[1:]:
             logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
-        main_logger.debug('sys.stdin.isatty')
+        main_logger.debug('stdin: sys.stdin.isatty')
         card_candidates: List[parser] = [parser.parse_args(sys.argv[1:])]
         return card_candidates
 
@@ -30,7 +30,7 @@ def parse_argument():
             logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
 
         if sys.stdin.isatty() is False:
-            main_logger.debug('not sys.stdin.isatty. Pipe redirection')
+            main_logger.debug('Pipe redirection: not sys.stdin.isatty.')
             card_candidates = []
             for card in sys.stdin.readlines():
                 parsed_a_line = parser.parse_args([card.rstrip('\n')] + sys.argv[1:])
@@ -100,7 +100,10 @@ def cardcontentsHandle(card):
     If card.cardContents is a file, then insert it into --file option.
     """
 
+    # if cardContents is a file, not a card contents, then put it in card.file.
     if card.cardContents and os.path.isfile(card.cardContents):
+
+        main_logger.debug(f"{os.path.isfile(card.cardContents)=}")
 
         if card.file :
             card.file.append(card.cardContents)
@@ -109,6 +112,9 @@ def cardcontentsHandle(card):
         else:
             card.file = [card.cardContents]
         card.cardContents = None
+
+    else:
+        main_logger.debug(f"No file in card.CardContents")
 
     # if there is no card OR a sole fole --file option
     return card

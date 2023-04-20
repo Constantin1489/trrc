@@ -82,8 +82,7 @@ class card:
             # if splited_card_list[1] doesn't exist, then return None.
             except IndexError:
                 main_logger.debug(f'index error: {splited_card_list=}: {type(splited_card_list)=}')
-                #return None
-                raise Exception('TEMP raise!!!!!!!!')
+                raise Exception('Basic type must have at least two fields')
 
             # tag does not need to be splited
             # TODO : def function
