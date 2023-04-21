@@ -18,6 +18,9 @@ Check list
 3. Is an ip and port config correct?
 4. Does your serverside allow port?
 """
+    basictype = 'Basic type must have at least two fields'
+    check_notetype = "ERROR: 'def _check_notetype' No predefined notetype is here"
+    type_column_suggestion = "suggestion: use --type and --column option."
 
 def userAnkiConnect(webBindAddress='localhost', webBindPort=8765):
 
@@ -82,7 +85,7 @@ class card:
             # if splited_card_list[1] doesn't exist, then return None.
             except IndexError:
                 main_logger.debug(f'index error: {splited_card_list=}: {type(splited_card_list)=}')
-                raise Exception('Basic type must have at least two fields')
+                raise Exception(ErrorMessages.basictype)
 
             # tag does not need to be splited
             # TODO : def function
@@ -126,16 +129,16 @@ class card:
 
             try:
                 tag: str = merged_contents.pop('tag')
-                tag: list = tag.split(sep=' ')
 
             except:
                 tag: str = merged_contents.pop('tags')
-                tag: list = tag.split(sep=' ')
+
+            tag: list = tag.split(sep=' ')
 
             return merged_contents, tag
         
-        print(bcolors.FAIL + bcolors.BOLD + "ERROR: 'def _check_notetype' No predefined notetype is here", bcolors.ENDC, file=sys.stderr)
-        print(bcolors.BOLD + "suggestion: use --type and --column option." + bcolors.ENDC, file=sys.stderr)
+        print(bcolors.FAIL + bcolors.BOLD + ErrorMessages.check_notetype, bcolors.ENDC, file=sys.stderr)
+        print(bcolors.BOLD + ErrorMessages.type_column_suggestion + bcolors.ENDC, file=sys.stderr)
 
     def _merge_splited_card_list_W_column(self, column: list, card_contents_list: list):
 
