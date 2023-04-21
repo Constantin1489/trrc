@@ -178,7 +178,7 @@ def parse_card(card_candidates):
 
         else:
             if not candidate.cardContents:
-                main_logger.debug(f'no card or a empty line')
+                print(f'no card or a empty line', file=sys.stderr)
                 continue
 
             main_logger.debug("--file option off")
