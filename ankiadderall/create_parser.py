@@ -151,7 +151,7 @@ def parse_card(card_candidates):
     for candidate in card_candidates:
 
         # print a current card.
-        print(candidate.cardContents, end='\r')
+        main_logger.debug(f'string: {candidate.cardContents}')
         candidate = cardcontentsHandle(candidate)
         AnkiConnectInfo = ankiadderall.userAnkiConnect(candidate.ip,
                                                        candidate.port)
@@ -200,6 +200,7 @@ def process_card(cardcontents, candidate, AnkiConnectInfo):
     except Exception as e:
         print('failed: ' + cardcontents)
 
+    main_logger.info(f'{tempCardObject.json}')
     send_card_AnkiConnect(AnkiConnectInfo, tempCardObject.json, candidate.dryrun)
 
 def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun):
