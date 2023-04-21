@@ -144,6 +144,9 @@ def cardcontentsHandle(card):
 
 # parse cards, card's deck and type in the input.
 def parse_card(card_candidates):
+    """
+    Loop card_candidates to create cards.
+    """
 
     for candidate in card_candidates:
 
