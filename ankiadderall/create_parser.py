@@ -197,6 +197,7 @@ def process_card(cardcontents, candidate, AnkiConnectInfo):
                                            cardcontents,
                                            candidate.column,
                                            candidate.IFS)
+
     except Exception as e:
         print('failed: ' + cardcontents)
 
