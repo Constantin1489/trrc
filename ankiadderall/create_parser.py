@@ -202,9 +202,9 @@ def process_card(cardcontents, candidate, AnkiConnectInfo):
         print('failed: ' + cardcontents)
 
     main_logger.info(f'{tempCardObject.json}')
-    send_card_AnkiConnect(AnkiConnectInfo, tempCardObject.json, candidate.dryrun)
+    send_card_AnkiConnect(AnkiConnectInfo, tempCardObject.json, candidate.dryrun, (candidate.verbose or candidate.debug) )
 
-def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun):
+def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun, verboseOrDebug: bool):
 
     print(f'{CARD_JSON}', end='\r' )
 
