@@ -212,7 +212,7 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun, verboseOrDebug: bo
         try:
             response = requests.post(AnkiConnectInfo, json=CARD_JSON, timeout=(1,1))
             print('')
-            check_response(response.text)
+            check_response(response.text, CARD_JSON, verboseOrDebug)
 
         except:
         # if the requests statements failed, then alert.
@@ -223,13 +223,16 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun, verboseOrDebug: bo
         # close carriage return
         print('')
 
-def check_response(responsetext):
+def check_response(responsetext, json, verboseOrDebug):
     """
     Parse response text to debug if the AnkiConnect doesn't add the card.
     """
 
     match_result = re.match('^{"result": (.*), "error": (.*)}', responsetext)
     if match_result.group(1) == 'null':
+
+        if verboseOrDebug is None:
+            print(json, file=sys.stderr)
         print(bcolors.FAIL + bcolors.BOLD + match_result.group(2) + bcolors.ENDC, file=sys.stderr)
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
