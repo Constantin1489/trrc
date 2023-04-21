@@ -206,12 +206,9 @@ def process_card(cardcontents, candidate, AnkiConnectInfo):
 
 def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun, verboseOrDebug: bool):
 
-    print(f'{CARD_JSON}', end='\r' )
-
     if dryrun is not True:
         try:
             response = requests.post(AnkiConnectInfo, json=CARD_JSON, timeout=(1,1))
-            print('')
             check_response(response.text, CARD_JSON, verboseOrDebug)
 
         except:
@@ -220,8 +217,7 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun, verboseOrDebug: bo
             exit(4)
 
     else:
-        # close carriage return
-        print('')
+        pass
 
 def check_response(responsetext, json, verboseOrDebug):
     """
