@@ -50,10 +50,15 @@ def parse_argument():
             parser.print_help()
             exit(2)
 
+# if both debug and verbose options are on, then use debug.
 def get_logging_level(parser):
-    if parser.debug:
+    """
+    This allows users to use both verbose and debug options.
+    """
+
+    if parser.debug is not None:
         return parser.debug
-    elif parser.verbose:
+    elif parser.verbose is not None:
         return parser.verbose
     else:
         return None
