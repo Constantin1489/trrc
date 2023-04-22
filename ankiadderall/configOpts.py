@@ -42,9 +42,12 @@ def read_config(configFile):
     Args:
         configFile: string
     Returns:
+        read_config
 
     """
-    pass
+
+    return parsed_config()
+
 
 def write_config(configparser, configFile):
     """ write config.
