@@ -1,5 +1,27 @@
 import configparser
 
+
+class parsed_config:
+
+    """class for read config
+
+    Other functions retrieve attributes from this class.
+
+    """
+
+    def __init__(self, configparser):
+        """TODO: to be defined. """
+
+        self.deck = configparser.deck
+        self.cardtype = configparser.cardtype
+        self.ip = configparser.ip
+        self.port = configparser.port
+        self.IFS = configparser.IFS
+        self.column = configparser.column
+        self.dryrun = configparser.dryrun
+        self.verbose = configparser.verbose
+        self.debug = configparser.debug
+
 def init_config():
     """config initialization when start the application.
     :returns: TODO
