@@ -33,6 +33,8 @@ def init_config(parsed_argparse):
     return modified_parsed_argparse
 
 
+def compare_config_with_parser(config, parser):
+    pass
 
 def read_config(configFile):
     """read a custome config file
