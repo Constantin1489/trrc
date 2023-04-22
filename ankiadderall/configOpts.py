@@ -22,12 +22,17 @@ class parsed_config:
         self.verbose = configparser.verbose
         self.debug = configparser.debug
 
-def init_config():
+def init_config(parsed_argparse):
     """config initialization when start the application.
-    :returns: TODO
+    :returns: modified_parsed_argparse
 
     """
-    pass
+
+    modified_parsed_argparse = compare_config_with_parser(config, parser)
+
+    return modified_parsed_argparse
+
+
 
 def read_config(configFile):
     """read a custome config file
