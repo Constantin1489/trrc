@@ -7,8 +7,8 @@ from ankiadderall.create_parser import parse_argument, parse_card
 
 def main():
 
-    card_candidate: List[parser] = parse_argument()
-    parse_card(card_candidate)
+    card_candidate, options = parse_argument()
+    parse_card(card_candidate, options)
 
 if __name__ == '__main__' :
     sys.exit(main())

@@ -14,24 +14,24 @@ main_logger = logging.getLogger(__name__)
 def parse_argument():
 
     parser = create_parser()
+    options = parser.parse_args(sys.argv[1:])
 
     if len(sys.argv) > 1 and sys.stdin.isatty() is True:
 
-        card_candidates: List[parser] = [parser.parse_args(sys.argv[1:])]
-        logging.basicConfig(encoding='utf-8', level=get_logging_level(card_candidates[0]))
+        card_candidates = [options.cardContents]
+        logging.basicConfig(encoding='utf-8', level=get_logging_level(options))
         main_logger.debug('stdin: sys.stdin.isatty')
-        return card_candidates
 
     else:
 
         if sys.stdin.isatty() is False:
             card_candidates = []
             for card in sys.stdin.readlines():
-                parsed_a_line = parser.parse_args([card.rstrip('\n')] + sys.argv[1:])
+                parsed_a_line = card.rstrip('\n')
                 card_candidates.append(parsed_a_line)
 
             try:
-                logging.basicConfig(encoding='utf-8', level=get_logging_level(card_candidates[0]))
+                logging.basicConfig(encoding='utf-8', level=get_logging_level(options))
 
             # if a pipe redirection is only an empty line, run exception.
             except:
@@ -44,11 +44,11 @@ def parse_argument():
 
             main_logger.debug('Pipe redirection: not sys.stdin.isatty.')
 
-            return card_candidates
-
         else:
             parser.print_help()
             exit(2)
+
+    return card_candidates, options
 
 # if both debug and verbose options are on, then use debug.
 def get_logging_level(parser):
@@ -115,35 +115,36 @@ def get_proper_cardType(argparse_cardType=None):
     main_logger.debug(f"type is 'Basic'")
     return 'Basic'
 
-def cardcontentsHandle(card):
+def cardcontentsHandle(card, options):
     """
     If card.cardContents is a file, then insert it into --file option.
     """
 
     # if cardContents is a file, not a card contents, then put it in card.file.
-    if card.cardContents and os.path.isfile(card.cardContents):
+    if card and os.path.isfile(card):
 
-        main_logger.debug(f"{os.path.isfile(card.cardContents)=}")
+        main_logger.debug(f"{os.path.isfile(card)=}")
 
-        if card.file :
-            card.file.append(card.cardContents)
+        if options.file :
+            options.file.append(card)
 
         # If card.file is None, then insert the list to --file option.
         else:
-            card.file = [card.cardContents]
-        card.cardContents = None
+            options.file = [card]
+        card = None
 
     else:
-        if card.cardContents:
-            main_logger.debug(f"No file in card.CardContents")
+        if card:
+            main_logger.debug(f"No file in card")
         else:
-            main_logger.debug(f"empty card.CardContents")
+            main_logger.debug(f"empty card")
 
     # if there is no card OR a sole fole --file option
     return card
 
 # parse cards, card's deck and type in the input.
-def parse_card(card_candidates):
+# TODO
+def parse_card(card_candidates, options):
     """
     Loop card_candidates to create cards.
     """
@@ -151,15 +152,15 @@ def parse_card(card_candidates):
     for candidate in card_candidates:
 
         # print a current card.
-        main_logger.debug(f'string: {candidate.cardContents}')
-        candidate = cardcontentsHandle(candidate)
-        AnkiConnectInfo = ankiadderall.userAnkiConnect(candidate.ip,
-                                                       candidate.port)
-        if candidate.file:
-            main_logger.debug(f'{candidate.file=}')
+        main_logger.debug(f'string: {candidate}')
+        candidate = cardcontentsHandle(candidate, options)
+        AnkiConnectInfo = ankiadderall.userAnkiConnect(options.ip,
+                                                       options.port)
+        if options.file:
+            main_logger.debug(f'{options.file=}')
 
             lines = []
-            for afile in candidate.file:
+            for afile in options.file:
                 with open(afile) as f:
                     lines += f.read().splitlines()
 
@@ -174,35 +175,36 @@ def parse_card(card_candidates):
                     continue
 
                 # if a line has cloze tag, than the line is a cloze type.
-                process_card(j, candidate, AnkiConnectInfo)
+                process_card(j, options, AnkiConnectInfo)
 
         else:
-            if not candidate.cardContents:
+            if not candidate:
                 print(f'no card or a empty line', file=sys.stderr)
                 continue
 
             main_logger.debug("--file option off")
 
             try:
-                process_card(candidate.cardContents, candidate, AnkiConnectInfo)
+                process_card(candidate, options, AnkiConnectInfo)
             except:
                 continue
 
-def process_card(cardcontents, candidate, AnkiConnectInfo):
+def process_card(cardcontents, options, AnkiConnectInfo):
+
     # if a line has cloze tag, than the line is a cloze type.
-    TYPE = check_cloze_is_mistakely_there(cardcontents, candidate.cardtype)
+    TYPE = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
     try:
-        tempCardObject = ankiadderall.card(get_proper_deck(candidate.deck),
+        tempCardObject = ankiadderall.card(get_proper_deck(options.deck),
                                            TYPE,
                                            cardcontents,
-                                           candidate.column,
-                                           candidate.IFS)
+                                           options.column,
+                                           options.IFS)
 
     except Exception as e:
         print('failed: ' + cardcontents)
 
     main_logger.info(f'{tempCardObject.json}')
-    send_card_AnkiConnect(AnkiConnectInfo, tempCardObject.json, candidate.dryrun, (candidate.verbose or candidate.debug) )
+    send_card_AnkiConnect(AnkiConnectInfo, tempCardObject.json, options.dryrun, (options.verbose or options.debug))
 
 def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun, verboseOrDebug: bool):
 
@@ -212,7 +214,7 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun, verboseOrDebug: bo
             check_response(response.text, CARD_JSON, verboseOrDebug)
 
         except:
-        # if the requests statements failed, then alert.
+            # if the requests statements failed, then alert.
             print(bcolors.FAIL + bcolors.BOLD + ErrorMessages.network + bcolors.ENDC, file=sys.stderr)
             exit(4)
 
@@ -224,9 +226,11 @@ def check_response(responsetext, json, verboseOrDebug):
     Parse response text to debug if the AnkiConnect doesn't add the card.
     """
 
+    # TODO: rewrite algo
     match_result = re.match('^{"result": (.*), "error": (.*)}', responsetext)
     if match_result.group(1) == 'null':
 
+        # Even if there is no verbose nor debug, print the card where the error occurs
         if verboseOrDebug is None:
             print(json, file=sys.stderr)
         print(bcolors.FAIL + bcolors.BOLD + match_result.group(2) + bcolors.ENDC, file=sys.stderr)
