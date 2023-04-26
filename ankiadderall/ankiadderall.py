@@ -19,6 +19,7 @@ Check list
 4. Does your serverside allow port?
 """
     basictype = 'Basic type must have at least two fields'
+    wrong_field = '"cannot create note because it is empty"'
     check_notetype = "ERROR: 'def _check_notetype' No predefined notetype is here"
     type_column_suggestion = "suggestion: use --type and --column option."
 
