@@ -7,6 +7,8 @@ import re
 import ankiadderall.ankiadderall as ankiadderall
 from ankiadderall.ankiadderall import bcolors, ErrorMessages
 from ankiadderall.parserOpts import create_parser
+from ankiadderall.configOpts import make_toml, parsed_config, read_toml_config, toml_arg_handle
+
 import logging
 main_logger = logging.getLogger(__name__)
 
@@ -14,7 +16,16 @@ main_logger = logging.getLogger(__name__)
 def parse_argument():
 
     parser = create_parser()
-    options = parser.parse_args(sys.argv[1:])
+    options = parsed_config()
+    temp = parser.parse_args(sys.argv[1:])
+    # parse config file
+    parsed_config_options = parsed_config(read_toml_config(temp.config, temp.alias))
+    options.overwrite_config(vars(parsed_config_options), temp.toml_section)
+    options.overwrite_w_argparse_set(vars(temp))
+    
+    # TOML
+    toml_arg_handle(options.toml_generate, options.toml_write, options.toml_section, options)
+
 
     if len(sys.argv) > 1 and sys.stdin.isatty() is True:
 
@@ -27,6 +38,11 @@ def parse_argument():
         if sys.stdin.isatty() is False:
             card_candidates = []
             for card in sys.stdin.readlines():
+
+                # skip comment
+                if card[0] == '#':
+                    continue
+
                 parsed_a_line = card.rstrip('\n')
                 card_candidates.append(parsed_a_line)
 
@@ -72,7 +88,7 @@ def get_proper_deck(argparse_deck=None):
     """
 
     if argparse_deck:
-        main_logger.debug(f'deck is {argparse_deck}')
+        main_logger.debug(f'(argparse) deck is {argparse_deck}')
         return argparse_deck
 
     if 'ANKIADDERALL_DECK' in os.environ.keys():
@@ -98,11 +114,11 @@ def get_proper_cardType(argparse_cardType=None):
     """
 
     if argparse_cardType:
-        main_logger.debug(f'type is {argparse_cardType}')
+        main_logger.debug(f'(argparse) type is {argparse_cardType}')
         return argparse_cardType
 
     if 'ANKIADDERALL_TYPE' in os.environ.keys():
-        main_logger.debug(f"type is {os.environ['ANKIADDERALL_DECK']}")
+        main_logger.debug(f"(osenv) type is {os.environ['ANKIADDERALL_TYPE']}")
         return os.environ['ANKIADDERALL_TYPE']
 
 # TODO: configparse
@@ -170,8 +186,13 @@ def parse_card(card_candidates, options):
 
                 # skipping an empty line.
                 if not j:
-                    print(f'empty line: {j}', file=sys.stdout)
-                    main_logger.debug('skip a line')
+                    print(f'empty line', file=sys.stdout)
+                    main_logger.debug("skip a line because it's empty")
+                    continue
+
+                # skipping comments
+                if j[0] == '#':
+                    main_logger.debug(f'skip a comment line: {j}')
                     continue
 
                 # if a line has cloze tag, than the line is a cloze type.
