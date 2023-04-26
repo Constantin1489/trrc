@@ -92,7 +92,7 @@ def get_proper_deck(argparse_deck=None):
         return argparse_deck
 
     if 'ANKIADDERALL_DECK' in os.environ.keys():
-        main_logger.debug(f"deck is {os.environ['ANKIADDERALL_DECK']}")
+        main_logger.debug(f"(env) deck is {os.environ['ANKIADDERALL_DECK']}")
         return os.environ['ANKIADDERALL_DECK']
 
 # TODO: after configparse option developed, fix stdin_deck
@@ -102,7 +102,7 @@ def get_proper_deck(argparse_deck=None):
 #        return rc_Deck
 
     # return a default deck
-    main_logger.debug(f"deck is 'Default'")
+    main_logger.debug(f"(hard coded) deck is 'Default'")
     return 'Default'
 
 # TODO: import config logic. card's deck & type => variables in bash file  OR export variables OR a temporary variable \
@@ -128,7 +128,7 @@ def get_proper_cardType(argparse_cardType=None):
     # return a default cardType
     # TODO: the default term depends on the language user uses may vary.
     # ex) Korean -> '기본'
-    main_logger.debug(f"type is 'Basic'")
+    main_logger.debug(f"(hard coded) type is 'Basic'")
     return 'Basic'
 
 def cardcontentsHandle(card, options):
