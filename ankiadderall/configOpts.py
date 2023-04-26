@@ -1,4 +1,7 @@
 import configparser
+import sys
+import os
+import tomli_w
 
 
 class parsed_config:
@@ -9,65 +12,76 @@ class parsed_config:
 
     """
 
-    def __init__(self, configparser):
-        """TODO: to be defined. """
-
-        self.deck = configparser.deck
-        self.cardtype = configparser.cardtype
-        self.ip = configparser.ip
-        self.port = configparser.port
-        self.IFS = configparser.IFS
-        self.column = configparser.column
-        self.dryrun = configparser.dryrun
-        self.verbose = configparser.verbose
-        self.debug = configparser.debug
-
-def init_config(parsed_argparse):
-    """config initialization when start the application.
-    :returns: modified_parsed_argparse
-
-    """
-
-    modified_parsed_argparse = compare_config_with_parser(config, parser)
-
-    return modified_parsed_argparse
+    def __init__(self, configparser=None):
+        """Hard coded config"""
 
 
-def compare_config_with_parser(config, parser):
-    pass
+        self.deck = 'Default'
+        self.cardtype = 'Basic'
+        self.ip = '127.0.0.1'
+        self.port = 8765
+        self.IFS = '\t'
+        self.column = None
+        self.file = None
+        self.dryrun = False
+        self.verbose = None
+        self.debug = None
 
-def read_config(configFile):
-    """read a custome config file
+        if configparser:
+            if not isinstance(configparser, dict):
+                configparser = vars(configparser)
+            for k, v in configparser.items():
+                setattr(self, k, v)
 
-    Args:
-        configFile: string
-    Returns:
-        read_config
+    def overwrite_config(self, configparse: dict, section_title):
+        """
+        Overwrites options of a config file with arg parser options
+        """
 
-    """
+        for k, v in make_toml(configparse, section_title)[section_title].items():
+            setattr(self, k, v)
 
-    return parsed_config()
+    def overwrite_w_argparse_set(self, argparse):
+        if configparser:
+            if not isinstance(argparse, dict):
+                argparse = vars(argparse)
+            for k, v in argparse.items():
+                setattr(self, k, v)
+
+def read_toml_config(config_file_name, section='default'):
+    if config_file_name is None:
+        return
 
 
-def write_config(configparser, configFile):
-    """ write config.
-    Args:
-        configparser: 
-        configFile: 
+    config_file_name = '~/.asprc' if not config_file_name else config_file_name
 
-    Returns:
-        None
+    try:
+        with open(config_file_name, "r") as f:
+            from tomlkit import loads
+            toml_load = loads(f.read())
 
-    """
-    pass
+    except:
+        return parsed_config()
 
-def print_config(config):
-    """print config as stdout
+    return parsed_config(toml_load[section])
 
-    Args:
-        config: TODO
-    Returns:
-        TODO
+def make_toml(parsed_arg: dict, section_title='untitled'):
 
-    """
-    pass
+    if not isinstance(parsed_arg, dict):
+        parsed_arg = vars(parsed_arg)
+
+    return {section_title : {k: v for k, v in parsed_arg.items()
+                           if v is not None and k not in {'cardContents', 'alias', 'config', 'toml_generate',
+                                                          'toml_section', 'toml_write'}}}
+
+def toml_arg_handle(Do_print_toml, config_file_name, section_title, parsed_arg):
+    if config_file_name or Do_print_toml:
+        toml = make_toml(parsed_arg, section_title)
+        if Do_print_toml:
+            print(tomli_w.dumps(toml))
+
+        if config_file_name:
+            with open(config_file_name, "wb") as f:
+                tomli_w.dump(toml, f)
+
+        exit(2)
