@@ -18,6 +18,8 @@ def parse_argument():
     parser = create_parser()
     options = parsed_config()
     temp = parser.parse_args(sys.argv[1:])
+    logging.basicConfig(encoding='utf-8', level=get_logging_level(temp))
+
     # parse config file
     parsed_config_options = parsed_config(read_toml_config(temp.config, temp.alias))
     options.overwrite_config(vars(parsed_config_options), temp.toml_section)
@@ -26,16 +28,15 @@ def parse_argument():
     # TOML
     toml_arg_handle(options.toml_generate, options.toml_write, options.toml_section, options)
 
-
     if len(sys.argv) > 1 and sys.stdin.isatty() is True:
 
         card_candidates = [options.cardContents]
-        logging.basicConfig(encoding='utf-8', level=get_logging_level(options))
         main_logger.debug('stdin: sys.stdin.isatty')
 
     else:
 
         if sys.stdin.isatty() is False:
+
             card_candidates = []
             for card in sys.stdin.readlines():
 
@@ -46,15 +47,6 @@ def parse_argument():
                 parsed_a_line = card.rstrip('\n')
                 card_candidates.append(parsed_a_line)
 
-            try:
-                logging.basicConfig(encoding='utf-8', level=get_logging_level(options))
-
-            # if a pipe redirection is only an empty line, run exception.
-            except:
-                if '--debug' in sys.argv[1:]:
-                    logging.basicConfig(encoding='utf-8', level=logging.DEBUG)
-                elif ('--verbose' or '-v') in sys.argv[1:]:
-                    logging.basicConfig(encoding='utf-8', level=logging.INFO)
 
                 print(f'no card or a empty line', file=sys.stderr)
 
