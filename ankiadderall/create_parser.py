@@ -16,15 +16,20 @@ main_logger = logging.getLogger(__name__)
 def parse_argument():
 
     parser = create_parser()
-    options = parsed_config()
+
+    # enable logger here
     temp = parser.parse_args(sys.argv[1:])
     logging.basicConfig(encoding='utf-8', level=get_logging_level(temp))
 
+    # parse hard coded options
+    options = parsed_config(temp)
+
     # parse config file
-    parsed_config_options = parsed_config(read_toml_config(temp.config, temp.alias))
-    options.overwrite_config(vars(parsed_config_options), temp.toml_section)
-    options.overwrite_w_argparse_set(vars(temp))
-    
+    options.overwrite_config(read_toml_config(temp.config, temp.alias))
+
+    # overwrite argparse options
+    options.overwrite_config(vars(temp))
+
     # TOML
     toml_arg_handle(options.toml_generate, options.toml_write, options.toml_section, options)
 
@@ -71,8 +76,6 @@ def get_logging_level(parser):
     else:
         return None
 
-# TODO: import config logic. card's deck & type => variables in bash file  OR export variables OR a temporary variable \
-# => (rc-file =>) hard coded defaults
 def get_proper_deck(argparse_deck=None):
     """
     get a card deck.
@@ -87,18 +90,9 @@ def get_proper_deck(argparse_deck=None):
         main_logger.debug(f"(env) deck is {os.environ['ANKIADDERALL_DECK']}")
         return os.environ['ANKIADDERALL_DECK']
 
-# TODO: after configparse option developed, fix stdin_deck
-# TODO: configparse
-#    if rc_Deck:
-#        main_logger.debug('rc_Deck is on')
-#        return rc_Deck
-
-    # return a default deck
     main_logger.debug(f"(hard coded) deck is 'Default'")
     return 'Default'
 
-# TODO: import config logic. card's deck & type => variables in bash file  OR export variables OR a temporary variable \
-# => (rc-file =>) hard coded defaults
 def get_proper_cardType(argparse_cardType=None):
     """
     get a card type.
@@ -113,11 +107,6 @@ def get_proper_cardType(argparse_cardType=None):
         main_logger.debug(f"(osenv) type is {os.environ['ANKIADDERALL_TYPE']}")
         return os.environ['ANKIADDERALL_TYPE']
 
-# TODO: configparse
-#    if rc_cardType:
-#        return rc_cardType
-
-    # return a default cardType
     # TODO: the default term depends on the language user uses may vary.
     # ex) Korean -> '기본'
     main_logger.debug(f"(hard coded) type is 'Basic'")
@@ -151,7 +140,6 @@ def cardcontentsHandle(card, options):
     return card
 
 # parse cards, card's deck and type in the input.
-# TODO
 def parse_card(card_candidates, options):
     """
     Loop card_candidates to create cards.
