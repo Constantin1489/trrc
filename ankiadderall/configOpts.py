@@ -34,49 +34,52 @@ class parsed_config:
         self.verbose = None
         self.debug = None
 
-        if configparser:
-            if not isinstance(configparser, dict):
-                configparser = vars(configparser)
-            for k, v in configparser.items():
-                setattr(self, k, v)
-
-    def overwrite_config(self, configparse: dict, section_title):
+    # config
+    def overwrite_config(self, configparse: dict, section_title=None):
         """
         Overwrites options of a config file with arg parser options
         """
 
-        for k, v in make_toml(configparse, section_title)[section_title].items():
-            setattr(self, k, v)
+        if section_title is None:
+            if configparse is None:
+                return
+            if not isinstance(configparse, dict):
+                configparse = vars(configparse)
+            for k, v in configparse.items():
+                if v is not None:
+                    setattr(self, k, v)
 
-    def overwrite_w_argparse_set(self, argparse):
-        if configparser:
-            if not isinstance(argparse, dict):
-                argparse = vars(argparse)
-            for k, v in argparse.items():
-                setattr(self, k, v)
+        else:
+            for k, v in make_toml(configparse, section_title)[section_title].items():
+                if v is not None:
+                    setattr(self, k, v)
 
-def read_toml_config(config_file_name, section='default'):
-    if config_file_name is None:
-        return
+    config_file_name = os.path.expanduser('~/.asprc') if not config_file_name \
+                                                        else os.path.expanduser(config_file_name)
 
-
-    config_file_name = '~/.asprc' if not config_file_name else config_file_name
+    if section is None:
+        section = 'default'
 
     try:
         with open(config_file_name, "r") as f:
             from tomlkit import loads
             toml_load = loads(f.read())
 
+    # if there is no ~/.asprc nor config_file_name, then return empty dict.
     except:
-        return parsed_config()
+        return {}
 
-    return parsed_config(toml_load[section])
+    try:
+        return toml_load[section]
+    except:
+        return {}
 
 def make_toml(parsed_arg: dict, section_title='untitled'):
 
     if not isinstance(parsed_arg, dict):
         parsed_arg = vars(parsed_arg)
 
+    # if v has any value
     return {section_title : {k: v for k, v in parsed_arg.items()
                            if v is not None and k not in {'cardContents', 'alias', 'config', 'toml_generate',
                                                           'toml_section', 'toml_write'}}}
