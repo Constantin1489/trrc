@@ -53,7 +53,6 @@ def parse_argument():
                 card_candidates.append(parsed_a_line)
 
 
-                print(f'no card or a empty line', file=sys.stderr)
 
             main_logger.debug('Pipe redirection: not sys.stdin.isatty.')
 
@@ -167,7 +166,6 @@ def parse_card(card_candidates, options):
                 # skipping an empty line.
                 if not j:
                     print(f'empty line', file=sys.stdout)
-                    main_logger.debug("skip a line because it's empty")
                     continue
 
                 # skipping comments
@@ -192,7 +190,6 @@ def parse_card(card_candidates, options):
 
 def process_card(cardcontents, options, AnkiConnectInfo):
 
-    # if a line has cloze tag, than the line is a cloze type.
     TYPE = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
     try:
         tempCardObject = ankiadderall.card(get_proper_deck(options.deck),
@@ -227,11 +224,9 @@ def check_response(responsetext, json, verboseOrDebug):
     Parse response text to debug if the AnkiConnect doesn't add the card.
     """
 
-    # TODO: rewrite algo
     match_result = re.match('^{"result": (.*), "error": (.*)}', responsetext)
     if match_result.group(1) == 'null':
 
-        # Even if there is no verbose nor debug, print the card where the error occurs
         if verboseOrDebug is None:
             print(json, file=sys.stderr)
         print(bcolors.FAIL + bcolors.BOLD + match_result.group(2) + bcolors.ENDC, file=sys.stderr)
