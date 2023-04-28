@@ -54,6 +54,8 @@ class parsed_config:
                 if v is not None:
                     setattr(self, k, v)
 
+def read_toml_config(config_file_name, section):
+
     config_file_name = os.path.expanduser('~/.asprc') if not config_file_name \
                                                         else os.path.expanduser(config_file_name)
 
