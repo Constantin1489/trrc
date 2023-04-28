@@ -145,7 +145,7 @@ class card:
 
         if len(column) >= len(card_contents_list):
             return dict(zip(column, card_contents_list))
-        raise Exception('column is smaller than actual contents of a card')
+        raise Exception('a number of the columns in the option is smaller than actual fields of a card contents')
 
     def _is_Notag(self, tag):
         if isinstance(tag, type(None)):
