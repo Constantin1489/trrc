@@ -2,6 +2,8 @@ import configparser
 import sys
 import os
 import tomli_w
+import logging
+main_logger = logging.getLogger(__name__)
 
 
 class parsed_config:
