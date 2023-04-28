@@ -194,12 +194,12 @@ class card:
 
         try:
             card: tuple = self._check_notetype(notetype, splited_card_list, column)
+
         except Exception as e:
-            print('ERROR', e)
+            print('ERROR', e, file=sys.stderr)
 
         return card
 
-# TODO: put AnkiConnectURL in argument
     def create_cardjson(self):
         """
         send a json card to a AnkiConnect to create a card.
