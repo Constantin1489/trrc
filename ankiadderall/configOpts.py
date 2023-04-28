@@ -14,9 +14,14 @@ class parsed_config:
 
     """
 
-    def __init__(self, configparser=None):
-        """Hard coded config"""
+    def __init__(self, argparse=None):
 
+        # get attributes key from argparse without value
+        if argparse is not None:
+            for k in vars(argparse).keys():
+                setattr(self, k, None)
+
+        # overwrite Hard coded config
 
         self.deck = 'Default'
         self.cardtype = 'Basic'
