@@ -21,14 +21,19 @@ def parse_argument():
     temp = parser.parse_args(sys.argv[1:])
     logging.basicConfig(encoding='utf-8', level=get_logging_level(temp))
 
+    main_logger.debug(f'temp: {vars(temp)=} = {type(vars(temp))=}')
     # parse hard coded options
     options = parsed_config(temp)
+    main_logger.debug(f'hard coded options: {vars(options)=} = {type(vars(options))=}')
 
     # parse config file
+    main_logger.debug(f'$$$$$$$$${read_toml_config(temp.config, temp.alias)=}')
     options.overwrite_config(read_toml_config(temp.config, temp.alias))
 
+    main_logger.debug(f'TOML overwriting: {vars(options)=} = {type(vars(options))=}')
     # overwrite argparse options
     options.overwrite_config(vars(temp))
+    main_logger.debug(f'argument overwriting: {vars(options)=} = {type(vars(options))=}')
 
     # TOML
     toml_arg_handle(options.toml_generate, options.toml_write, options.toml_section, options)
