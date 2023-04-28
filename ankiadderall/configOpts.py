@@ -41,6 +41,8 @@ class parsed_config:
         """
 
         if section_title is None:
+            main_logger.debug(f'{section_title=}')
+            main_logger.debug(f'{configparse=}')
             if configparse is None:
                 return
             if not isinstance(configparse, dict):
@@ -48,6 +50,7 @@ class parsed_config:
             for k, v in configparse.items():
                 if v is not None:
                     setattr(self, k, v)
+            main_logger.debug(f'{section_title=}')
 
         else:
             for k, v in make_toml(configparse, section_title)[section_title].items():
@@ -55,11 +58,14 @@ class parsed_config:
                     setattr(self, k, v)
 
 def read_toml_config(config_file_name, section):
+    main_logger.debug(f'{config_file_name=}')
 
     config_file_name = os.path.expanduser('~/.asprc') if not config_file_name \
                                                         else os.path.expanduser(config_file_name)
+    main_logger.debug(f'{config_file_name=}')
 
     if section is None:
+        main_logger.debug(f'default section')
         section = 'default'
 
     try:
@@ -69,11 +75,14 @@ def read_toml_config(config_file_name, section):
 
     # if there is no ~/.asprc nor config_file_name, then return empty dict.
     except:
+        main_logger.debug(f"can't open {config_file_name}")
         return {}
 
     try:
+        main_logger.debug(f'{toml_load[section]=}')
         return toml_load[section]
     except:
+        main_logger.debug(f"{toml_load} doesn't have {section}")
         return {}
 
 def make_toml(parsed_arg: dict, section_title='untitled'):
