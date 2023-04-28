@@ -1,2 +1,3 @@
 5basic_type_front_cat1	basic_type_back	test
+# comment
 6basic_type_front_cat2	basic_type_back	test
