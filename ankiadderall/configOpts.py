@@ -79,14 +79,24 @@ def make_toml(parsed_arg: dict, section_title='untitled'):
     if not isinstance(parsed_arg, dict):
         parsed_arg = vars(parsed_arg)
 
+                           #if v is not None and
     # if v has any value
     return {section_title : {k: v for k, v in parsed_arg.items()
-                           if v is not None and k not in {'cardContents', 'alias', 'config', 'toml_generate',
-                                                          'toml_section', 'toml_write'}}}
+                             if v and
+                             k not in {'cardContents',
+                                       'alias',
+                                       'config',
+                                       'toml_generate',
+                                       'toml_section',
+                                       'toml_write'}}}
 
 def toml_arg_handle(Do_print_toml, config_file_name, section_title, parsed_arg):
+
     if config_file_name or Do_print_toml:
+        if section_title is None:
+            section_title = 'untitled'
         toml = make_toml(parsed_arg, section_title)
+        #print(f'{toml=}: {type(toml)=}')
         if Do_print_toml:
             print(tomli_w.dumps(toml))
 
