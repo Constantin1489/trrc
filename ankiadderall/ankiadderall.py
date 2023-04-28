@@ -177,7 +177,7 @@ class card:
         """
         check whether Text contains cloze tag. if not, report and skip.
         """
-        # TODO [] : break if failed.
+
         if re.search(r'{{c\d+::.*}}', clozeContent):
             return clozeContent
         else:
@@ -210,9 +210,6 @@ class card:
         card.content: dict[str: str]
         """
 
-
-        # TODO: what the fuck is [ *card.tag ]
-        #main_logger.debug(f'investigate {card.notetype=}: {type(card.notetype)=}')
         return { "action": "addNote",
                "version": 6,
                "params": { "note": { "deckName": self.deck,
