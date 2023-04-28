@@ -29,8 +29,8 @@ def parse_argument():
     # parse config file
     main_logger.debug(f'$$$$$$$$${read_toml_config(temp.config, temp.alias)=}')
     options.overwrite_config(read_toml_config(temp.config, temp.alias))
-
     main_logger.debug(f'TOML overwriting: {vars(options)=} = {type(vars(options))=}')
+
     # overwrite argparse options
     options.overwrite_config(vars(temp))
     main_logger.debug(f'argument overwriting: {vars(options)=} = {type(vars(options))=}')
@@ -56,8 +56,6 @@ def parse_argument():
 
                 parsed_a_line = card.rstrip('\n')
                 card_candidates.append(parsed_a_line)
-
-
 
             main_logger.debug('Pipe redirection: not sys.stdin.isatty.')
 
@@ -156,6 +154,7 @@ def parse_card(card_candidates, options):
         candidate = cardcontentsHandle(candidate, options)
         AnkiConnectInfo = ankiadderall.userAnkiConnect(options.ip,
                                                        options.port)
+
         if options.file:
             main_logger.debug(f'{options.file=}')
 
