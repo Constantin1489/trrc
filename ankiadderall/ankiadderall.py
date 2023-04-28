@@ -40,7 +40,7 @@ def userAnkiConnect(webBindAddress='localhost', webBindPort=8765):
     def get_AnkiConnect_URL(webBindAddress, webBindPort):
         urlPattern = webBindAddressHandle(webBindAddress)
         return urlPattern.format(Address=webBindAddress, Port=webBindPort)
-        
+
     return get_AnkiConnect_URL(webBindAddress, webBindPort)
 
 class card:
@@ -72,7 +72,7 @@ class card:
         self.json = self.create_cardjson()
 
     def _check_notetype(self, notetype, splited_card_list: list[str], column: list[str]):
-        """ 
+        """
         return card content variables per notetype.
         """
 
@@ -98,7 +98,7 @@ class card:
             return { 'front' : front, 'back' : back }, tag
 
         # TODO : import config from outside.
-        # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error 
+        # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error
         if column is None and notetype in ['cloze', 'Cloze']:
             main_logger.debug('cloze is on')
             Text = self._cloze_contain_cloze_tag(splited_card_list[0])
@@ -110,12 +110,12 @@ class card:
 
             # TODO: if len(splited_card_list) == 1, _is_tag's parameter is inapropriate.
             # in this case, tag will be Text.
-            # in this case, parameter should be Text, splited_card_list[-1] 
+            # in this case, parameter should be Text, splited_card_list[-1]
 
             tag = ''
             if Text != splited_card_list[-1]:
             # if a record has only Text, then list[-1] is the Text. This cause
-            #an error. 
+            #an error.
                 tag = self._is_tag(Extra, splited_card_list[-1])
 
             tag = self._is_Notag(tag)
@@ -137,7 +137,7 @@ class card:
             tag: list = tag.split(sep=' ')
 
             return merged_contents, tag
-        
+
         print(bcolors.FAIL + bcolors.BOLD + ErrorMessages.check_notetype, bcolors.ENDC, file=sys.stderr)
         print(bcolors.BOLD + ErrorMessages.type_column_suggestion + bcolors.ENDC, file=sys.stderr)
 
@@ -169,7 +169,7 @@ class card:
         # Last item should not be a tag
         if last_item_except_tag == tag_item:
             return None
-        
+
         if last_item_except_tag != tag_item:
             return tag_item.split(' ')
 
@@ -197,8 +197,6 @@ class card:
 
         except Exception as e:
             print('ERROR', e, file=sys.stderr)
-
-        return card
 
     def create_cardjson(self):
         """
