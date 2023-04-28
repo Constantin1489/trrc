@@ -22,7 +22,6 @@ class parsed_config:
                 setattr(self, k, None)
 
         # overwrite Hard coded config
-
         self.deck = 'Default'
         self.cardtype = 'Basic'
         self.ip = '127.0.0.1'
@@ -34,7 +33,6 @@ class parsed_config:
         self.verbose = None
         self.debug = None
 
-    # config
     def overwrite_config(self, configparse: dict, section_title=None):
         """
         Overwrites options of a config file with arg parser options
@@ -58,6 +56,7 @@ class parsed_config:
                     setattr(self, k, v)
 
 def read_toml_config(config_file_name, section):
+
     main_logger.debug(f'{config_file_name=}')
 
     config_file_name = os.path.expanduser('~/.asprc') if not config_file_name \
@@ -90,7 +89,6 @@ def make_toml(parsed_arg: dict, section_title='untitled'):
     if not isinstance(parsed_arg, dict):
         parsed_arg = vars(parsed_arg)
 
-                           #if v is not None and
     # if v has any value
     return {section_title : {k: v for k, v in parsed_arg.items()
                              if v and
@@ -107,7 +105,7 @@ def toml_arg_handle(Do_print_toml, config_file_name, section_title, parsed_arg):
         if section_title is None:
             section_title = 'untitled'
         toml = make_toml(parsed_arg, section_title)
-        #print(f'{toml=}: {type(toml)=}')
+
         if Do_print_toml:
             print(tomli_w.dumps(toml))
 
