@@ -198,8 +198,9 @@ def process_card(cardcontents, options, AnkiConnectInfo):
                                            options.column,
                                            options.IFS)
 
+
     except Exception as e:
-        print('failed: ' + cardcontents)
+        print('failed: ' + cardcontents, file=sys.stderr)
 
     main_logger.info(f'{tempCardObject.json}')
     send_card_AnkiConnect(AnkiConnectInfo, tempCardObject.json, options.dryrun, (options.verbose or options.debug))
