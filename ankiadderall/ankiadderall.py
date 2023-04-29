@@ -60,15 +60,8 @@ class card:
         main_logger.debug(f'card object: {IFS=}: {type(IFS)=}')
         main_logger.debug(f'card object: {card_str=}: {type(card_str)=}')
         main_logger.debug(f'card object: {card_str.split(sep=IFS)=}: {type(card_str.split(sep=IFS))=}')
-        try:
-            self.content, self.tag = self.make_card(self.notetype,
-                                                    card_str.split(sep=IFS),
-                                                    column)
-        except Exception as e:
-            raise Exception('ERROR', e)
         main_logger.debug(f'card object: {self.content=}: {type(self.content)=}')
         main_logger.debug(f'card object: {self.tag=}: {type(self.tag)=}')
-
         self.json = self.create_cardjson()
 
     def _check_notetype(self, notetype, splited_card_list: list[str], column: list[str]):
