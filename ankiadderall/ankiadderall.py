@@ -185,7 +185,9 @@ class card:
         """
 
         try:
-            card: tuple = self._check_notetype(notetype, splited_card_list, column)
+            self.content, self.tag = self._check_notetype(self.notetype,
+                                                          self.card_str.split(sep=self.IFS),
+                                                          self.column)
 
         except Exception as e:
             print('ERROR', e, file=sys.stderr)
