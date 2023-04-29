@@ -206,14 +206,15 @@ def process_card(cardcontents, options, AnkiConnectInfo):
     except Exception as e:
         print('failed: ' + cardcontents, file=sys.stderr)
 
-    main_logger.info(f'{tempCardObject.json}')
 
     if options.allow_HTML is False:
         tempCardObject.prevent_HTML_interpret()
+
     tempCardObject.newline_to_html_br()
     tempCardObject.make_card()
     tempCardObject.create_cardjson()
 
+    main_logger.info(f'{tempCardObject.json}')
 
     if options.dryrun is False:
         send_card_AnkiConnect(AnkiConnectInfo, tempCardObject.json, (options.verbose or options.debug))
