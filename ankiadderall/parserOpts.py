@@ -134,6 +134,13 @@ def create_parser():
             ))
 
     parser.add_argument(
+            '-H', '--HTML',
+            action='store_true', dest='allow_HTML',
+            help=(
+            "Set to allow to render a HTML tag. a default doesn't allow render a HTML tag"
+            ))
+
+    parser.add_argument(
             '--dry-run',
             action='store_true', dest='dryrun',
             help=(

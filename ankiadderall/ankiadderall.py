@@ -178,11 +178,32 @@ class card:
             # this break all loops.
             return None
 
+    def prevent_HTML_interpret(self):
+
+        HTML_PATTERN = { '<' : '&lt',
+                        '>' : '&gt'}
+
+        regex = re.compile("(%s)" % "|".join(map(re.escape, HTML_PATTERN.keys())))
+
+        # For each match, look-up corresponding value in dictionary
+        self.card_str = regex.sub(lambda mo: HTML_PATTERN[mo.string[mo.start():mo.end()]], self.card_str)
+
+    def newline_to_html_br(self):
+
+        HTML_PATTERN = { '\\n' : '<br>',
+                        '\\\\n' : '&#92n',}
+
+        regex = re.compile("(%s)" % "|".join(map(re.escape, HTML_PATTERN.keys())))
+
+        self.card_str = regex.sub(lambda mo: HTML_PATTERN[mo.string[mo.start():mo.end()]], self.card_str)
+
     def make_card(self):
         """
         return final card object to add DB.
         card: tuple[self.content: dict[str, str], self.tag: list[str]]
         """
+
+        self.newline_to_html_br()
 
         try:
             self.content, self.tag = self._check_notetype(self.notetype,
