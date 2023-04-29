@@ -207,22 +207,28 @@ def process_card(cardcontents, options, AnkiConnectInfo):
         print('failed: ' + cardcontents, file=sys.stderr)
 
     main_logger.info(f'{tempCardObject.json}')
-    send_card_AnkiConnect(AnkiConnectInfo, tempCardObject.json, options.dryrun, (options.verbose or options.debug))
 
-def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, dryrun, verboseOrDebug: bool):
+    if options.allow_HTML is False:
+        tempCardObject.prevent_HTML_interpret()
+    tempCardObject.newline_to_html_br()
+    tempCardObject.make_card()
+    tempCardObject.create_cardjson()
 
-    if dryrun is not True:
-        try:
-            response = requests.post(AnkiConnectInfo, json=CARD_JSON, timeout=(1,1))
-            check_response(response.text, CARD_JSON, verboseOrDebug)
 
-        except:
-            # if the requests statements failed, then alert.
-            print(bcolors.FAIL + bcolors.BOLD + ErrorMessages.network + bcolors.ENDC, file=sys.stderr)
-            exit(4)
+    if options.dryrun is False:
+        send_card_AnkiConnect(AnkiConnectInfo, tempCardObject.json, (options.verbose or options.debug))
 
-    else:
-        pass
+def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, verboseOrDebug: bool):
+
+    try:
+        response = requests.post(AnkiConnectInfo, json=CARD_JSON, timeout=(1,1))
+        check_response(response.text, CARD_JSON, verboseOrDebug)
+
+    except:
+        # if the requests statements failed, then alert.
+        # raise?
+        print(bcolors.FAIL + bcolors.BOLD + ErrorMessages.network + bcolors.ENDC, file=sys.stderr)
+        exit(4)
 
 def check_response(responsetext, json, verboseOrDebug):
     """

@@ -55,11 +55,13 @@ class card:
 
         self.deck: str = deck
         self.notetype: str = notetype
+        self.card_str = card_str
+        self.column = column
+        self.IFS = IFS
 
         main_logger.debug(f'card object: {self.notetype=}: {type(self.notetype)=}')
         main_logger.debug(f'card object: {IFS=}: {type(IFS)=}')
         main_logger.debug(f'card object: {card_str=}: {type(card_str)=}')
-        self.json = self.create_cardjson()
 
     def _check_notetype(self, notetype, splited_card_list: list[str], column: list[str]):
         """
@@ -176,7 +178,7 @@ class card:
             # this break all loops.
             return None
 
-    def make_card(self, notetype, splited_card_list, column):
+    def make_card(self):
         """
         return final card object to add DB.
         card: tuple[self.content: dict[str, str], self.tag: list[str]]
@@ -198,9 +200,9 @@ class card:
         card.content: dict[str: str]
         """
 
-        return { "action": "addNote",
-               "version": 6,
-               "params": { "note": { "deckName": self.deck,
-                                    "modelName": self.notetype,
-                                    "fields": self.content,
-                                    "tags": self.tag } } }
+        self.json = { "action": "addNote",
+                     "version": 6,
+                     "params": { "note": { "deckName": self.deck,
+                                          "modelName": self.notetype,
+                                          "fields": self.content,
+                                          "tags": self.tag } } }
