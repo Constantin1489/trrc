@@ -1,4 +1,5 @@
 import sys
+import os
 import requests
 import re
 import logging
@@ -196,6 +197,30 @@ class card:
         regex = re.compile("(%s)" % "|".join(map(re.escape, HTML_PATTERN.keys())))
 
         self.card_str = regex.sub(lambda mo: HTML_PATTERN[mo.string[mo.start():mo.end()]], self.card_str)
+
+    def import_if_file(self):
+
+        def str_to_html(asrting):
+
+            HTML_PATTERN = { ' ' : '&nbsp'}
+
+            regex = re.compile("(%s)" % "|".join(map(re.escape, HTML_PATTERN.keys())))
+
+            return regex.sub(lambda mo: HTML_PATTERN[mo.string[mo.start():mo.end()]], asrting)
+
+        card_contents = []
+        for f in self.card_str.split(sep=self.IFS):
+            if os.path.isfile(f):
+                lines_of_the_file = []
+                with open(f) as f:
+                    lines_of_the_file += f.read().splitlines()
+                card_contents.append(str_to_html('\\n'.join(lines_of_the_file)))
+
+            else:
+                card_contents.append(f)
+
+        self.card_str = self.IFS.join(card_contents)
+        main_logger.debug(f'import_if_a_file {self.card_str}')
 
     def make_card(self):
         """

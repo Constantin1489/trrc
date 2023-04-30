@@ -141,6 +141,13 @@ def create_parser():
             ))
 
     parser.add_argument(
+            '--import-file-as-a-content',
+            action='store_true', dest='contents_file_import',
+            help=(
+            "Set to allow to import a file in a field. a default doesn't import it"
+            ))
+
+    parser.add_argument(
             '--dry-run',
             action='store_true', dest='dryrun',
             help=(

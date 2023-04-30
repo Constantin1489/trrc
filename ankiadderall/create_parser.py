@@ -206,6 +206,8 @@ def process_card(cardcontents, options, AnkiConnectInfo):
     except Exception as e:
         print('failed: ' + cardcontents, file=sys.stderr)
 
+    if options.contents_file_import is True:
+        tempCardObject.import_if_file()
 
     if options.allow_HTML is False:
         tempCardObject.prevent_HTML_interpret()
