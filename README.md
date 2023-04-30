@@ -64,6 +64,10 @@ Ankiadderall will interpret `Linux::kickstart Linux::vm` as a list which contain
 
 \<br\> is a new line. It's because anki or ankiadderall interprets contents of a card as a HTML. Currently I'm working on it. 
 
+### This software misses some characters.
+
+Thank you for letting me know! Please report the bug.
+
 ## TODO
 
 * [ ] verbose option
