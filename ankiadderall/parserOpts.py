@@ -22,6 +22,10 @@ def create_parser():
   echo -e 'basic_type_front_normal_tab with option\\tbasic_type_back\\tbasic_type_tag' | pourc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
   # zsh
   echo 'basic_type_front_normal_tab with option\\tbasic_type_back\\tbasic_type_tag' | pourc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
+  # supports HEREDOC
+  pourc <<EOF --debug
+  front	back	text
+  EOF
 """
 
     parser = argparse.ArgumentParser(
