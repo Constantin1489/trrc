@@ -160,8 +160,9 @@ def parse_card(card_candidates, options):
 
             lines = []
             for afile in options.file:
-                with open(afile) as f:
-                    lines += f.read().splitlines()
+                if os.path.isfile(afile):
+                    with open(afile) as f:
+                        lines += f.read().splitlines()
 
             main_logger.debug('read a file')
 
