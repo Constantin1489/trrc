@@ -41,10 +41,13 @@ class parsed_config:
         if section_title is None:
             main_logger.debug(f'{section_title=}')
             main_logger.debug(f'{configparse=}')
+
             if configparse is None:
                 return
+
             if not isinstance(configparse, dict):
                 configparse = vars(configparse)
+
             for k, v in configparse.items():
                 if v is not None:
                     setattr(self, k, v)

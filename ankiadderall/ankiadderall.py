@@ -192,7 +192,7 @@ class card:
     def newline_to_html_br(self):
 
         HTML_PATTERN = { '\\n' : '<br>',
-                        '\\\\n' : '&#92n',}
+                        '\\\\n' : '&#92n' }
 
         regex = re.compile("(%s)" % "|".join(map(re.escape, HTML_PATTERN.keys())))
 

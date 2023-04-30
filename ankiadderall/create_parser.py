@@ -196,13 +196,13 @@ def parse_card(card_candidates, options):
 def process_card(cardcontents, options, AnkiConnectInfo):
 
     TYPE = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
+
     try:
         tempCardObject = ankiadderall.card(get_proper_deck(options.deck),
                                            TYPE,
                                            cardcontents,
                                            options.column,
                                            options.IFS)
-
 
     except Exception as e:
         print('failed: ' + cardcontents, file=sys.stderr)
