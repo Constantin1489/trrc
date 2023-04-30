@@ -36,7 +36,7 @@ def parse_argument():
     main_logger.debug(f'argument overwriting: {vars(options)=} = {type(vars(options))=}')
 
     # TOML
-    toml_arg_handle(options.toml_generate, options.toml_write, options.toml_section, options)
+    toml_arg_handle(options.toml_generate, options.toml_write, options.toml_section, temp)
 
     if len(sys.argv) > 1 and sys.stdin.isatty() is True:
 
