@@ -228,7 +228,6 @@ class card:
         card: tuple[self.content: dict[str, str], self.tag: list[str]]
         """
 
-        self.newline_to_html_br()
 
         try:
             self.content, self.tag = self._check_notetype(self.notetype,
