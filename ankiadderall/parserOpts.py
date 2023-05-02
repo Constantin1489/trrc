@@ -38,7 +38,7 @@ def create_parser():
     parser.add_argument(
             'cardContents', action='store', nargs='?',
             help=(
-            'a positional contents of a card'
+            'A positional contents of a card'
             ))
 
     # TODO: LOCALE
@@ -46,7 +46,7 @@ def create_parser():
             '-D', '--deck',
             action='store', dest='deck',
             help=(
-            'set a Deck.'
+            'Set a Deck.'
             ))
 
     # TODO: LOCALE
@@ -54,7 +54,7 @@ def create_parser():
             '-t', '--type',
             action='store', dest='cardtype',
             help=(
-            'set a card type.'
+            'Set a card type.'
             ))
 
     parser.add_argument(
@@ -62,7 +62,7 @@ def create_parser():
 			# Do I need to remove it? Because of class parsed_config
             action='store', dest='ip',
             help=(
-            'set a AnkiConnect ip.'
+            'Set a AnkiConnect ip.'
             ))
 
     parser.add_argument(
@@ -70,14 +70,14 @@ def create_parser():
 			# Do I need to remove it? Because of class parsed_config
             action='store', dest='port', type=int,
             help=(
-            'set a AnkiConnect port.'
+            'Set a AnkiConnect port.'
             ))
 
     parser.add_argument(
             '-f', '--file',
             action='store', dest='file', nargs='*',
             help=(
-            'set a file to create cards.'
+            'Set a file which contains card contents.'
             ))
 
     # ~/.acprc OR optional .acprc
@@ -85,9 +85,10 @@ def create_parser():
     # TODO : Execute configparse to a string object.
     parser.add_argument(
             '-c', '--config',
+			metavar="file",
             action='store', dest='config',
             help=(
-            'set a config.'
+            "Set a config file to import options. Without this argument, this program uses '~/.asprc'"
             ))
 
     # get an alias from a config file.
@@ -95,60 +96,64 @@ def create_parser():
     # TODO : Execute configparse to a string object.
     parser.add_argument(
             '--alias',
+			metavar="section",
             action='store', dest='alias',
             help=(
-            'Use options of an alias of a config file'
+            "Set a section of a config file to apply options. Without this argument, a default section is 'default'"
             ))
 
     parser.add_argument(
             '-F', '--IFS',
             action='store', dest='IFS',
             help=(
-            "a delimiter of card contents. To use other than a tab character, use this option."
+            "Set a delimiter of card contents to use any character other than a tab(\\t) character."
             ))
 
     parser.add_argument(
 			# TODO: field?
-            '--column', action='store', dest='column', nargs='?',
+            '--column',
+			metavar="colon delimiter-separated fields",
+			action='store', dest='column', nargs='?',
             type=lambda s: [i for i in s.split(':')],
             help=(
-            'Set an order of card field where you want to put separated strings.'
+            "Set an order of card field where you want to put separated strings. For example, 'front:back:tags'"
             ))
 
     parser.add_argument(
             '--toml-generate',
             action='store_true', dest='toml_generate',
             help=(
-            'Print the cards that would be created and options that would be applied, but do not execute the command.'
+            "Print toml configs with current arguments. To set a section, use '--toml-section'"
             ))
 
     parser.add_argument(
             '--toml-write',
+			metavar="file",
             action='store', dest='toml_write', 
             help=(
-            'Print the cards that would be created and options that would be applied, but do not execute the command.'
+            "Write a toml file with options used. To set a section, use '--toml-section'"
             ))
 
     parser.add_argument(
             '--toml-section',
+			metavar="section",
             action='store', dest='toml_section',
-            #action='store', dest='toml_section', default='untitled',
             help=(
-            'Print the cards that would be created and options that would be applied, but do not execute the command.'
+            "Set a toml section. The default is 'untitled'"
             ))
 
     parser.add_argument(
-            '-H', '--HTML',
+            '-H', '--render-HTML',
             action='store_true', dest='allow_HTML',
             help=(
-            "Set to allow to render a HTML tag. a default doesn't allow render a HTML tag"
+            "Set to allow to render a HTML tag. The default doesn't allow render a HTML tag"
             ))
 
     parser.add_argument(
-            '--import-file-as-a-content',
+            '--read-file-in-a-content',
             action='store_true', dest='contents_file_import',
             help=(
-            "Set to allow to import a file in a field. a default doesn't import it"
+            "Set to allow to replace a file in contents with a file contents. a default setting doesn't read it"
             ))
 
     parser.add_argument(
@@ -162,21 +167,21 @@ def create_parser():
             '--dry-run',
             action='store_true', dest='dryrun',
             help=(
-            'Print the cards that would be created and options that would be applied, but do not execute the command.'
+            'Perform a trial run without sending to Anki.'
             ))
 
     parser.add_argument(
             '-v', '--verbose',
             action='store_const', dest='verbose', const=logging.INFO,
             help=(
-            'a verbose option'
+            'A verbose option.'
             ))
 
     parser.add_argument(
             '--debug',
             action='store_const', dest='debug', const=logging.DEBUG,
             help=(
-            'a debug option'
+            'A debug option'
             ))
 
     return parser
