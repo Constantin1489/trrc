@@ -22,26 +22,28 @@ def parse_argument():
 
     parser = create_parser()
 
-    # enable logger here
-    temp = parser.parse_args(sys.argv[1:])
-    logging.basicConfig(encoding='utf-8', level=get_logging_level(temp))
-    # TOML
+    # enable logger
+    parsed_arg = parser.parse_args(sys.argv[1:])
+    logging.basicConfig(encoding='utf-8', level=get_logging_level(parsed_arg))
 
-    if temp.toml_generate or temp.toml_write:
-        toml_arg_handle(temp.toml_generate, temp.toml_write, temp.toml_section, temp)
+    # TOML
+    if parsed_arg.toml_generate or parsed_arg.toml_write:
+        toml_arg_handle(parsed_arg.toml_generate, parsed_arg.toml_write, parsed_arg.toml_section, parsed_arg)
+
     main_logger.debug(f'arguments : {mask_apikey(vars(parsed_arg))=} = {type(vars(parsed_arg))=}')
 
-    main_logger.debug(f'temp: {vars(temp)=} = {type(vars(temp))=}')
     # parse hard coded options
-    options = parsed_config(temp)
+    options = parsed_config(parsed_arg)
     main_logger.debug(f'hard coded options: {mask_apikey(vars(options))=}')
 
     # parse config file
-    options.overwrite_config(read_toml_config(temp.config, temp.alias))
+    options.overwrite_config(read_toml_config(parsed_arg.config, parsed_arg.alias))
     main_logger.debug(f'TOML overwriting: {mask_apikey(vars(options))=}')
 
+    # TODO: parse environment variables
+
     # overwrite argparse options
-    options.overwrite_config(vars(temp))
+    options.overwrite_config(vars(parsed_arg))
     main_logger.debug(f'argument overwriting: {mask_apikey(vars(options))=}')
 
 
