@@ -81,11 +81,21 @@ def read_toml_config(config_file_name, section):
         return {}
 
     try:
-        main_logger.debug(f'{toml_load[section]=}')
+        main_logger.debug(f'{mask_apikey(toml_load[section])=}')
+
         return toml_load[section]
     except:
         main_logger.debug(f"{toml_load} doesn't have {section}")
         return {}
+
+def mask_apikey(config: dict):
+    """
+    Mask apikey only if an apikey value exists.
+    """
+
+    # If key is key or apikey and v is not false nor None, then return 'masked'. In other cases, print as it is.
+    return { k: ('masked' if k in {'key', 'apikey'} and v else v) for k, v in  config.items() }
+    #return { k: ( v if k not in {'key', 'apikey'} or ( k in {'key', 'apikey'} and not v ) else 'masked') for k, v in  config.items()}
 
 def make_toml(parsed_arg: dict, section_title='untitled'):
 

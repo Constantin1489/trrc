@@ -9,6 +9,7 @@ import ankiadderall.ankiadderall as ankiadderall
 from ankiadderall.ankiadderall import bcolors, ErrorMessages
 from ankiadderall.parserOpts import create_parser
 from ankiadderall.configOpts import make_toml, parsed_config, read_toml_config, toml_arg_handle
+from ankiadderall.configOpts import mask_apikey
 
 import logging
 main_logger = logging.getLogger(__name__)
@@ -28,20 +29,20 @@ def parse_argument():
 
     if temp.toml_generate or temp.toml_write:
         toml_arg_handle(temp.toml_generate, temp.toml_write, temp.toml_section, temp)
+    main_logger.debug(f'arguments : {mask_apikey(vars(parsed_arg))=} = {type(vars(parsed_arg))=}')
 
     main_logger.debug(f'temp: {vars(temp)=} = {type(vars(temp))=}')
     # parse hard coded options
     options = parsed_config(temp)
-    main_logger.debug(f'hard coded options: {vars(options)=} = {type(vars(options))=}')
+    main_logger.debug(f'hard coded options: {mask_apikey(vars(options))=}')
 
     # parse config file
-    main_logger.debug(f'$$$$$$$$${read_toml_config(temp.config, temp.alias)=}')
     options.overwrite_config(read_toml_config(temp.config, temp.alias))
-    main_logger.debug(f'TOML overwriting: {vars(options)=} = {type(vars(options))=}')
+    main_logger.debug(f'TOML overwriting: {mask_apikey(vars(options))=}')
 
     # overwrite argparse options
     options.overwrite_config(vars(temp))
-    main_logger.debug(f'argument overwriting: {vars(options)=} = {type(vars(options))=}')
+    main_logger.debug(f'argument overwriting: {mask_apikey(vars(options))=}')
 
 
     if len(sys.argv) > 1 and sys.stdin.isatty() is True:
@@ -251,7 +252,7 @@ def check_response(responsetext, json, verboseOrDebug):
     if match_result.group(1) == 'null':
 
         if verboseOrDebug is None:
-            print(json, file=sys.stderr)
+            print(mask_apikey(json), file=sys.stderr)
         print(bcolors.FAIL + bcolors.BOLD + match_result.group(2) + bcolors.ENDC, file=sys.stderr)
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
