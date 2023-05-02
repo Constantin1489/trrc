@@ -156,13 +156,13 @@ def parse_card(card_candidates, options):
     Loop card_candidates to create cards.
     """
 
+    AnkiConnectInfo = ankiadderall.userAnkiConnect(options.ip,
+                                                   options.port)
     for candidate in card_candidates:
 
         # print a current card.
         main_logger.debug(f'string: {candidate}')
         candidate = cardcontentsHandle(candidate, options)
-        AnkiConnectInfo = ankiadderall.userAnkiConnect(options.ip,
-                                                       options.port)
 
         if options.file:
             main_logger.debug(f'{options.file=}')
