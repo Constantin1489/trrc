@@ -24,6 +24,9 @@ def parse_argument():
     # enable logger here
     temp = parser.parse_args(sys.argv[1:])
     logging.basicConfig(encoding='utf-8', level=get_logging_level(temp))
+    # TOML
+    if temp.toml_generate or temp.toml_write:
+        toml_arg_handle(temp.toml_generate, temp.toml_write, temp.toml_section, temp)
 
     main_logger.debug(f'temp: {vars(temp)=} = {type(vars(temp))=}')
     # parse hard coded options
@@ -39,8 +42,6 @@ def parse_argument():
     options.overwrite_config(vars(temp))
     main_logger.debug(f'argument overwriting: {vars(options)=} = {type(vars(options))=}')
 
-    # TOML
-    toml_arg_handle(options.toml_generate, options.toml_write, options.toml_section, temp)
 
     if len(sys.argv) > 1 and sys.stdin.isatty() is True:
 
