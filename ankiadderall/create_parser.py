@@ -25,6 +25,7 @@ def parse_argument():
     temp = parser.parse_args(sys.argv[1:])
     logging.basicConfig(encoding='utf-8', level=get_logging_level(temp))
     # TOML
+
     if temp.toml_generate or temp.toml_write:
         toml_arg_handle(temp.toml_generate, temp.toml_write, temp.toml_section, temp)
 
@@ -225,7 +226,9 @@ def process_card(cardcontents, options, AnkiConnectInfo):
     main_logger.info(f'{tempCardObject.json}')
 
     if options.dryrun is False:
-        send_card_AnkiConnect(AnkiConnectInfo, tempCardObject.json, (options.verbose or options.debug))
+        send_card_AnkiConnect(AnkiConnectInfo,
+                              tempCardObject.json,
+                              (options.verbose or options.debug))
 
 def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, verboseOrDebug: bool):
 
