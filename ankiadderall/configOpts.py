@@ -40,15 +40,17 @@ class parsed_config:
 
         if section_title is None:
             main_logger.debug(f'{section_title=}')
-            main_logger.debug(f'{configparse=}')
 
             if configparse is None:
                 # this doesn't affect existing attributes
+                main_logger.debug('No configs')
                 return
 
             # if configparse is a parser object, then make it a dict
             if not isinstance(configparse, dict):
                 configparse = vars(configparse)
+
+            main_logger.debug(f'{mask_apikey(configparse)=}')
 
             for k, v in configparse.items():
                 if v is not None:
