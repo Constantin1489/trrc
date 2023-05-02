@@ -102,7 +102,7 @@ def make_toml(parsed_arg: dict, section_title='untitled'):
     if not isinstance(parsed_arg, dict):
         parsed_arg = vars(parsed_arg)
 
-    # if v has any value
+    # if v has any value and k is not in the set, then generate a dict.
     return {section_title : {k: v for k, v in parsed_arg.items()
                              if v and
                              k not in {'cardContents',
