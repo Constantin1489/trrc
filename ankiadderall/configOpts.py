@@ -43,8 +43,10 @@ class parsed_config:
             main_logger.debug(f'{configparse=}')
 
             if configparse is None:
+                # this doesn't affect existing attributes
                 return
 
+            # if configparse is a parser object, then make it a dict
             if not isinstance(configparse, dict):
                 configparse = vars(configparse)
 
