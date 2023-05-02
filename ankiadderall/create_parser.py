@@ -268,7 +268,7 @@ def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     else:
         return get_proper_cardType(cardtype)
 
-def sync(AnkiConnectInfo, apikey='', syncData=AnkiConnectApi.sync: dict):
+def sync(AnkiConnectInfo, apikey='', syncData=AnkiConnectApi.sync):
     """
     Make anki sync.
     """
