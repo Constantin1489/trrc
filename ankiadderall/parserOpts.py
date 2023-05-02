@@ -152,6 +152,13 @@ def create_parser():
             ))
 
     parser.add_argument(
+            '--sync',
+            action='store_true', dest='sync',
+            help=(
+            "Sync Anki."
+            ))
+
+    parser.add_argument(
             '--dry-run',
             action='store_true', dest='dryrun',
             help=(

@@ -4,6 +4,7 @@ import requests
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import re
+import json
 import ankiadderall.ankiadderall as ankiadderall
 from ankiadderall.ankiadderall import bcolors, ErrorMessages
 from ankiadderall.parserOpts import create_parser
@@ -11,6 +12,9 @@ from ankiadderall.configOpts import make_toml, parsed_config, read_toml_config, 
 
 import logging
 main_logger = logging.getLogger(__name__)
+
+class AnkiConnectApi:
+    sync = {"action": "sync", "version": 6}
 
 # TODO: isn't it a main()?
 def parse_argument():
@@ -259,3 +263,12 @@ def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
         return 'cloze'
     else:
         return get_proper_cardType(cardtype)
+
+def sync(AnkiConnectInfo, apikey='', syncData=AnkiConnectApi.sync: dict):
+    """
+    Make anki sync.
+    """
+
+    syncData = json.dumps(syncData.update({'key' : apikey}))
+
+    response = requests.post(AnkiConnectInfo, json=syncData, timeout=(1,1))
