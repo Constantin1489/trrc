@@ -229,9 +229,15 @@ def process_card(cardcontents, options, AnkiConnectInfo):
     if options.dryrun is False:
         send_card_AnkiConnect(AnkiConnectInfo,
                               tempCardObject.json,
+                              options.apikey,
                               (options.verbose or options.debug))
 
-def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, verboseOrDebug: bool):
+#TODO: apikey
+#TODO: CARD_JSON
+def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebug: bool):
+
+    # if apikey exist then update it
+    CARD_JSON.update({'key' : apikey}) if apikey else None
 
     try:
         response = requests.post(AnkiConnectInfo, json=CARD_JSON, timeout=(1,1))

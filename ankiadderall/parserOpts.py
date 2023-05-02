@@ -157,6 +157,13 @@ def create_parser():
             ))
 
     parser.add_argument(
+            '--apikey',
+            action='store', dest='apikey',
+            help=(
+            "Set an api key for AnkiConnect."
+            ))
+
+    parser.add_argument(
             '--sync',
             action='store_true', dest='sync',
             help=(
