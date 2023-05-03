@@ -158,6 +158,12 @@ def parse_card(card_candidates, options):
 
     AnkiConnectInfo = ankiadderall.userAnkiConnect(options.ip,
                                                    options.port)
+
+    if len(card_candidates) == 0:
+        if options.sync:
+            sync(AnkiConnectInfo, options.apikey)
+            exit(0)
+
     for candidate in card_candidates:
 
         # print a current card.
@@ -201,6 +207,9 @@ def parse_card(card_candidates, options):
                 process_card(candidate, options, AnkiConnectInfo)
             except:
                 continue
+
+    if options.sync:
+        sync(AnkiConnectInfo, options.apikey)
 
 def process_card(cardcontents, options, AnkiConnectInfo):
 
