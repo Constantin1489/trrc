@@ -48,6 +48,7 @@ def parse_argument():
     if len(sys.argv) > 1 and sys.stdin.isatty() is True:
 
         card_candidates = [options.cardContents]
+        card_candidates = [options.cardContents] if options.cardContents else []
         main_logger.debug('stdin: sys.stdin.isatty')
 
     else:
