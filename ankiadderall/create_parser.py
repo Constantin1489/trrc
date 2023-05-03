@@ -14,8 +14,6 @@ from ankiadderall.configOpts import mask_apikey
 import logging
 main_logger = logging.getLogger(__name__)
 
-class AnkiConnectApi:
-    sync = {"action": "sync", "version": 6}
 
 # TODO: isn't it a main()?
 def parse_argument():
@@ -286,11 +284,8 @@ def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     else:
         return get_proper_cardType(cardtype)
 
-def sync(AnkiConnectInfo, apikey='', syncData=AnkiConnectApi.sync):
+def sync(AnkiConnectInfo, apikey=''):
     """
-    Make anki sync.
+    Sync an anki.
     """
-
-    syncData = json.dumps(syncData.update({'key' : apikey}))
-
-    response = requests.post(AnkiConnectInfo, json=syncData, timeout=(1,1))
+    response = requests.post(AnkiConnectInfo, json={"action": "sync", "version": 6,'key' : apikey}, timeout=(1,1))
