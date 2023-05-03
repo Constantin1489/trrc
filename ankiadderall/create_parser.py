@@ -287,5 +287,7 @@ def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
 def sync(AnkiConnectInfo, apikey=''):
     """
     Sync an anki.
+    :AnkiConnectInfo: TODO
     """
     response = requests.post(AnkiConnectInfo, json={"action": "sync", "version": 6,'key' : apikey}, timeout=(1,1))
+    print(f'sync: {response.text}')
