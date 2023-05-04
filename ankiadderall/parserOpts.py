@@ -171,6 +171,13 @@ def create_parser():
             ))
 
     parser.add_argument(
+            '--force-add',
+            action='store_true', dest='force_add',
+            help=(
+            "add a card even if there is a duplicate in the deck."
+            ))
+
+    parser.add_argument(
             '--dry-run',
             action='store_true', dest='dryrun',
             help=(

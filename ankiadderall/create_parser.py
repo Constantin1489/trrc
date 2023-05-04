@@ -233,6 +233,10 @@ def process_card(cardcontents, options, AnkiConnectInfo):
     tempCardObject.newline_to_html_br()
     tempCardObject.make_card()
     tempCardObject.create_cardjson()
+    if options.force_add:
+        card = tempCardObject.create_cardjson_note()
+        card.update({"options" : { "allowDuplicate": True, "duplicateScope": "deck"}})
+        return card
 
     main_logger.info(f'{tempCardObject.json}')
 
