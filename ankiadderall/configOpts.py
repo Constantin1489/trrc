@@ -53,7 +53,7 @@ class parsed_config:
             main_logger.debug(f'{mask_apikey(configparse)=}')
 
             for k, v in configparse.items():
-                if v is not None:
+                if v is not None and v is not False:
                     setattr(self, k, v)
             main_logger.debug(f'{section_title=}')
 
