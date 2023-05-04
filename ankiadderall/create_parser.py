@@ -251,7 +251,12 @@ def process_card(cardcontents, options, AnkiConnectInfo):
 def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebug: bool):
 
     # if apikey exist then update it
-    CARD_JSON.update({'key' : apikey}) if apikey else None
+    jsonobj = { "action": "addNote",
+            "version": 6,
+            "params": { "notes": CARD_JSON }}
+
+    if apikey:
+        jsonobj.update({'key' : apikey})
 
     try:
         if len(CARD_JSON) > 1000:
