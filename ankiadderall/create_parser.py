@@ -240,11 +240,6 @@ def process_card(cardcontents, options, AnkiConnectInfo):
 
     main_logger.info(f'{tempCardObject.json}')
 
-    if options.dryrun is False:
-        send_card_AnkiConnect(AnkiConnectInfo,
-                              tempCardObject.json,
-                              options.apikey,
-                              (options.verbose or options.debug))
 
 #TODO: apikey
 #TODO: CARD_JSON
