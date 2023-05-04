@@ -237,19 +237,17 @@ class card:
         except Exception as e:
             print('ERROR', e, file=sys.stderr)
 
-    def create_cardjson(self):
+    def create_cardjson_note(self):
         """
-        send a json card to a AnkiConnect to create a card.
-        card: Type[ankiadderall.card]
+        create a card note to insert into a Note list to use 'addNotes'
+
         card.deck: str
         card.notetype: str
         card.tag: list[str]
         card.content: dict[str: str]
         """
 
-        self.json = { "action": "addNote",
-                     "version": 6,
-                     "params": { "note": { "deckName": self.deck,
-                                          "modelName": self.notetype,
-                                          "fields": self.content,
-                                          "tags": self.tag } } }
+        return { "deckName": self.deck,
+                "modelName": self.notetype,
+                "fields": self.content,
+                "tags": self.tag }
