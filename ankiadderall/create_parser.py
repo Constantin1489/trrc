@@ -275,17 +275,21 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebu
         print(bcolors.FAIL + bcolors.BOLD + ErrorMessages.network + bcolors.ENDC, file=sys.stderr)
         exit(4)
 
-def check_response(responsetext, json, verboseOrDebug):
+def check_response(responsetext, CARD_JSON, verboseOrDebug):
     """
     Parse response text to debug if the AnkiConnect doesn't add the card.
     """
 
-    match_result = re.match('^{"result": (.*), "error": (.*)}', responsetext)
-    if match_result.group(1) == 'null':
+    fail_to_add_card_list = get_failed_card_from_response(responsetext, CARD_JSON)
 
-        if verboseOrDebug is None:
-            print(mask_apikey(json), file=sys.stderr)
-        print(bcolors.FAIL + bcolors.BOLD + match_result.group(2) + bcolors.ENDC, file=sys.stderr)
+    for i in fail_to_add_card_list:
+        print(f"{bcolors.FAIL + bcolors.BOLD + 'Failed:' + bcolors.ENDC} {i}", file=sys.stderr)
+    print(f"Total fails: {len(fail_to_add_card_list)}", file=sys.stderr)
+
+def get_failed_card_from_response(res_str: str, CARD_JSON: dict):
+
+    res_str_load: dict = json.loads(res_str)
+    return [CARD_JSON[i] for i, v in enumerate(res_str_load['result']) if v is None]
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     """TODO: Docstring for check_cloze_is_mistakely_there.
