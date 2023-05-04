@@ -163,6 +163,7 @@ def parse_card(card_candidates, options):
             sync(AnkiConnectInfo, options.apikey)
             exit(0)
 
+    Notes = []
     for candidate in card_candidates:
 
         # print a current card.
@@ -193,7 +194,7 @@ def parse_card(card_candidates, options):
                     continue
 
                 # if a line has cloze tag, than the line is a cloze type.
-                process_card(j, options, AnkiConnectInfo)
+                Notes.append(process_card(j, options, AnkiConnectInfo))
 
         else:
             if not candidate:
@@ -203,9 +204,16 @@ def parse_card(card_candidates, options):
             main_logger.debug("--file option off")
 
             try:
-                process_card(candidate, options, AnkiConnectInfo)
+                Notes.append(process_card(candidate, options, AnkiConnectInfo))
+
             except:
                 continue
+
+    if options.dryrun is False:
+        send_card_AnkiConnect(AnkiConnectInfo,
+                              Notes,
+                              options.apikey,
+                              (options.verbose or options.debug))
 
     if options.sync:
         sync(AnkiConnectInfo, options.apikey)
@@ -232,13 +240,12 @@ def process_card(cardcontents, options, AnkiConnectInfo):
 
     tempCardObject.newline_to_html_br()
     tempCardObject.make_card()
-    tempCardObject.create_cardjson()
     if options.force_add:
         card = tempCardObject.create_cardjson_note()
         card.update({"options" : { "allowDuplicate": True, "duplicateScope": "deck"}})
         return card
 
-    main_logger.info(f'{tempCardObject.json}')
+    return tempCardObject.create_cardjson_note()
 
 
 #TODO: apikey
@@ -246,7 +253,7 @@ def process_card(cardcontents, options, AnkiConnectInfo):
 def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebug: bool):
 
     # if apikey exist then update it
-    jsonobj = { "action": "addNote",
+    jsonobj = { "action": "addNotes",
             "version": 6,
             "params": { "notes": CARD_JSON }}
 
