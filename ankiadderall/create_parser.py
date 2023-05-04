@@ -250,7 +250,12 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebu
     CARD_JSON.update({'key' : apikey}) if apikey else None
 
     try:
-        response = requests.post(AnkiConnectInfo, json=CARD_JSON, timeout=(1,1))
+        if len(CARD_JSON) > 1000:
+            timeout_value = (30, 30)
+        else:
+            timeout_value = (5, 5)
+
+        response = requests.post(AnkiConnectInfo, json=jsonobj, timeout=timeout_value)
         check_response(response.text, CARD_JSON, verboseOrDebug)
 
     except:
