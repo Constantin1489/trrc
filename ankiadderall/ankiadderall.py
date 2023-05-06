@@ -9,6 +9,7 @@ class bcolors:
     FAIL = '\033[91m'
     ENDC = '\033[0m'
     BOLD = '\033[1m'
+
 class Regex_Pattern:
     prevent_HTML_interpret_pattern =  { '<' : '&lt',
                                        '>' : '&gt'}
@@ -205,34 +206,29 @@ class card:
             # this break all loops.
             return None
 
-    def prevent_HTML_interpret(self):
+    def prevent_HTML_interpret(self, regex_compile, pattern):
 
-        HTML_PATTERN = { '<' : '&lt',
-                        '>' : '&gt'}
+        regex = regex_compile
 
-        regex = re.compile("(%s)" % "|".join(map(re.escape, HTML_PATTERN.keys())))
-
+        # REGEX OPTIMIZATION
         # For each match, look-up corresponding value in dictionary
-        self.card_str = regex.sub(lambda mo: HTML_PATTERN[mo.group()], self.card_str)
+        self.card_str = regex.sub(lambda mo: pattern[mo.group()], self.card_str)
 
-    def newline_to_html_br(self):
+    def newline_to_html_br(self, regex_compile, pattern):
 
-        HTML_PATTERN = { '\\n' : '<br>',
-                        '\\\\n' : '&#92n' }
+        regex = regex_compile
 
-        regex = re.compile("(%s)" % "|".join(map(re.escape, HTML_PATTERN.keys())))
+        self.card_str = regex.sub(lambda mo: pattern[mo.group()], self.card_str)
 
-        self.card_str = regex.sub(lambda mo: HTML_PATTERN[mo.group()], self.card_str)
+    def import_if_file(self, regex_compile, pattern):
 
-    def import_if_file(self):
-
-        def str_to_html(asrting):
+        def str_to_html(asrting, regex_compile, pattern):
 
             HTML_PATTERN = { ' ' : '&nbsp'}
 
-            regex = re.compile("(%s)" % "|".join(map(re.escape, HTML_PATTERN.keys())))
+            regex = regex_compile
 
-            return regex.sub(lambda mo: HTML_PATTERN[mo.group()], asrting)
+            return regex.sub(lambda mo: pattern[mo.group()], asrting)
 
         card_contents = []
         for f in self.card_str.split(sep=self.IFS):

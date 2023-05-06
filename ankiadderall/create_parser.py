@@ -158,14 +158,15 @@ def parse_card(card_candidates, options):
     AnkiConnectInfo = ankiadderall.userAnkiConnect(options.ip,
                                                    options.port)
 
+    regexes = Regex_Pattern()
+
     if len(card_candidates) == 0:
         if options.sync:
             sync(AnkiConnectInfo, options.apikey)
             exit(0)
 
-
     Notes = []
-    Notes.extend(gather_card_from(card_candidates, options, AnkiConnectInfo))
+    Notes.extend(gather_card_from(card_candidates, options, AnkiConnectInfo, regexes))
 
     if options.file:
         main_logger.debug(f'{options.file=}')
@@ -180,7 +181,7 @@ def parse_card(card_candidates, options):
 
             main_logger.debug(f'read a file: {afile}')
 
-            Notes.extend(gather_card_from(lines, options, AnkiConnectInfo, afile))
+            Notes.extend(gather_card_from(lines, options, AnkiConnectInfo, regexes, afile))
 
     if options.dryrun is False:
         send_card_AnkiConnect(AnkiConnectInfo,
@@ -191,7 +192,7 @@ def parse_card(card_candidates, options):
     if options.sync:
         sync(AnkiConnectInfo, options.apikey)
 
-def gather_card_from(card_candidates, options, AnkiConnectInfo, filename=None):
+def gather_card_from(card_candidates, options, AnkiConnectInfo, regexes, filename=None):
 
     Notes = []
 
@@ -223,7 +224,7 @@ def gather_card_from(card_candidates, options, AnkiConnectInfo, filename=None):
 
         try:
             # if a line has cloze tag, than the line is a cloze type.
-            Notes.append(process_card(candidate, options, AnkiConnectInfo))
+            Notes.append(process_card(candidate, options, AnkiConnectInfo, regexes))
 
         except Exception as e:
             print(f"Failed to append a card: {e}", file=sys.stdout)
@@ -231,7 +232,7 @@ def gather_card_from(card_candidates, options, AnkiConnectInfo, filename=None):
 
     return Notes
 
-def process_card(cardcontents, options, AnkiConnectInfo):
+def process_card(cardcontents, options, AnkiConnectInfo, regex_compiles):
 
     TYPE = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
 
@@ -247,12 +248,15 @@ def process_card(cardcontents, options, AnkiConnectInfo):
         print('failed: ' + cardcontents, file=sys.stderr)
 
     if options.contents_file_import is True:
-        tempCardObject.import_if_file()
+        tempCardObject.import_if_file(regex_compiles.str_to_html_compile,
+                                      regex_compiles.str_to_html_pattern)
 
     if options.allow_HTML is False:
-        tempCardObject.prevent_HTML_interpret()
+        tempCardObject.prevent_HTML_interpret(regex_compiles.prevent_HTML_interpret_compile,
+                                              regex_compiles.prevent_HTML_interpret_pattern)
 
-    tempCardObject.newline_to_html_br()
+    tempCardObject.newline_to_html_br(regex_compiles.newline_to_html_br_compile,
+                                      regex_compiles.newline_to_html_br_pattern)
     tempCardObject.make_card()
     if options.force_add:
         card = tempCardObject.create_cardjson_note()
