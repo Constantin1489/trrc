@@ -261,7 +261,6 @@ def process_card(cardcontents, options, AnkiConnectInfo):
 
     return tempCardObject.create_cardjson_note()
 
-
 #TODO: apikey
 #TODO: CARD_JSON
 def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebug: bool):
