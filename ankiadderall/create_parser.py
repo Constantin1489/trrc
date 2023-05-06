@@ -261,10 +261,19 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebu
         jsonobj.update({'key' : apikey})
 
     try:
-        if len(CARD_JSON) > 1000:
-            timeout_value = (30, 30)
+
+        DEFAULT_WAITING_CONNECTION_SEC = 5
+        DEFAULT_WAITING_RESPONSE_READ_SEC = 40
+
+        # If a number of the cards are over 100, then allow a longer time to
+        # send a request.
+        if len(CARD_JSON) > 100:
+            waiting_sec = len(CARD_JSON) // 100 + DEFAULT_WAITING_RESPONSE_READ_SEC
+            timeout_value = (10, waiting_sec)
         else:
-            timeout_value = (5, 5)
+            # It's a default time to send a request.
+            timeout_value = (DEFAULT_WAITING_CONNECTION_SEC,
+                             DEFAULT_WAITING_RESPONSE_READ_SEC)
 
         response = requests.post(AnkiConnectInfo, json=jsonobj, timeout=timeout_value)
         check_response(response.text, CARD_JSON, verboseOrDebug)
