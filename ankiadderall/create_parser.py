@@ -178,7 +178,7 @@ def parse_card(card_candidates, options):
             except Exception as e:
                 print(e)
 
-            main_logger.debug('read a file')
+            main_logger.debug(f'read a file: {afile}')
 
             Notes.extend(gather_card_from(lines, options, AnkiConnectInfo, afile))
 
