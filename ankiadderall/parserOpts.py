@@ -113,8 +113,7 @@ def create_parser():
 			# TODO: field?
             '--column',
 			metavar="colon delimiter-separated fields",
-			action='store', dest='column', nargs='?',
-            type=lambda s: [i for i in s.split(':')],
+			action='store', dest='column',
             help=(
             "Set an order of card field where you want to put separated strings. For example, 'front:back:tags'"
             ))
