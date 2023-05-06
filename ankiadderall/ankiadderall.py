@@ -187,7 +187,7 @@ class card:
         regex = re.compile("(%s)" % "|".join(map(re.escape, HTML_PATTERN.keys())))
 
         # For each match, look-up corresponding value in dictionary
-        self.card_str = regex.sub(lambda mo: HTML_PATTERN[mo.string[mo.start():mo.end()]], self.card_str)
+        self.card_str = regex.sub(lambda mo: HTML_PATTERN[mo.group()], self.card_str)
 
     def newline_to_html_br(self):
 
@@ -196,7 +196,7 @@ class card:
 
         regex = re.compile("(%s)" % "|".join(map(re.escape, HTML_PATTERN.keys())))
 
-        self.card_str = regex.sub(lambda mo: HTML_PATTERN[mo.string[mo.start():mo.end()]], self.card_str)
+        self.card_str = regex.sub(lambda mo: HTML_PATTERN[mo.group()], self.card_str)
 
     def import_if_file(self):
 
@@ -206,7 +206,7 @@ class card:
 
             regex = re.compile("(%s)" % "|".join(map(re.escape, HTML_PATTERN.keys())))
 
-            return regex.sub(lambda mo: HTML_PATTERN[mo.string[mo.start():mo.end()]], asrting)
+            return regex.sub(lambda mo: HTML_PATTERN[mo.group()], asrting)
 
         card_contents = []
         for f in self.card_str.split(sep=self.IFS):
