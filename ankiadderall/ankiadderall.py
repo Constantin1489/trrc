@@ -49,7 +49,7 @@ class card:
     A class for card object
     """
 
-    def __init__(self, deck: str, notetype: str, card_str: str, column: list[str], IFS='\t'):
+    def __init__(self, deck: str, notetype: str, card_str: str, column: str, IFS='\t'):
         """
         no deck and notetype. because cardlist has deck and notetype.
         """
@@ -57,7 +57,7 @@ class card:
         self.deck: str = deck
         self.notetype: str = notetype
         self.card_str = card_str
-        self.column = column
+        self.column: str = column
         self.IFS = IFS
 
         main_logger.debug(f'card object: {self.notetype=}: {type(self.notetype)=}')
@@ -232,10 +232,15 @@ class card:
         try:
             self.content, self.tag = self._check_notetype(self.notetype,
                                                           self.card_str.split(sep=self.IFS),
-                                                          self.column)
+                                                          self.get_column())
 
         except Exception as e:
             print('ERROR', e, file=sys.stderr)
+
+    def get_column(self):
+        if self.column is None:
+            return None
+        return (lambda s: [i for i in s.split(':')])(self.column)
 
     def create_cardjson_note(self):
         """
