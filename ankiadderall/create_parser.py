@@ -163,51 +163,24 @@ def parse_card(card_candidates, options):
             sync(AnkiConnectInfo, options.apikey)
             exit(0)
 
+
     Notes = []
-    for candidate in card_candidates:
+    Notes.extend(gather_card_from(card_candidates, options, AnkiConnectInfo))
 
-        # print a current card.
-        main_logger.debug(f'string: {candidate}')
-        candidate = cardcontentsHandle(candidate, options)
+    if options.file:
+        main_logger.debug(f'{options.file=}')
 
-        if options.file:
-            main_logger.debug(f'{options.file=}')
-
-            lines = []
-            for afile in options.file:
-                if os.path.isfile(afile):
-                    with open(afile) as f:
-                        lines += f.read().splitlines()
+        lines = []
+        for afile in options.file:
+            try:
+                with open(afile) as f:
+                    lines += f.read().splitlines()
+            except Exception as e:
+                print(e)
 
             main_logger.debug('read a file')
 
-            for j in lines:
-
-                # skipping an empty line.
-                if not j:
-                    print(f'empty line', file=sys.stdout)
-                    continue
-
-                # skipping comments
-                if j[0] == '#':
-                    main_logger.debug(f'skip a comment line: {j}')
-                    continue
-
-                # if a line has cloze tag, than the line is a cloze type.
-                Notes.append(process_card(j, options, AnkiConnectInfo))
-
-        else:
-            if not candidate:
-                print(f'no card or a empty line', file=sys.stderr)
-                continue
-
-            main_logger.debug("--file option off")
-
-            try:
-                Notes.append(process_card(candidate, options, AnkiConnectInfo))
-
-            except:
-                continue
+            Notes.extend(gather_card_from(lines, options, AnkiConnectInfo, afile))
 
     if options.dryrun is False:
         send_card_AnkiConnect(AnkiConnectInfo,
