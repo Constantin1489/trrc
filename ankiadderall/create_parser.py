@@ -269,6 +269,13 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebu
         response = requests.post(AnkiConnectInfo, json=jsonobj, timeout=timeout_value)
         check_response(response.text, CARD_JSON, verboseOrDebug)
 
+    except requests.exceptions.ReadTimeout as e:
+        ErrorMessageColoring(ErrorMessages.read_timed_out)
+        exit(4)
+    except requests.exceptions.ConnectTimeout as e:
+        ErrorMessageColoring(ErrorMessages.connect_time_out)
+        ErrorMessageColoring(ErrorMessages.ask_check_network)
+        exit(4)
     except Exception as e:
 
         ErrorMessageColoring(e, 'ERROR')
