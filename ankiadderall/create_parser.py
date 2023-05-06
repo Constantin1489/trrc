@@ -284,7 +284,7 @@ def check_response(responsetext, CARD_JSON, verboseOrDebug):
 
     for i in fail_to_add_card_list:
         print(f"{bcolors.FAIL + bcolors.BOLD + 'Failed:' + bcolors.ENDC} {i}", file=sys.stderr)
-    print(f"Total fails: {len(fail_to_add_card_list)}", file=sys.stderr)
+    print(f"Total cards: {len(CARD_JSON)} Total fails: {len(fail_to_add_card_list)}", file=sys.stdout)
 
 def get_failed_card_from_response(res_str: str, CARD_JSON: dict):
 
