@@ -43,6 +43,13 @@ to do sync, this program will ignore it by now. Please, sync manually
 with '--sync' option without card contents in a command line after a while"""
 
 
+def ErrorMessageColoring(ErrorMessageString, message_type=None):
+    if message_type == 'ERROR':
+        errormessage =  f'ERROR message: {ErrorMessageString}'
+    else:
+        errormessage =  f'{bcolors.FAIL + bcolors.BOLD + ErrorMessageString + bcolors.ENDC}'
+    print(errormessage, file=sys.stderr)
+
 def userAnkiConnect(webBindAddress='localhost', webBindPort=8765):
 
     def webBindAddressHandle(webBindAddress):
