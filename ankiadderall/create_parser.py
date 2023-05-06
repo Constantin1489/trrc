@@ -176,7 +176,7 @@ def parse_card(card_candidates, options):
                 with open(afile) as f:
                     lines += f.read().splitlines()
             except Exception as e:
-                print(e)
+                print(e, file=sys.stderr)
 
             main_logger.debug(f'read a file: {afile}')
 
@@ -243,6 +243,7 @@ def process_card(cardcontents, options, AnkiConnectInfo):
                                            options.IFS)
 
     except Exception as e:
+        print(e, file=sys.stderr)
         print('failed: ' + cardcontents, file=sys.stderr)
 
     if options.contents_file_import is True:
