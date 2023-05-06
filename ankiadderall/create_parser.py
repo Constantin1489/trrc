@@ -218,6 +218,46 @@ def parse_card(card_candidates, options):
     if options.sync:
         sync(AnkiConnectInfo, options.apikey)
 
+def gather_card_from(card_candidates, options, AnkiConnectInfo, filename=None):
+
+    Notes = []
+
+    for i, candidate in enumerate(card_candidates):
+
+        # print a current card.
+        main_logger.debug(f'string: {candidate}')
+        candidate = cardcontentsHandle(candidate, options)
+
+        if not candidate:
+            if filename:
+                #this is a 'grep -n' style.
+                print(f'{filename}:{i+1} is an empty line.', file=sys.stdout)
+            else:
+                print(f'line {i+1}: no card or a empty line', file=sys.stdout)
+            continue
+
+        # skipping comments
+        if candidate[0] == '#':
+            if filename:
+                #this is a 'grep -n' style. this is useful when jumping between files using vim `gF`
+                print(f'{filename}:{i+1} is a comment.', file=sys.stdout)
+            else:
+                print(f'line {i+1} is a comment.', file=sys.stdout)
+            continue
+
+        if filename is None:
+            main_logger.debug("--file option off")
+
+        try:
+            # if a line has cloze tag, than the line is a cloze type.
+            Notes.append(process_card(candidate, options, AnkiConnectInfo))
+
+        except Exception as e:
+            print(f"Failed to append a card: {e}", file=sys.stdout)
+            continue
+
+    return Notes
+
 def process_card(cardcontents, options, AnkiConnectInfo):
 
     TYPE = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
