@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import re
 import json
 import ankiadderall.ankiadderall as ankiadderall
-from ankiadderall.ankiadderall import bcolors, ErrorMessages
+from ankiadderall.ankiadderall import bcolors, ErrorMessages, ErrorMessageColoring, Regex_Pattern
 from ankiadderall.parserOpts import create_parser
 from ankiadderall.configOpts import make_toml, parsed_config, read_toml_config, toml_arg_handle
 from ankiadderall.configOpts import mask_apikey
@@ -269,10 +269,12 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebu
         response = requests.post(AnkiConnectInfo, json=jsonobj, timeout=timeout_value)
         check_response(response.text, CARD_JSON, verboseOrDebug)
 
-    except:
-        # if the requests statements failed, then alert.
-        # raise?
-        print(bcolors.FAIL + bcolors.BOLD + ErrorMessages.network + bcolors.ENDC, file=sys.stderr)
+    except Exception as e:
+
+        ErrorMessageColoring(e, 'ERROR')
+        ErrorMessageColoring(ErrorMessages.unknown_network_error)
+        # default network error message.
+        ErrorMessageColoring(ErrorMessages.ask_check_network)
         exit(4)
 
 def check_response(responsetext, CARD_JSON, verboseOrDebug):
