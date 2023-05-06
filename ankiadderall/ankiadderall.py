@@ -30,10 +30,18 @@ Check list
 3. Is an ip and port config correct?
 4. Does your serverside allow port?
 """
+    connect_time_out = "It's a connection time out."
+    unknown_network_error = """It's an unknown error.
+Please report it to https://github.com/Constantin1489/ankistreamadd/issues"""
     basictype = 'Basic type must have at least two fields'
     wrong_field = '"cannot create note because it is empty"'
     check_notetype = "ERROR: 'def _check_notetype' No predefined notetype is here"
     type_column_suggestion = "suggestion: use --type and --column option."
+    read_timed_out = """It's a Read timed out. But it is possible your Anki server is handling
+cards now. Within a minute, Your card is maybe available. If you set
+to do sync, this program will ignore it by now. Please, sync manually
+with '--sync' option without card contents in a command line after a while"""
+
 
 def userAnkiConnect(webBindAddress='localhost', webBindPort=8765):
 
