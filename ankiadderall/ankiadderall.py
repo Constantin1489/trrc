@@ -208,27 +208,18 @@ class card:
 
     def prevent_HTML_interpret(self, regex_compile, pattern):
 
-        regex = regex_compile
-
-        # REGEX OPTIMIZATION
         # For each match, look-up corresponding value in dictionary
-        self.card_str = regex.sub(lambda mo: pattern[mo.group()], self.card_str)
+        self.card_str = regex_compile.sub(lambda mo: pattern[mo.group()], self.card_str)
 
     def newline_to_html_br(self, regex_compile, pattern):
 
-        regex = regex_compile
-
-        self.card_str = regex.sub(lambda mo: pattern[mo.group()], self.card_str)
+        self.card_str = regex_compile.sub(lambda mo: pattern[mo.group()], self.card_str)
 
     def import_if_file(self, regex_compile, pattern):
 
         def str_to_html(asrting, regex_compile, pattern):
 
-            HTML_PATTERN = { ' ' : '&nbsp'}
-
-            regex = regex_compile
-
-            return regex.sub(lambda mo: pattern[mo.group()], asrting)
+            return  regex_compile.sub(lambda mo: pattern[mo.group()], self.card_str)
 
         card_contents = []
         for f in self.card_str.split(sep=self.IFS):
