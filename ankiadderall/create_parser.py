@@ -47,7 +47,7 @@ def parse_argument():
 
     if len(sys.argv) > 1 and sys.stdin.isatty() is True:
 
-        card_candidates = [options.cardContents]
+        cardcontentsHandle(options)
         card_candidates = [options.cardContents] if options.cardContents else []
         main_logger.debug('stdin: sys.stdin.isatty')
 
@@ -122,32 +122,31 @@ def get_proper_cardType(argparse_cardType=None):
     main_logger.debug(f"(hard coded) type is 'Basic'")
     return 'Basic'
 
-def cardcontentsHandle(card, options):
+def cardcontentsHandle(options):
     """
     If card.cardContents is a file, then insert it into --file option.
     """
 
     # if cardContents is a file, not a card contents, then put it in card.file.
-    if card and os.path.isfile(card):
+    if options.cardContents and os.path.isfile(options.cardContents):
 
-        main_logger.debug(f"{os.path.isfile(card)=}")
+        main_logger.debug(f"{os.path.isfile(options.cardContents)=}")
 
         if options.file :
-            options.file.append(card)
+            options.file.append(options.cardContents)
 
         # If card.file is None, then insert the list to --file option.
         else:
-            options.file = [card]
-        card = None
+            options.file = [options.cardContents]
+        options.cardContents = None
 
     else:
-        if card:
+        if options.cardContents:
             main_logger.debug(f"No file in card")
         else:
             main_logger.debug(f"empty card")
 
     # if there is no card OR a sole fole --file option
-    return card
 
 # parse cards, card's deck and type in the input.
 def parse_card(card_candidates, options):
@@ -200,7 +199,6 @@ def gather_card_from(card_candidates, options, AnkiConnectInfo, regexes, filenam
 
         # print a current card.
         main_logger.debug(f'string: {candidate}')
-        candidate = cardcontentsHandle(candidate, options)
 
         if not candidate:
             if filename:
