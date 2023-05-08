@@ -36,7 +36,7 @@ def create_parser():
             )
 
     parser.add_argument(
-            'cardContents', action='store', nargs='?',
+            'cardContents', action='store', nargs='*',
             help=(
             'A positional contents of a card'
             ))
