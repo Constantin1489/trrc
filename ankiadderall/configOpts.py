@@ -27,7 +27,7 @@ class parsed_config:
         self.ip = '127.0.0.1'
         self.port = 8765
         self.IFS = '\t'
-        self.column = None
+        self.field = None
         self.file = None
         self.dryrun = False
         self.verbose = None

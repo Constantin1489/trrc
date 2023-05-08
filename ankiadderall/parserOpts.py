@@ -16,12 +16,12 @@ def create_parser():
   pourc $'안녕\\tHello\\tKorean'
   pourc "back\\ttestfront\\tvim" -F '\\t'
   pourc --IFS % '안녕%Hello%Korean'
-  pourc --column 'ArbitraryFourthFieldName:ArbitrarysecondFieldName:tag' 'FourthContent\tsecondContent\ttag'
+  pourc --field 'ArbitraryFourthFieldName:ArbitrarysecondFieldName:tag' 'FourthContent\tsecondContent\ttag'
   pourc --ip 192.168.1.230 --port 4832 --debug --file Korean_English_conversation.txt
   # bash
-  echo -e 'basic_type_front_normal_tab with option\\tbasic_type_back\\tbasic_type_tag' | pourc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
+  echo -e 'basic_type_front_normal_tab with option\\tbasic_type_back\\tbasic_type_tag' | pourc -t 'Basic (and reversed card)' --field 'Front:Back:tag' --debug
   # zsh
-  echo 'basic_type_front_normal_tab with option\\tbasic_type_back\\tbasic_type_tag' | pourc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
+  echo 'basic_type_front_normal_tab with option\\tbasic_type_back\\tbasic_type_tag' | pourc -t 'Basic (and reversed card)' --field 'Front:Back:tag' --debug
   # supports HEREDOC
   pourc <<EOF --debug
   front	back	text
@@ -111,9 +111,9 @@ def create_parser():
 
     parser.add_argument(
 			# TODO: field?
-            '--column',
-			metavar="colon delimiter-separated fields",
-			action='store', dest='column',
+            '--field',
+            metavar="colon:delimiter-separated:fields",
+			action='store', dest='field',
             help=(
             "Set an order of card field where you want to put separated strings. For example, 'front:back:tags'"
             ))

@@ -245,7 +245,7 @@ def process_card(cardcontents, options, regex_compiles):
         tempCardObject = ankiadderall.card(get_proper_deck(options.deck),
                                            TYPE,
                                            cardcontents,
-                                           options.column,
+                                           options.field,
                                            options.IFS)
 
     except Exception as e:

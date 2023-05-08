@@ -37,7 +37,7 @@ Please report it to https://github.com/Constantin1489/ankistreamadd/issues"""
     basictype = 'Basic type must have at least two fields'
     wrong_field = '"cannot create note because it is empty"'
     check_notetype = "ERROR: 'def _check_notetype' No predefined notetype is here"
-    type_column_suggestion = "suggestion: use --type and --column option."
+    type_field_suggestion = "suggestion: use --type and --field option."
     read_timed_out = """It's a Read timed out. But it is possible your Anki server is handling
 cards now. Within a minute, Your card is maybe available. If you set
 to do sync, this program will ignore it by now. Please, sync manually
@@ -75,7 +75,7 @@ class card:
     A class for card object
     """
 
-    def __init__(self, deck: str, notetype: str, card_str: str, column: str, IFS='\t'):
+    def __init__(self, deck: str, notetype: str, card_str: str, field: str, IFS='\t'):
         """
         no deck and notetype. because cardlist has deck and notetype.
         """
@@ -83,19 +83,19 @@ class card:
         self.deck: str = deck
         self.notetype: str = notetype
         self.card_str = card_str
-        self.column: str = column
+        self.field: str = field
         self.IFS = IFS
 
         main_logger.debug(f'card object: {self.notetype=}: {type(self.notetype)=}')
         main_logger.debug(f'card object: {IFS=}: {type(IFS)=}')
         main_logger.debug(f'card object: {card_str=}: {type(card_str)=}')
 
-    def _check_notetype(self, notetype, splited_card_list: list[str], column: list[str]):
+    def _check_notetype(self, notetype, splited_card_list: list[str], field: list[str]):
         """
         return card content variables per notetype.
         """
 
-        if column is None and notetype in ['basic', 'Basic', 'BasicTwo']:
+        if field is None and notetype in ['basic', 'Basic', 'BasicTwo']:
             main_logger.debug('basic is on')
             front = splited_card_list[0]
 
@@ -118,7 +118,7 @@ class card:
 
         # TODO : import config from outside.
         # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error
-        if column is None and notetype in ['cloze', 'Cloze']:
+        if field is None and notetype in ['cloze', 'Cloze']:
             main_logger.debug('cloze is on')
             Text = self._cloze_contain_cloze_tag(splited_card_list[0])
             # suggestion : len(list) condition
@@ -141,10 +141,10 @@ class card:
 
             return { 'Text' : Text, 'Extra' : Extra }, tag
 
-        if column is not None:
-            main_logger.debug('column is on')
-            merged_contents: dict = self._merge_splited_card_list_W_column(column, splited_card_list)
-            if ('tag' or 'tags') not in column:
+        if field is not None:
+            main_logger.debug('field is on')
+            merged_contents: dict = self._merge_splited_card_list_W_field(field, splited_card_list)
+            if ('tag' or 'tags') not in field:
                 return merged_contents, ['']
 
             try:
@@ -158,13 +158,13 @@ class card:
             return merged_contents, tag
 
         print(bcolors.FAIL + bcolors.BOLD + ErrorMessages.check_notetype, bcolors.ENDC, file=sys.stderr)
-        print(bcolors.BOLD + ErrorMessages.type_column_suggestion + bcolors.ENDC, file=sys.stderr)
+        print(bcolors.BOLD + ErrorMessages.type_field_suggestion + bcolors.ENDC, file=sys.stderr)
 
-    def _merge_splited_card_list_W_column(self, column: list, card_contents_list: list):
+    def _merge_splited_card_list_W_field(self, field: list, card_contents_list: list):
 
-        if len(column) >= len(card_contents_list):
-            return dict(zip(column, card_contents_list))
-        raise Exception('a number of the columns in the option is smaller than actual fields of a card contents')
+        if len(field) >= len(card_contents_list):
+            return dict(zip(field, card_contents_list))
+        raise Exception('a number of the fields in the option is smaller than actual fields of a card contents')
 
     def _is_Notag(self, tag):
         if isinstance(tag, type(None)):
@@ -243,15 +243,15 @@ class card:
         try:
             self.content, self.tag = self._check_notetype(self.notetype,
                                                           self.card_str.split(sep=self.IFS),
-                                                          self.get_column())
+                                                          self.get_field())
 
         except Exception as e:
             print('ERROR', e, file=sys.stderr)
 
-    def get_column(self):
-        if self.column is None:
+    def get_field(self):
+        if self.field is None:
             return None
-        return (lambda s: [i for i in s.split(':')])(self.column)
+        return (lambda s: [i for i in s.split(':')])(self.field)
 
     def create_cardjson_note(self):
         """
