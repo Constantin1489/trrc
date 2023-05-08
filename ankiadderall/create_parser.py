@@ -48,7 +48,7 @@ def parse_argument():
     if len(sys.argv) > 1 and sys.stdin.isatty() is True:
 
         cardcontentsHandle(options)
-        card_candidates = [options.cardContents] if options.cardContents else []
+        card_candidates = options.cardContents if options.cardContents else []
         main_logger.debug('stdin: sys.stdin.isatty')
 
     else:
@@ -127,18 +127,25 @@ def cardcontentsHandle(options):
     If card.cardContents is a file, then insert it into --file option.
     """
 
+    files_in_cardContents = []
+    for i in options.cardContents:
+        if os.path.isfile(i):
+            main_logger.debug(f"{os.path.isfile(i)=}")
+            files_in_cardContents.append(i)
+            options.cardContents.remove(i)
+
     # if cardContents is a file, not a card contents, then put it in card.file.
-    if options.cardContents and os.path.isfile(options.cardContents):
+    if files_in_cardContents:
+        for i in files_in_cardContents:
 
-        main_logger.debug(f"{os.path.isfile(options.cardContents)=}")
+            main_logger.debug(f"{i=}")
 
-        if options.file :
-            options.file.append(options.cardContents)
+            if options.file :
+                options.file.append(i)
 
-        # If card.file is None, then insert the list to --file option.
-        else:
-            options.file = [options.cardContents]
-        options.cardContents = None
+            # If card.file is None, then insert the list to --file option.
+            else:
+                options.file = [i]
 
     else:
         if options.cardContents:
