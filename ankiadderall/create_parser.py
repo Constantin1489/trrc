@@ -165,7 +165,7 @@ def parse_card(card_candidates, options):
             exit(0)
 
     Notes = []
-    Notes.extend(gather_card_from(card_candidates, options, AnkiConnectInfo, regexes))
+    Notes.extend(gather_card_from(card_candidates, options, regexes))
 
     if options.file:
         main_logger.debug(f'{options.file=}')
@@ -180,7 +180,7 @@ def parse_card(card_candidates, options):
 
             main_logger.debug(f'read a file: {afile}')
 
-            Notes.extend(gather_card_from(lines, options, AnkiConnectInfo, regexes, afile))
+            Notes.extend(gather_card_from(lines, options, regexes, afile))
 
     if options.dryrun is False:
         send_card_AnkiConnect(AnkiConnectInfo,
@@ -191,7 +191,7 @@ def parse_card(card_candidates, options):
     if options.sync:
         sync(AnkiConnectInfo, options.apikey)
 
-def gather_card_from(card_candidates, options, AnkiConnectInfo, regexes, filename=None):
+def gather_card_from(card_candidates, options, regexes, filename=None):
 
     Notes = []
 
@@ -222,7 +222,7 @@ def gather_card_from(card_candidates, options, AnkiConnectInfo, regexes, filenam
 
         try:
             # if a line has cloze tag, than the line is a cloze type.
-            Notes.append(process_card(candidate, options, AnkiConnectInfo, regexes))
+            Notes.append(process_card(candidate, options, regexes))
 
         except Exception as e:
             print(f"Failed to append a card: {e}", file=sys.stdout)
@@ -230,7 +230,7 @@ def gather_card_from(card_candidates, options, AnkiConnectInfo, regexes, filenam
 
     return Notes
 
-def process_card(cardcontents, options, AnkiConnectInfo, regex_compiles):
+def process_card(cardcontents, options, regex_compiles):
 
     TYPE = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
 
