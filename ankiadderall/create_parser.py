@@ -249,7 +249,7 @@ def process_card(cardcontents, options, regex_compiles):
         tempCardObject.import_if_file(regex_compiles.str_to_html_compile,
                                       regex_compiles.str_to_html_pattern)
 
-    if options.allow_HTML is False:
+    if options.allow_HTML is None:
         tempCardObject.prevent_HTML_interpret(regex_compiles.prevent_HTML_interpret_compile,
                                               regex_compiles.prevent_HTML_interpret_pattern)
 
