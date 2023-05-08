@@ -255,6 +255,7 @@ def process_card(cardcontents, options, regex_compiles):
 
     tempCardObject.newline_to_html_br(regex_compiles.newline_to_html_br_compile,
                                       regex_compiles.newline_to_html_br_pattern)
+
     tempCardObject.make_card()
     if options.force_add:
         card = tempCardObject.create_cardjson_note()

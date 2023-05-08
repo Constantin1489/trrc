@@ -43,7 +43,6 @@ cards now. Within a minute, Your card is maybe available. If you set
 to do sync, this program will ignore it by now. Please, sync manually
 with '--sync' option without card contents in a command line after a while"""
 
-
 def ErrorMessageColoring(ErrorMessageString, message_type=None):
     if message_type == 'ERROR':
         errormessage =  f'ERROR message: {ErrorMessageString}'
@@ -240,7 +239,6 @@ class card:
         return final card object to add DB.
         card: tuple[self.content: dict[str, str], self.tag: list[str]]
         """
-
 
         try:
             self.content, self.tag = self._check_notetype(self.notetype,
