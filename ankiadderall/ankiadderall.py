@@ -100,7 +100,7 @@ class card:
         """
 
         if field is None and notetype in ['basic', 'Basic']:
-            main_logger.debug('basic is on')
+            main_logger.debug('hard coded basic is on')
             front = splited_card_list[0]
 
             try:
