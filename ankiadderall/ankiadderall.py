@@ -93,12 +93,13 @@ class card:
         main_logger.debug(f'card object: {IFS=}: {type(IFS)=}')
         main_logger.debug(f'card object: {card_str=}: {type(card_str)=}')
 
+    # TODO: cloze fallback
     def _check_notetype(self, notetype, splited_card_list: list[str], field: list[str]):
         """
         return card content variables per notetype.
         """
 
-        if field is None and notetype in ['basic', 'Basic', 'BasicTwo']:
+        if field is None and notetype in ['basic', 'Basic']:
             main_logger.debug('basic is on')
             front = splited_card_list[0]
 
