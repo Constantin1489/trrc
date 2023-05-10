@@ -75,7 +75,8 @@ class card:
     A class for card object
     """
 
-    def __init__(self, deck: str, notetype: str, card_str: str, field: str, IFS='\t'):
+    def __init__(self, deck: str, notetype: str, card_str: str, field: str,
+                 cloze_field, cloze_type, IFS='\t'):
         """
         no deck and notetype. because cardlist has deck and notetype.
         """
@@ -85,6 +86,8 @@ class card:
         self.card_str = card_str
         self.field: str = field
         self.IFS = IFS
+        self.cloze_field = cloze_field
+        self.cloze_type = cloze_type
 
         main_logger.debug(f'card object: {self.notetype=}: {type(self.notetype)=}')
         main_logger.debug(f'card object: {IFS=}: {type(IFS)=}')
@@ -141,9 +144,17 @@ class card:
 
             return { 'Text' : Text, 'Extra' : Extra }, tag
 
-        if field is not None:
+        if field:
             main_logger.debug('field is on')
-            merged_contents: dict = self._merge_splited_card_list_W_field(field, splited_card_list)
+            if notetype in ['cloze', 'Cloze']:
+                if self.cloze_field:
+                    merged_contents: dict = self._merge_splited_card_list_W_field(self.get_field(self.cloze_field), splited_card_list)
+                else:
+                    merged_contents: dict = self._merge_splited_card_list_W_field(field, splited_card_list)
+
+            else:
+                merged_contents: dict = self._merge_splited_card_list_W_field(field, splited_card_list)
+
             if ('tag' or 'tags') not in field:
                 return merged_contents, ['']
 
@@ -243,15 +254,15 @@ class card:
         try:
             self.content, self.tag = self._check_notetype(self.notetype,
                                                           self.card_str.split(sep=self.IFS),
-                                                          self.get_field())
+                                                          self.get_field(self.field))
 
         except Exception as e:
             print('ERROR', e, file=sys.stderr)
 
-    def get_field(self):
-        if self.field is None:
+    def get_field(self, field):
+        if field is None:
             return None
-        return (lambda s: [i for i in s.split(':')])(self.field)
+        return (lambda s: [i for i in s.split(':')])(field)
 
     def create_cardjson_note(self):
         """

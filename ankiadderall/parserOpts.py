@@ -119,6 +119,21 @@ def create_parser():
             ))
 
     parser.add_argument(
+            '--cloze-field',
+			metavar="colon:delimiter-separated:fields",
+            action='store', dest='cloze_field',
+            help=(
+            "Set an order of card field where you want to put separated strings.  For example, 'Text:tags'"
+            ))
+
+    parser.add_argument(
+            '--cloze-type',
+            action='store', dest='cloze_type',
+            help=(
+            "Set a type of a fallback for a cloze type."
+            ))
+
+    parser.add_argument(
             '--toml-generate',
             action='store_true', dest='toml_generate',
             help=(

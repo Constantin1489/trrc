@@ -246,6 +246,8 @@ def process_card(cardcontents, options, regex_compiles):
                                            TYPE,
                                            cardcontents,
                                            options.field,
+                                           options.cloze_field,
+                                           options.cloze_type,
                                            options.IFS)
 
     except Exception as e:
