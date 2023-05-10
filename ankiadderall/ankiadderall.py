@@ -142,7 +142,7 @@ class card:
 
             tag = self._is_Notag(tag)
 
-            return { 'Text' : Text, 'Extra' : Extra }, tag
+            return { 'Text' : Text, 'Back Extra' : Extra }, tag
 
         if field:
             main_logger.debug('field is on')
