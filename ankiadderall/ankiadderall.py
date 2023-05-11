@@ -59,7 +59,7 @@ def userAnkiConnect(webBindAddress='localhost', webBindPort=8765):
         else, r'http://{Address}:{Port}'
         """
 
-        if ('http:' or 'https') in webBindAddress[:5]:
+        if webBindAddress[:5] in {'http:', 'https'}:
             return r"{Address}:{Port}"
         else:
             return r"http://{Address}:{Port}"
