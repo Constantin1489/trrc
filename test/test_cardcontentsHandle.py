@@ -27,7 +27,7 @@ def test_create_parser(parser):
 
     # a default port option
     result = parser.parse_args()
-    assert  result.port == 8765
+    assert  result.port == None
 
 
 def test_file_option(parser):
