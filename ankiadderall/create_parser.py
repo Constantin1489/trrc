@@ -16,12 +16,14 @@ main_logger = logging.getLogger(__name__)
 
 
 # TODO: isn't it a main()?
-def parse_argument():
+def parse_argument(args=None):
 
     parser = create_parser()
 
     # enable logger
-    parsed_arg = parser.parse_args(sys.argv[1:])
+    if args is None:
+        args = sys.argv[1:]
+    parsed_arg = parser.parse_args(args)
     logging.basicConfig(encoding='utf-8', level=get_logging_level(parsed_arg))
 
     # TOML
