@@ -102,7 +102,6 @@ def mask_apikey(config: dict):
 
     # If key is key or apikey and v is not false nor None, then return 'masked'. In other cases, print as it is.
     return { k: ('masked' if k in {'key', 'apikey'} and v else v) for k, v in  config.items() }
-    #return { k: ( v if k not in {'key', 'apikey'} or ( k in {'key', 'apikey'} and not v ) else 'masked') for k, v in  config.items()}
 
 def make_toml(parsed_arg: dict, section_title='untitled'):
 
