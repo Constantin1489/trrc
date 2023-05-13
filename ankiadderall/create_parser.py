@@ -283,6 +283,7 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebu
     jsonobj = { "action": "addNotes",
             "version": 6,
             "params": { "notes": CARD_JSON }}
+    main_logger.debug(f'{jsonobj=}: {type(jsonobj)=}')
 
     if apikey:
         jsonobj.update({'key' : apikey})
@@ -302,6 +303,7 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebu
             timeout_value = (DEFAULT_WAITING_CONNECTION_SEC,
                              DEFAULT_WAITING_RESPONSE_READ_SEC)
 
+        main_logger.debug(f'{timeout_value=}: {type(timeout_value)=}')
         response = requests.post(AnkiConnectInfo, json=jsonobj, timeout=timeout_value)
         check_response(response.text, CARD_JSON, verboseOrDebug)
 
