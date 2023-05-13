@@ -336,7 +336,10 @@ def check_response(responsetext, CARD_JSON, verboseOrDebug):
 def get_failed_card_from_response(res_str: str, CARD_JSON: dict):
 
     res_str_load: dict = json.loads(res_str)
-    return [CARD_JSON[i] for i, v in enumerate(res_str_load['result']) if v is None]
+    try:
+        return [CARD_JSON[i] for i, v in enumerate(res_str_load['result']) if v is None]
+    except:
+        raise ValueError(f"{res_str_load['error']}")
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     """TODO: Docstring for check_cloze_is_mistakely_there.
