@@ -66,22 +66,25 @@ def read_toml_config(config_file_name, section):
 
     main_logger.debug(f'{config_file_name=}')
 
-    config_file_name = os.path.expanduser('~/.asprc') if not config_file_name \
+    config_file = os.path.expanduser('~/.asprc') if not config_file_name \
                                                         else os.path.expanduser(config_file_name)
-    main_logger.debug(f'{config_file_name=}')
+    main_logger.debug(f'{config_file=}')
 
     if section is None:
         main_logger.debug(f'default section')
         section = 'default'
 
     try:
-        with open(config_file_name, "r") as f:
+        with open(config_file, "r") as f:
             from tomlkit import loads
             toml_load = loads(f.read())
 
     # if there is no ~/.asprc nor config_file_name, then return empty dict.
-    except:
-        main_logger.debug(f"can't open {config_file_name}")
+    except FileNotFoundError as e:
+        main_logger.debug(f"can't open a default {config_file}")
+
+    except Exception as e:
+        print(e)
         return {}
 
     try:
