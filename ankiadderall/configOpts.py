@@ -82,6 +82,10 @@ def read_toml_config(config_file_name, section):
     # if there is no ~/.asprc nor config_file_name, then return empty dict.
     except FileNotFoundError as e:
         main_logger.debug(f"can't open a default {config_file}")
+        if config_file_name is None:
+            return {}
+        else:
+            print(f"{config_file_name}: {e}", file=sys.stderr)
 
     except Exception as e:
         print(e)
