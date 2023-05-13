@@ -314,6 +314,8 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebu
         ErrorMessageColoring(ErrorMessages.connect_time_out)
         ErrorMessageColoring(ErrorMessages.ask_check_network)
         exit(4)
+    except ValueError as e:
+        print(e)
     except Exception as e:
 
         ErrorMessageColoring(e, 'ERROR')
