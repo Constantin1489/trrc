@@ -91,7 +91,7 @@ def read_toml_config(config_file_name, section):
 
     except Exception as e:
         print(e)
-        return {}
+        exit(1)
 
     try:
         main_logger.debug(f'{mask_apikey(toml_load[section])=}')
