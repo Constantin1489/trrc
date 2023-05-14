@@ -341,7 +341,11 @@ def get_failed_card_from_response(res_str: str, CARD_JSON: dict):
     try:
         return [CARD_JSON[i] for i, v in enumerate(res_str_load['result']) if v is None]
     except:
-        raise ValueError(f"{res_str_load['error']}")
+        if res_str_load['error'] == 'valid api key must be provided':
+            ErrorMessageColoring(ErrorMessages.valid_api_key_require)
+            exit(1)
+        else:
+            raise ValueError(f"{res_str_load['error']}")
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     """TODO: Docstring for check_cloze_is_mistakely_there.

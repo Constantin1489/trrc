@@ -42,6 +42,7 @@ Please report it to https://github.com/Constantin1489/ankistreamadd/issues"""
 cards now. Within a minute, Your card is maybe available. If you set
 to do sync, this program will ignore it by now. Please, sync manually
 with '--sync' option without card contents in a command line after a while"""
+    valid_api_key_require = "valid api key must be provided. please check your apikey and, use --apikey option or add it into a config file."
 
 def ErrorMessageColoring(ErrorMessageString, message_type=None):
     if message_type == 'ERROR':
