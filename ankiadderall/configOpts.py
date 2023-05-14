@@ -85,7 +85,8 @@ def read_toml_config(config_file_name, section):
         if config_file_name is None:
             return {}
         else:
-            print(f"{config_file_name}: {e}", file=sys.stderr)
+            print(f"There is no '{config_file_name}'. Please check the config file name.", file=sys.stderr)
+            exit(1)
 
     except Exception as e:
         print(e)
