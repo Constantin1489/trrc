@@ -177,7 +177,7 @@ class card:
 
         if len(field) >= len(card_contents_list):
             return dict(zip(field, card_contents_list))
-        raise Exception('a number of the fields in the option is smaller than actual fields of a card contents')
+        raise Exception('a number of the fields in the option is smaller than actual fields of a card content')
 
     def _is_Notag(self, tag):
         if isinstance(tag, type(None)):
