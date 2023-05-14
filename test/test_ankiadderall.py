@@ -58,24 +58,27 @@ def test_read_toml_config(config_file_name, user_section, mock_side_effect, sect
         mock_file.side_effect=mock_side_effect
 
         # if there is a file and user set an arbitrary section.
-        if CASE_DATA_TO_READ and user_section in ['default','arbitrary'] and mock_side_effect is None:
+        if user_section in ['NoSuchASection', 'default'] and mock_side_effect is None:
             from tomlkit import loads
             toml_load = loads(CASE_DATA_TO_READ)
 
-            if section_in_file == 'arbitrary' and user_section != 'arbitrary':
-                assert read_toml_config(config_file_name, user_section) == {}
+            if section_in_file != user_section:
+                with pytest.raises(KeyError) as e:
+                    read_toml_config(config_file_name, user_section)
+
             else:
                 assert read_toml_config(config_file_name, user_section) == toml_load[user_section]
 
         # If a config file exists and user doesn't set a section, then use a
         # 'default' section.
-        elif CASE_DATA_TO_READ and user_section is None and mock_side_effect is None: 
+        elif user_section is None and mock_side_effect is None:
             from tomlkit import loads
             toml_load = loads(CASE_DATA_TO_READ)
             hardcoded_section = 'default'
-            if section_in_file == 'arbitrary' and user_section != 'arbitrary':
-                #with pytest.raises(Exception) as e:
-                assert read_toml_config(config_file_name, user_section) == {}
+            if section_in_file == 'arbitrary':
+                with pytest.raises(KeyError) as e:
+                    read_toml_config(config_file_name, user_section)
+
             else:
                 assert read_toml_config(config_file_name, user_section) == toml_load[hardcoded_section]
         elif mock_side_effect is FileNotFoundError and config_file_name is not None:
