@@ -74,9 +74,9 @@ def read_toml_config(config_file_name, section):
         main_logger.debug(f'default section')
         section = 'default'
 
+    from tomlkit import loads, exceptions
     try:
         with open(config_file, "r") as f:
-            from tomlkit import loads
             toml_load = loads(f.read())
 
     # if there is no ~/.asprc nor config_file_name, then return empty dict.
@@ -95,9 +95,13 @@ def read_toml_config(config_file_name, section):
         main_logger.debug(f'{mask_apikey(toml_load[section])=}')
 
         return toml_load[section]
-    except:
-        main_logger.debug(f"{toml_load} doesn't have {section}")
-        return {}
+
+    except exceptions.NonExistentKey:
+        raise KeyError(f"There is No '{section}' section in the config file. Please check an alias of the config file.")
+
+    except Exception as e:
+        print(f"Unknown Error: {e}")
+        exit(1)
 
 def mask_apikey(config: dict):
     """
