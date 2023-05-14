@@ -83,6 +83,7 @@ def read_toml_config(config_file_name, section):
     except FileNotFoundError as e:
         main_logger.debug(f"can't open a default {config_file}")
         if config_file_name is None:
+            main_logger.debug(f"Use an empty dictionary instead of the default config file")
             return {}
         else:
             print(f"There is no '{config_file_name}'. Please check the config file name.", file=sys.stderr)
