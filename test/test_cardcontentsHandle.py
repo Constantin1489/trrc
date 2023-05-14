@@ -26,7 +26,9 @@ def test_create_parser(parser):
     assert  result.port == 30
 
     # a default port option
-    result = parser.parse_args()
+    # if there is no argument in parse_args(), then pytest --tb=line raise
+    # error.
+    result = parser.parse_args([])
     assert  result.port == None
 
 
