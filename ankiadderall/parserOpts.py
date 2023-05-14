@@ -115,7 +115,7 @@ def create_parser():
             metavar="colon:delimiter-separated:fields",
 			action='store', dest='field',
             help=(
-            "Set an order of card field where you want to put separated strings. For example, 'front:back:tags'"
+            "Set an order of card field where you want to put separated strings. For example, the default is 'Front:Back:Tags'"
             ))
 
     parser.add_argument(
@@ -123,7 +123,7 @@ def create_parser():
 			metavar="colon:delimiter-separated:fields",
             action='store', dest='cloze_field',
             help=(
-            "Set an order of card field where you want to put separated strings.  For example, 'Text:tags'"
+            "Set an order of card field where you want to put separated strings. For example, 'Text:tags'. The default is 'Text:Back Extra:Tags'"
             ))
 
     parser.add_argument(
