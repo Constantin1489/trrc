@@ -204,6 +204,9 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
 
     Notes = []
 
+    if filename is None:
+        main_logger.debug("--file option off")
+
     for i, candidate in enumerate(card_candidates, start=1):
 
         # print a current card.
@@ -226,8 +229,6 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
                 print(f'line {i} is a comment.', file=sys.stdout)
             continue
 
-        if filename is None:
-            main_logger.debug("--file option off")
 
         try:
             # if a line has cloze tag, than the line is a cloze type.
