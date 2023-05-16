@@ -239,7 +239,7 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
             Notes.append(process_card(candidate, options, regexes))
 
         except Exception as e:
-            print(f"Failed to append a card: {e}", file=sys.stdout)
+            print(f"Failed to append a card: {e}", file=sys.stderr)
             continue
 
     return Notes
