@@ -46,7 +46,6 @@ def parse_argument(args=None):
     options.overwrite_config(vars(parsed_arg))
     main_logger.debug(f'argument overwriting: {mask_apikey(vars(options))=}')
 
-
     if len(sys.argv) > 1 and sys.stdin.isatty() is True:
 
         cardcontentsHandle(options)
@@ -279,6 +278,7 @@ def process_card(cardcontents: str, options, regex_compiles):
                                       regex_compiles.newline_to_html_br_pattern)
 
     tempCardObject.make_card()
+
     if options.force_add:
         card = tempCardObject.create_cardjson_note()
         card.update({"options" : { "allowDuplicate": True, "duplicateScope": "deck"}})
