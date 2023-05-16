@@ -84,6 +84,12 @@ Ankiadderall will interpret`linux::http linux::network` as a list which is `['li
 
 \<br\> is a new line. It's because anki or ankiadderall interprets contents of a card as a HTML. Currently I'm working on it. 
 
+### How to open a port?
+
+Basically, when you are running anki with an AnkiConnect addon, the port(default is 8765) of AnkiConnect opens.
+
+But if your want to send a card by pourc from outside of your computer, you need to modify firewall option.
+
 ### This software misses some characters.
 
 Thank you for letting me know! Please report the bug.
