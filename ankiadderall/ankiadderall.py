@@ -157,7 +157,7 @@ class card:
             else:
                 merged_contents: dict = self._merge_splited_card_list_W_field(field, splited_card_list)
 
-            if ('tag' or 'tags') not in field:
+            if 'tag' not in field and 'tags' not in field:
                 return merged_contents, ['']
 
             try:
