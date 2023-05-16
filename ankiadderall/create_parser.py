@@ -238,6 +238,13 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
             # if a line has cloze tag, than the line is a cloze type.
             Notes.append(process_card(candidate, options, regexes))
 
+        except AttributeError as e:
+            if "'card' object has no attribute 'content'" in e.args:
+                pass
+            else:
+                print(f"Unknown error: {e}", file=sys.stderr)
+            continue
+
         except Exception as e:
             print(f"Failed to append a card: {e}", file=sys.stderr)
             continue
