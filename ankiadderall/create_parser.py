@@ -229,6 +229,10 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
                 print(f'line {i} is a comment.', file=sys.stdout)
             continue
 
+        if filename:
+            main_logger.info(f"{filename}:{i}: {candidate}")
+        else:
+            main_logger.info(f"{i}: {candidate}")
 
         try:
             # if a line has cloze tag, than the line is a cloze type.
