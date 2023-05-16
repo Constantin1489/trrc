@@ -258,6 +258,11 @@ class card:
                                                           self.card_str.split(sep=self.IFS),
                                                           self.get_field(self.field))
 
+        except KeyError as e:
+            if 'tags' in e.args:
+                print(f"ERROR: check your IFS is correct '{self.card_str}' IFS '{self.IFS}'",
+                      file=sys.stderr)
+
         except Exception as e:
             print('ERROR', e, file=sys.stderr)
 
