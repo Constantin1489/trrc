@@ -204,7 +204,7 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
 
     Notes = []
 
-    for i, candidate in enumerate(card_candidates):
+    for i, candidate in enumerate(card_candidates, start=1):
 
         # print a current card.
         main_logger.debug(f'string: {candidate}')
@@ -212,18 +212,18 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
         if not candidate:
             if filename:
                 #this is a 'grep -n' style.
-                print(f'{filename}:{i+1} is an empty line.', file=sys.stdout)
+                print(f'{filename}:{i} is an empty line.', file=sys.stdout)
             else:
-                print(f'line {i+1}: no card or a empty line', file=sys.stdout)
+                print(f'line {i}: no card or a empty line', file=sys.stdout)
             continue
 
         # skipping comments
         if candidate[0] == '#':
             if filename:
                 #this is a 'grep -n' style. this is useful when jumping between files using vim `gF`
-                print(f'{filename}:{i+1} is a comment.', file=sys.stdout)
+                print(f'{filename}:{i} is a comment.', file=sys.stdout)
             else:
-                print(f'line {i+1} is a comment.', file=sys.stdout)
+                print(f'line {i} is a comment.', file=sys.stdout)
             continue
 
         if filename is None:
