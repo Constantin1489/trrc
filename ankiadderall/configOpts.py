@@ -89,6 +89,10 @@ def read_toml_config(config_file_name, section):
             print(f"There is no '{config_file_name}'. Please check the config file name.", file=sys.stderr)
             exit(1)
 
+    except PermissionError as p:
+        print(f"""Permission error: '{config_file}'.
+Please check the permission of the file with 'ls -l {config_file}'.""", file=sys.stderr)
+        exit(1)
     except Exception as e:
         print(e)
         exit(1)
