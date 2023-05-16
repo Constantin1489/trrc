@@ -71,8 +71,14 @@ Anki	Anki is a free and open-source flashcard program using spaced repetition	an
 ## FAQ
 
 ### How to add several tags?
-a tag is a word. therefore a spacebar will separate tags.
-Ankiadderall will interpret `Linux::kickstart Linux::vm` as a list which contains ['Linux::kickstart', 'Linux::vm']
+a tag is a word. Therefore a spacebar will separate tags.
+
+So for example, (IFS is a tab character as a default.): `linux::http linux::network`
+
+```
+pourc '[linux] port 80	HTTP's port	linux::http linux::network'
+```
+Ankiadderall will interpret`linux::http linux::network` as a list which is `['linux::http', 'linux::network']`
 
 ### How to add a new line?
 
