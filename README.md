@@ -28,14 +28,14 @@ So you can add your card at any circumstance conveniently.
 ### pip
 `pip install ankiadderall`
 
-### manual installation
+### Manual installation
 `pip install -r requirements.txt`
 
 ## USAGE
 The usage should be pretty self-explanatory. But to solve common mistakes, I wrote a lot of examples. Before post an issue, compare your command with below, please.
 
-### stdin
-```python3
+### Standard Input
+```sh
 pourc '안녕	Hello	Korean Conversation'
 pourc $'안녕\tHello\tKorean'
 ../ankiadderall/addstring.py "back\ttestfront\tvim" -F '\t'
@@ -44,8 +44,8 @@ pourc --column 'ArbitraryFourthFieldName:ArbitrarysecondFieldName:tag' 'FourthCo
 pourc --ip 192.168.1.230 --port 4832 --debug --file Korean_English_conversation.txt
 ```
 
-### pipe redirection
-```python3
+### Pipe Redirection
+```sh
 # bash: \t
 echo -e 'basic_type_front_normal_tab with option\tbasic_type_back\tbasic_type_tag' | pourc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
 
