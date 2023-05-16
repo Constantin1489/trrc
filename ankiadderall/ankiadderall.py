@@ -164,6 +164,8 @@ class card:
             if 'tag' not in field and 'tags' not in field:
                 return merged_contents, ['']
 
+            # If try-except failed, then spliting self.card_str by IFS is failed.
+            # Even if this card failed, it wouldn't break the program but skip to the next card.
             try:
                 tag: str = merged_contents.pop('tag')
 
