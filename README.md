@@ -70,18 +70,22 @@ Thank you for letting me know! Please report the bug.
 
 ## TODO
 
-* [ ] verbose option
-    * [ ] verbose is critical and info.
-    * [ ] if (verbose and debug), debug overwrites verbose. or other algo
-        * [ ] if debug:; elif verbose:; else; return None
-
-* [ ] add reliable and insightful pytests
-* [ ] config file option
-* [ ] HTML interpret on-off mode.
-    * [ ] \<br\> &lt, &gt & HTML on <-> HTML off and `\n`
-        * [ ] First, change every HTML tags to &gt &lt. then change \n to <br>
-    * [ ] should it be a HTML off mode a default?
-* [ ] Embedding modules: allow ankiadderall as a module to use in python script.
-* [ ] Error message: file doesn't exist. (if stdin file without option, then ...)
-    * python /Users/constantinhong/TODO/ankiadderall/ankiadderall/addstring.py /Users/constantinhong/TODO/tempfile_dir/snippet.2Tw9DzvZ.ExportedCard
-    * ERROR TEMP raise!!!!!!!!DO/tempfile_dir/snippet.2Tw9DzvZ.ExportedCard
+- [x] verbose option
+    - [x] Is verbose critical or info.
+    - [x] if (verbose and debug), debug overwrites verbose. or other algo
+        - [x] if debug:; elif verbose:; else; return None
+- [ ] new verbose purpose.
+- [ ] add reliable and insightful pytests
+- [x] config file option
+- [x] HTML interpret on-off mode.
+    - [x] \<br\> &lt, &gt & HTML on <-> HTML off and `\n`
+        - [x] First, change every HTML tags to &gt &lt. then change \n to <br>
+    - [x] should it be a HTML off mode a default?
+- [ ] Embedding modules: allow ankiadderall as a module to use in python script.
+- [x] Error message: file doesn't exist.
+- [ ] use # comment in a file as a temporary card option or method switcher.
+    - [ ] Allow adding card vertically
+        - [ ] #NEW FRONT(field)
+        - [ ] #DONE TAGS
+    - [ ] change option with # -F%
+        - [ ] back to option of stdin
