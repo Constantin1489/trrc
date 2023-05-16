@@ -7,7 +7,21 @@
 
 ## INTRODUCTION
 
-ankiadderall is a command line application to create anki cards. 
+Ankiadderall is a command line unix application to create anki cards using AnkiConnect plugin.(Think a yt-dlp, but It's for adding cards into Anki.)
+
+I intent to make it as a Unix-like application. Therefore it leverages a lot of concepts.
+
+- it **supports our favorite a standard input and pipe redirection.**. Therefore, you can add bulk cards after mangling your cards with your favorite text editors. With the benefit of Unix-like application, with basic shell script, you can make convenient simple card adding script yourself with your favorite text editors like Vim, Emacs, VScode and so on.
+
+- It also **support to change ip, port and apikey by options**. So even some environments you don't want to install Anki, you can add cards if your Anki is running in your home or somewhere, boundlessly.
+
+- It also supports a **rc(or config) file** with a alias to reuse options you uses frequently.
+
+- you can **sync anki** with option `--sync`, also even soon after adding cards.
+
+So you can add your card at any circumstance conveniently.
+
+***if you decide to use this app, I highly recommend to turn apikey option in your AnkiConnect to prevent malicious attack. (It's not a fault of this app. If AnkiConnect port open without an apikey, anybody can modify your anki deck.)***
 
 ## INSTALLATION
 
