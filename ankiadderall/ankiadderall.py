@@ -151,6 +151,10 @@ class card:
             if notetype in ['cloze', 'Cloze']:
                 if self.cloze_field:
                     merged_contents: dict = self._merge_splited_card_list_W_field(self.get_field(self.cloze_field), splited_card_list)
+
+                    if 'tag' not in self.get_field(self.cloze_field) and 'tags' not in self.get_field(self.cloze_field):
+                        return merged_contents, ['']
+
                 else:
                     merged_contents: dict = self._merge_splited_card_list_W_field(field, splited_card_list)
 
