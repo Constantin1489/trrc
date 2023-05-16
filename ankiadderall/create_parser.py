@@ -244,16 +244,15 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
             else:
                 print(f"Unknown error: {e}", file=sys.stderr)
             continue
-
         except Exception as e:
             print(f"Failed to append a card: {e}", file=sys.stderr)
             continue
 
     return Notes
 
-def process_card(cardcontents, options, regex_compiles):
+def process_card(cardcontents: str, options, regex_compiles):
 
-    TYPE = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
+    TYPE: str = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
 
     try:
         tempCardObject = ankiadderall.card(get_proper_deck(options.deck),
