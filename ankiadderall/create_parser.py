@@ -152,7 +152,7 @@ def cardcontentsHandle(options):
         if options.cardContents:
             main_logger.debug(f"No file in card")
         else:
-            main_logger.debug(f"empty card")
+            main_logger.debug(f"Empty card")
 
     # if there is no card OR a sole fole --file option
 
