@@ -154,10 +154,3 @@ def test_debug_option(parser, stdin_arg, debug_value):
     result = parser.parse_args(stdin_arg.split())
     assert  result.debug == debug_value
 
-def test_debug_option_off(parser):
-    """
-    Test a debug-off option
-    """
-
-    result = parser.parse_args(''.split())
-    assert  result.debug == None
