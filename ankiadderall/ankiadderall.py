@@ -224,13 +224,9 @@ class card:
             # this break all loops.
             return None
 
-    def prevent_HTML_interpret(self, regex_compile, pattern):
+    def card_str_regex_substitute(self, regex_compile, pattern):
 
         # For each match, look-up corresponding value in dictionary
-        self.card_str = regex_compile.sub(lambda mo: pattern[mo.group()], self.card_str)
-
-    def newline_to_html_br(self, regex_compile, pattern):
-
         self.card_str = regex_compile.sub(lambda mo: pattern[mo.group()], self.card_str)
 
     def import_if_file(self, regex_compile, pattern):

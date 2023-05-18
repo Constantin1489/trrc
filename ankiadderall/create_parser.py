@@ -271,11 +271,11 @@ def process_card(cardcontents: str, options, regex_compiles):
                                       regex_compiles.str_to_html_pattern)
 
     if options.allow_HTML is None:
-        tempCardObject.prevent_HTML_interpret(regex_compiles.prevent_HTML_interpret_compile,
-                                              regex_compiles.prevent_HTML_interpret_pattern)
+        tempCardObject.card_str_regex_substitute(regex_compiles.prevent_HTML_interpret_compile,
+                                                 regex_compiles.prevent_HTML_interpret_pattern)
 
-    tempCardObject.newline_to_html_br(regex_compiles.newline_to_html_br_compile,
-                                      regex_compiles.newline_to_html_br_pattern)
+    tempCardObject.card_str_regex_substitute(regex_compiles.newline_to_html_br_compile,
+                                             regex_compiles.newline_to_html_br_pattern)
 
     tempCardObject.make_card()
 
