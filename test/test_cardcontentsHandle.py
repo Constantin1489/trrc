@@ -12,7 +12,7 @@ def parser():
     return create_parser()
 
 
-def test_create_parser(parser):
+def test_port_option(parser):
     """
     Test a port option
     """
@@ -47,14 +47,12 @@ def test_file_option(parser):
     result = parser.parse_args(f'-f {thisFile}'.split())
     assert result.file == [os.path.abspath(__file__)]
 
-    # check whether is a list
-    assert type(result.file) == type([])
-    # TODO : Do I need this?
-    assert os.path.isfile(*result.file) == True
-
     # a long file option
     result = parser.parse_args(f'--file {os.path.abspath(__file__)}'.split())
     assert result.file == [os.path.abspath(__file__)]
+
+    # check whether is a list
+    assert type(result.file) == type([])
 
     # multiple files option
     result = parser.parse_args(f'--file {os.path.abspath(__file__)} {os.path.abspath(__file__)}'.split())
