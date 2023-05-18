@@ -46,7 +46,7 @@ def parse_argument(args=None):
     options.overwrite_config(vars(parsed_arg))
     main_logger.debug(f'argument overwriting: {mask_apikey(vars(options))=}')
 
-    if len(sys.argv) > 1 and sys.stdin.isatty() is True:
+    if len(args) >= 1 and sys.stdin.isatty() is True:
 
         cardcontentsHandle(options)
         card_candidates = options.cardContents if options.cardContents else []
