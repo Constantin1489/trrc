@@ -72,6 +72,10 @@ def test_IFS_option(parser):
     assert result.IFS == 'x'
     assert len(result.IFS) == 1
 
+    result = parser.parse_args(f"--IFS x".split())
+    assert result.IFS == 'x'
+    assert len(result.IFS) == 1
+
 def test_card_deck(parser):
     """
     Test a card deck.
