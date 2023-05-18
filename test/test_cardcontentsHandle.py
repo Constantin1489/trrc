@@ -143,13 +143,16 @@ def test_card_type(parser):
 #    # TODO
 #    assert parse_argument(['program',arg]) == ''
 
-def test_debug_option(parser):
+@pytest.mark.parametrize("stdin_arg, debug_value",
+                         [['--debug', 10],
+                          ['', None]])
+def test_debug_option(parser, stdin_arg, debug_value):
     """
-    Test a debug-on option
+    Test a debug option
     """
 
-    result = parser.parse_args('--debug'.split())
-    assert  result.debug == 10
+    result = parser.parse_args(stdin_arg.split())
+    assert  result.debug == debug_value
 
 def test_debug_option_off(parser):
     """
