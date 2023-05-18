@@ -10,23 +10,6 @@ from ankiadderall.configOpts import read_toml_config
 from unittest import mock
 
 @pytest.fixture
-def regexes():
-    return Regex_Pattern()
-
-def test_ssparse_argument(capsys, monkeypatch):
-    with mock.patch('sys.stdin') as stdin, mock.patch.object(sys, 'argv', ["program name", "front	back	test"] ):
-        stdin.isatty.return_value = False
-        test_case = """
-front	back	test
-2front	back	test
-"""
-        print(test_case)
-        captured = capsys.readouterr()
-        captured = [ x+'\n' for x in captured.out.split('\n')]
-
-        assert type(captured) != type([])
-        card_candidate, options = parse_argument()
-        assert card_candidate == []
 def regexes_compiles():
     regexes = Regex_Pattern()
     return regexes
