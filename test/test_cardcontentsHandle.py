@@ -154,3 +154,13 @@ def test_debug_option(parser, stdin_arg, debug_value):
     result = parser.parse_args(stdin_arg.split())
     assert  result.debug == debug_value
 
+@pytest.mark.parametrize("stdin_arg, verbose_value",
+                         [['--verbose', 20],
+                          ['', None]])
+def test_verbose_option(parser, stdin_arg, verbose_value):
+    """
+    Test a verbose option
+    """
+
+    result = parser.parse_args(stdin_arg.split())
+    assert  result.verbose == verbose_value
