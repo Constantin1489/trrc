@@ -233,7 +233,7 @@ class card:
 
         def str_to_html(asrting, regex_compile, pattern):
 
-            return  regex_compile.sub(lambda mo: pattern[mo.group()], self.card_str)
+            return  regex_compile.sub(lambda mo: pattern[mo.group()], asrting)
 
         card_contents = []
         for f in self.card_str.split(sep=self.IFS):
@@ -241,7 +241,9 @@ class card:
                 lines_of_the_file = []
                 with open(f) as f:
                     lines_of_the_file += f.read().splitlines()
-                card_contents.append(str_to_html('\\n'.join(lines_of_the_file)))
+                card_contents.append(str_to_html('\\n'.join(lines_of_the_file),
+                                                 regex_compile,
+                                                 pattern))
 
             else:
                 card_contents.append(f)
