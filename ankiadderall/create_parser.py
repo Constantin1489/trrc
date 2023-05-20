@@ -369,7 +369,7 @@ def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
 
     """
 
-    if re.findall(r'{{c\d::.*}}', card_contents):
+    if re.search(r'{{c\d::.*}}', card_contents):
         main_logger.debug('found a cloze')
         return 'cloze'
     else:
