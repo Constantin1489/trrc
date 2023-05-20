@@ -65,8 +65,22 @@ def test_parse_argument_pipe_redirection(capsys, monkeypatch, user_input):
 def test_parse_argument_stdin(monkeypatch, user_input):
     monkeypatch.setattr('sys.stdin.isatty', (lambda: True))
 
+    answer = user_input.split(sep='\n')
+    user_input_split = user_input.split(sep='\n')
+
+    card_candidate, options = parse_argument(user_input_split)
+    # TODO: multiple cards in stdin test
+    assert card_candidate == answer
+
+
+
+
+def test_parse_argument_stdin_multiple_inputs(monkeypatch):
+    monkeypatch.setattr('sys.stdin.isatty', (lambda: True))
+
     # example
     #$ pourc 'front\tback\ttag' '' 'front2\tback\ttag'
+    user_input = "'front	back	test' '' 'front2	back	test'"
     answer = user_input.split(sep='\n')
     user_input_split = user_input.split(sep='\n')
 
