@@ -4,14 +4,14 @@ import tomlkit
 import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from ankiadderall.create_parser import create_parser, parse_argument
-from ankiadderall.ankiadderall import Regex_Pattern
+from ankiadderall.ankiadderall import RegexPattern
 import ankiadderall.ankiadderall as ankiadderall
 from ankiadderall.configOpts import read_toml_config
 from unittest import mock
 
 @pytest.fixture
 def regexes_compiles():
-    regexes = Regex_Pattern()
+    regexes = RegexPattern()
     return regexes
 
 @pytest.mark.parametrize("mock_side_effect",
