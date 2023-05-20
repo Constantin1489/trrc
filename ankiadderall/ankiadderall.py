@@ -10,7 +10,7 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
 
-class Regex_Pattern:
+class RegexPattern:
     prevent_HTML_interpret_pattern =  { '<' : '&lt',
                                        '>' : '&gt'}
     newline_to_html_br_pattern = { '\\n' : '<br>',

@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import re
 import json
 import ankiadderall.ankiadderall as ankiadderall
-from ankiadderall.ankiadderall import bcolors, ErrorMessages, ErrorMessageColoring, Regex_Pattern
+from ankiadderall.ankiadderall import bcolors, ErrorMessages, ErrorMessageColoring, RegexPattern
 from ankiadderall.parserOpts import create_parser
 from ankiadderall.configOpts import make_toml, parsed_config, read_toml_config, toml_arg_handle
 from ankiadderall.configOpts import mask_apikey
@@ -165,7 +165,7 @@ def parse_card(card_candidates, options):
     AnkiConnectInfo = ankiadderall.userAnkiConnect(options.ip,
                                                    options.port)
 
-    regexes = Regex_Pattern()
+    regexes = RegexPattern()
 
     if len(card_candidates) == 0:
         if options.sync:
