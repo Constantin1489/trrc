@@ -229,27 +229,6 @@ class card:
         # For each match, look-up corresponding value in dictionary
         self.card_str = regex_compile.sub(lambda mo: pattern[mo.group()], self.card_str)
 
-    def import_if_file(self, regex_compile, pattern):
-
-        def str_to_html(asrting, regex_compile, pattern):
-
-            return  regex_compile.sub(lambda mo: pattern[mo.group()], asrting)
-
-        card_contents = []
-        for f in self.card_str.split(sep=self.IFS):
-            if os.path.isfile(f):
-                lines_of_the_file = []
-                with open(f) as f:
-                    lines_of_the_file += f.read().splitlines()
-                card_contents.append(str_to_html('\\n'.join(lines_of_the_file),
-                                                 regex_compile,
-                                                 pattern))
-
-            else:
-                card_contents.append(f)
-
-        self.card_str = self.IFS.join(card_contents)
-        main_logger.debug(f'import_if_a_file {self.card_str}')
 
     def make_card(self):
         """

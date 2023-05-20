@@ -266,9 +266,6 @@ def process_card(cardcontents: str, options, regex_compiles):
         print(e, file=sys.stderr)
         print('failed: ' + cardcontents, file=sys.stderr)
 
-    if options.contents_file_import is True:
-        tempCardObject.import_if_file(regex_compiles.str_to_html_compile,
-                                      regex_compiles.str_to_html_pattern)
 
     if options.allow_HTML is None:
         tempCardObject.card_str_regex_substitute(regex_compiles.prevent_HTML_interpret_compile,
