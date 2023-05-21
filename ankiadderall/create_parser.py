@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import re
 import json
 from .ankiadderall import (
-        card,
+        Card,
         bcolors,
         ErrorMessages,
         userAnkiConnect,
@@ -262,13 +262,13 @@ def process_card(cardcontents: str, options, regex_compiles):
     TYPE: str = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
 
     try:
-        tempCardObject = card(get_proper_deck(options.deck),
-                                           TYPE,
-                                           cardcontents,
-                                           options.field,
-                                           options.cloze_field,
-                                           options.cloze_type,
-                                           options.IFS)
+        tempCardObject = Card(get_proper_deck(options.deck),
+                              TYPE,
+                              cardcontents,
+                              options.field,
+                              options.cloze_field,
+                              options.cloze_type,
+                              options.IFS)
 
     except Exception as e:
         print(e, file=sys.stderr)

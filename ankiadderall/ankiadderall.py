@@ -71,7 +71,7 @@ def userAnkiConnect(webBindAddress='localhost', webBindPort=8765):
 
     return get_AnkiConnect_URL(webBindAddress, webBindPort)
 
-class card:
+class Card:
     """
     A class for card object
     """

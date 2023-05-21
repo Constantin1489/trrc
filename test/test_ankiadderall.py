@@ -76,7 +76,7 @@ def test_read_toml_config(config_file_name, user_section, mock_side_effect, sect
 
 def test_ankiadderall_card_class_WRONG_IFS(capsys):
     WRONGIFS = '#'
-    tempCardObject = ankiadderall.card('default',
+    tempCardObject = ankiadderall.Card('default',
                                        'basic',
                                        'front%back%test',
                                        'front:back:tags',
@@ -97,7 +97,7 @@ def test_ankiadderall_card_class_WRONG_IFS(capsys):
 @pytest.mark.parametrize("field", ['front:back:tags', 'back:front:tags'])
 def test_ankiadderall_card_class_correct_IFS(capsys, IFS_in_str, deckname,
                                              cardcontents, cardtype, field):
-    tempCardObject = ankiadderall.card(deckname,
+    tempCardObject = ankiadderall.Card(deckname,
                                        cardtype,
                                        cardcontents,
                                        field,
@@ -127,7 +127,7 @@ def test_ankiadderall_card_class_correct_IFS(capsys, IFS_in_str, deckname,
                           ('fr{{c1::o}}nt\tback\ttest', '\t')],)
 @pytest.mark.parametrize("field", ['Back Extra:Text:tags', 'Text:Back Extra:tags'])
 def test_ankiadderall_card_class_cloze(capsys, IFS_in_str, cardcontents, deckname, field):
-    tempCardObject = ankiadderall.card(deckname,
+    tempCardObject = ankiadderall.Card(deckname,
                                        'cloze',
                                        cardcontents,
                                        field,
