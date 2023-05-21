@@ -5,11 +5,20 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import re
 import json
-import ankiadderall.ankiadderall as ankiadderall
-from ankiadderall.ankiadderall import bcolors, ErrorMessages, ErrorMessageColoring, RegexPattern
-from ankiadderall.parserOpts import create_parser
-from ankiadderall.configOpts import make_toml, parsed_config, read_toml_config, toml_arg_handle
-from ankiadderall.configOpts import mask_apikey
+from .ankiadderall import (
+        card,
+        bcolors,
+        ErrorMessages,
+        userAnkiConnect,
+        ErrorMessageColoring,
+        RegexPattern)
+from .parserOpts import create_parser
+from .configOpts import (
+        make_toml,
+        parsed_config,
+        read_toml_config,
+        toml_arg_handle,
+        mask_apikey)
 
 import logging
 main_logger = logging.getLogger(__name__)
@@ -162,8 +171,7 @@ def parse_card(card_candidates, options):
     Loop card_candidates to create cards.
     """
 
-    AnkiConnectInfo = ankiadderall.userAnkiConnect(options.ip,
-                                                   options.port)
+    AnkiConnectInfo = userAnkiConnect(options.ip, options.port)
 
     regexes = RegexPattern()
 
@@ -254,7 +262,7 @@ def process_card(cardcontents: str, options, regex_compiles):
     TYPE: str = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
 
     try:
-        tempCardObject = ankiadderall.card(get_proper_deck(options.deck),
+        tempCardObject = card(get_proper_deck(options.deck),
                                            TYPE,
                                            cardcontents,
                                            options.field,
