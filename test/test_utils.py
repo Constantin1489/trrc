@@ -4,8 +4,8 @@ import tomlkit
 import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from ankiadderall.create_parser import create_parser, parse_argument
-from ankiadderall.ankiadderall import RegexPattern
-import ankiadderall.ankiadderall as ankiadderall
+from ankiadderall.utils import RegexPattern
+import ankiadderall.utils as ankiadderall
 from ankiadderall.configOpts import read_toml_config
 from unittest import mock
 

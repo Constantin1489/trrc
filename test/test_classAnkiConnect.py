@@ -2,7 +2,7 @@ import sys
 import re
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import ankiadderall.ankiadderall as ankiadderall
+import ankiadderall.utils as ankiadderall
 import argparse
 
 def test_get_default_get_AnkiConnect_URL():
