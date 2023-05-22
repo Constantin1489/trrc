@@ -13,6 +13,11 @@ setup(
     packages = ['ankiadderall'],
     data_files = [('share/man/man1', ['ankiadderall.1'])],
     python_requires='>=3.9',
+    install_requires=[
+        "requests",
+        "tomlkit",
+        "tomli_w",
+        ],
     project_urls = {
         'Documentation': 'https://github.com/Constantin1489/ankistreamadd#readme',
         'Source': 'https://github.com/Constantin1489/ankistreamadd',
