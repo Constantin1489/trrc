@@ -5,7 +5,7 @@ import re
 import logging
 main_logger = logging.getLogger(__name__)
 
-class bcolors:
+class ColorsPrint:
     FAIL = '\033[91m'
     ENDC = '\033[0m'
     BOLD = '\033[1m'
@@ -48,7 +48,7 @@ def ErrorMessageColoring(ErrorMessageString, message_type=None):
     if message_type == 'ERROR':
         errormessage =  f'ERROR message: {ErrorMessageString}'
     else:
-        errormessage =  f'{bcolors.FAIL + bcolors.BOLD + ErrorMessageString + bcolors.ENDC}'
+        errormessage =  f'{ColorsPrint.FAIL + ColorsPrint.BOLD + ErrorMessageString + ColorsPrint.ENDC}'
     print(errormessage, file=sys.stderr)
 
 def userAnkiConnect(webBindAddress='localhost', webBindPort=8765):
@@ -176,8 +176,8 @@ class Card:
 
             return merged_contents, tag
 
-        print(bcolors.FAIL + bcolors.BOLD + ErrorMessages.check_notetype, bcolors.ENDC, file=sys.stderr)
-        print(bcolors.BOLD + ErrorMessages.type_field_suggestion + bcolors.ENDC, file=sys.stderr)
+        print(ColorsPrint.FAIL + ColorsPrint.BOLD + ErrorMessages.check_notetype, ColorsPrint.ENDC, file=sys.stderr)
+        print(ColorsPrint.BOLD + ErrorMessages.type_field_suggestion + ColorsPrint.ENDC, file=sys.stderr)
 
     def _merge_splited_card_list_W_field(self, field: list, card_contents_list: list):
 
@@ -220,7 +220,7 @@ class Card:
             return clozeContent
         else:
             # TODO : How to skip to next loop
-            print(bcolors.FAIL +bcolors.BOLD + f"{clozeContent} does not have any cloze tag", bcolors.ENDC, file=sys.stderr)
+            print(ColorsPrint.FAIL + ColorsPrint.BOLD + f"{clozeContent} does not have any cloze tag", ColorsPrint.ENDC, file=sys.stderr)
             # this break all loops.
             return None
 

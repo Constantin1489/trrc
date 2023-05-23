@@ -6,7 +6,7 @@ import logging
 main_logger = logging.getLogger(__name__)
 
 
-class parsed_config:
+class ParsedConfig:
 
     """class for read config
 

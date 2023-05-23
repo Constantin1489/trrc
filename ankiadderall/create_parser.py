@@ -6,7 +6,7 @@ import re
 import json
 from .utils import (
         Card,
-        bcolors,
+        ColorsPrint,
         ErrorMessages,
         userAnkiConnect,
         ErrorMessageColoring,
@@ -14,7 +14,7 @@ from .utils import (
 from .parserOpts import create_parser
 from .configOpts import (
         make_toml,
-        parsed_config,
+        ParsedConfig,
         read_toml_config,
         toml_arg_handle,
         mask_apikey)
@@ -40,7 +40,7 @@ def parse_argument(args=None):
     main_logger.debug(f'arguments : {mask_apikey(vars(parsed_arg))=} = {type(vars(parsed_arg))=}')
 
     # parse hard coded options
-    options = parsed_config(parsed_arg)
+    options = ParsedConfig(parsed_arg)
     main_logger.debug(f'hard coded options: {mask_apikey(vars(options))=}')
 
     # parse config file
@@ -349,7 +349,7 @@ def check_response(responsetext, CARD_JSON, verboseOrDebug):
     fail_to_add_card_list = get_failed_card_from_response(responsetext, CARD_JSON)
 
     for i in fail_to_add_card_list:
-        print(f"{bcolors.FAIL + bcolors.BOLD + 'Failed:' + bcolors.ENDC} {i}", file=sys.stderr)
+        print(f"{ColorsPrint.FAIL + ColorsPrint.BOLD + 'Failed:' + ColorsPrint.ENDC} {i}", file=sys.stderr)
     print(f"Total cards: {len(CARD_JSON)} Total fails: {len(fail_to_add_card_list)}", file=sys.stdout)
 
 def get_failed_card_from_response(res_str: str, CARD_JSON: dict):
