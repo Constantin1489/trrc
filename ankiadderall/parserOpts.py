@@ -22,7 +22,7 @@ def create_parser():
     parser.add_argument(
             'cardContents', action='store', nargs='*',
             help=(
-            'A positional contents of a card'
+            "Content of a card"
             ))
 
     # TODO: LOCALE
@@ -43,44 +43,36 @@ def create_parser():
 
     parser.add_argument(
             '-i', '--ip',
-			# Do I need to remove it? Because of class parsed_config
             action='store', dest='ip',
             help=(
-            'Set a AnkiConnect ip.'
+            'Set a ip that AnkiConnect specified.'
             ))
 
     parser.add_argument(
             '-p', '--port',
-			# Do I need to remove it? Because of class parsed_config
             action='store', dest='port', type=int,
             help=(
-            'Set a AnkiConnect port.'
+            'Set a port number that AnkiConnect specified.'
             ))
 
     parser.add_argument(
             '-f', '--file',
             action='store', dest='file', nargs='*',
             help=(
-            'Set a file which contains card contents.'
+            'Set a file that contains card contents.'
             ))
 
-    # ~/.acprc OR optional .acprc
-    # parser.file: List
-    # TODO : Execute configparse to a string object.
     parser.add_argument(
             '-c', '--config',
-			metavar="file",
+			metavar="FILE",
             action='store', dest='config',
             help=(
-            "Set a config file to import options. Without this argument, this program uses '~/.asprc'"
+            "Set a config file to import config options. Without this argument, this program searches '~/.trrc'"
             ))
 
-    # get an alias from a config file.
-    # looking for ~/.acprc OR ANKIADDERALL_CONFIG
-    # TODO : Execute configparse to a string object.
     parser.add_argument(
             '--alias',
-			metavar="section",
+			metavar="SECTION",
             action='store', dest='alias',
             help=(
             "Set a section of a config file to apply options. Without this argument, a default section is 'default'"
@@ -94,9 +86,8 @@ def create_parser():
             ))
 
     parser.add_argument(
-			# TODO: field?
             '--field',
-            metavar="colon:delimiter-separated:fields",
+            metavar="COLON:DELIMITER-SEPARATED:FIELDS",
 			action='store', dest='field',
             help=(
             "Set an order of card field where you want to put separated strings. For example, the default is 'Front:Back:Tags'"
@@ -104,10 +95,10 @@ def create_parser():
 
     parser.add_argument(
             '--cloze-field',
-			metavar="colon:delimiter-separated:fields",
+			metavar="COLON:DELIMITER-SEPARATED:FIELDS",
             action='store', dest='cloze_field',
             help=(
-            "Set an order of card field where you want to put separated strings. For example, 'Text:tags'. The default is 'Text:Back Extra:Tags'"
+            "Set an order of the cloze type card field where you want to put separated strings. For example, 'Text:tags'. The default is 'Text:Back Extra:Tags'"
             ))
 
     parser.add_argument(
@@ -121,12 +112,12 @@ def create_parser():
             '--toml-generate',
             action='store_true', dest='toml_generate',
             help=(
-            "Print toml configs with current arguments. To set a section, use '--toml-section'"
+            "Print toml configs with current arguments. To set a section of it, use it with '--toml-section' option"
             ))
 
     parser.add_argument(
             '--toml-write',
-			metavar="file",
+			metavar="FILE",
             action='store', dest='toml_write', 
             help=(
             "Write a toml file with options used. To set a section, use '--toml-section'"
@@ -134,7 +125,7 @@ def create_parser():
 
     parser.add_argument(
             '--toml-section',
-			metavar="section",
+			metavar="SECTION",
             action='store', dest='toml_section',
             help=(
             "Set a toml section. The default is 'untitled'"
@@ -151,21 +142,21 @@ def create_parser():
             '--apikey',
             action='store', dest='apikey',
             help=(
-            "Set an api key for AnkiConnect."
+            "Set an api key for AnkiConnect. If it is specified, --debug options will mask it."
             ))
 
     parser.add_argument(
             '--sync',
             action='store_true', dest='sync',
             help=(
-            "Sync Anki."
+            "Sync Anki. If there is a card to process, trrc syncs after adding the card."
             ))
 
     parser.add_argument(
             '--force-add',
             action='store_true', dest='force_add',
             help=(
-            "add a card even if there is a duplicate in the deck."
+            "Add a card even if there is a duplicate in the deck."
             ))
 
     parser.add_argument(
@@ -179,14 +170,14 @@ def create_parser():
             '-v', '--verbose',
             action='store_const', dest='verbose', const=logging.INFO,
             help=(
-            'A verbose option.'
+            'Print currently a card being processed.'
             ))
 
     parser.add_argument(
             '--debug',
             action='store_const', dest='debug', const=logging.DEBUG,
             help=(
-            'A debug option'
+            'Print debug information.'
             ))
 
     parser.add_argument(
