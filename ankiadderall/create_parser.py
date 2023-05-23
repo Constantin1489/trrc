@@ -331,7 +331,7 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str, verbose_or_d
     except ValueError as e:
         print(e)
 
-def check_response(responsetext, card_json, verbose_or_debug):
+def check_response(responsetext, card_json):
     """
     Parse response text to debug if the AnkiConnect doesn't add the card.
     """
