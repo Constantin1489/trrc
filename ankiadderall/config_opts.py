@@ -92,9 +92,6 @@ def read_toml_config(config_file_name, section):
         print(f"""Permission error: '{config_file}'.
 Please check the permission of the file with 'ls -l {config_file}'.""", file=sys.stderr)
         sys.exit(1)
-    except Exception as e:
-        print(e)
-        sys.exit(1)
 
     try:
         main_logger.debug(f'{mask_apikey(toml_load[section])=}')
@@ -103,10 +100,6 @@ Please check the permission of the file with 'ls -l {config_file}'.""", file=sys
 
     except exceptions.NonExistentKey:
         raise KeyError(f"There is No '{section}' section in the config file. Please check an alias of the config file.")
-
-    except Exception as e:
-        print(f"Unknown Error: {e}")
-        sys.exit(1)
 
 def mask_apikey(config: dict):
     """
