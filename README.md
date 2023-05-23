@@ -9,19 +9,19 @@
 
 **ToRRential Card processor**(**TRRC**) is a command line unix application to create anki cards using AnkiConnect plugin.(Think a yt-dlp, but this application is for adding cards into Anki.)
 
-I intent to make it as a Unix-like application. Therefore it leverages a lot of concepts.
+I intent to make it as a Unix-like application. Therefore it **leverages a lot of Unix concepts**.
 
-- it **supports our favorite a standard input and pipe redirection.**. Therefore, you can add bulk cards after mangling your cards with your favorite text editors. With the benefit of Unix-like application, with basic shell script, you can make convenient simple card adding script yourself with your favorite text editors like Vim, Emacs, VScode and so on.
+- it **supports a standard input, pipe, redirection.** Therefore, you can add bulk cards after mangling your cards with your favorite text editors. With the benefit of Unix-like application, with basic shell script, you can make convenient simple card adding script yourself with your favorite text editors like Vim, Emacs, VScode and so on.
 
-- It also **support to change ip, port and apikey by options**. So even some environments you don't want to install Anki, you can add cards if your Anki is running in your home or somewhere, boundlessly.
+- It also **supports options for ip, port and apikey**. So even some environments you don't want to install Anki, you can add cards if your Anki is running in your home or somewhere, boundlessly.
 
 - It also supports a **rc(or config) file** with a alias to reuse options you uses frequently.
 
-- you can **sync anki** with option `--sync`, also even soon after adding cards.
+- you can **sync Anki** with option `--sync` of **trrc** with or without soon after adding cards.
 
 So you can add your card at any circumstance conveniently.
 
-***if you decide to use this app, I highly recommend to turn apikey option in your AnkiConnect to prevent malicious attack. (It's not a fault of this app. If AnkiConnect port open without an apikey, anybody can modify your anki deck.)***
+***if you decide to use this app, I highly recommend to turn apikey option in your AnkiConnect to prevent malicious attack. (It's not a fault of this app nor AnkiConnect. If the port of AnkiConnect opens without an apikey, anybody can modify your anki deck.)***
 
 ## INSTALLATION
 
@@ -30,9 +30,10 @@ So you can add your card at any circumstance conveniently.
 
 ### Manual installation
 `pip install -r requirements.txt`
+`pip install .`
 
 ## USAGE
-The usage should be pretty self-explanatory. But to solve common mistakes, I wrote a lot of examples. Before post an issue, compare your command with below, please.
+I wrote a lot of examples.
 
 ### Standard Input
 ```sh
@@ -67,10 +68,17 @@ Anki	Anki is a free and open-source flashcard program using spaced repetition	an
 ```
 * `trrc --file examplefile.txt`
 
+## Locations
+
+*TRRC* searches for rc(or config) files in the user's home directory:
+
+macOS, Linux:
+    * `$(HOME)/.asprc`
 
 ## FAQ
 
 ### How to add several tags?
+
 a tag is a word. Therefore a spacebar will separate tags.
 
 So for example, (IFS is a tab character as a default.): `linux::http linux::network`
@@ -82,17 +90,18 @@ TRRC will interpret`linux::http linux::network` as a list which is `['linux::htt
 
 ### How to add a new line?
 
-\<br\> is a new line. It's because anki or ankiadderall interprets contents of a card as a HTML. Currently I'm working on it. 
+Use `\n` to make a new line.
+`First line\nSecond line	back	tag`
 
 ### How to open a port?
 
 Basically, when you are running anki with an AnkiConnect addon, the port(default is 8765) of AnkiConnect opens.
 
-But if your want to send a card by pourc from outside of your computer, you need to modify firewall option.
+But if your want to send a card using **trrc** from outside of your computer which is running Anki with AnkiConnect, you may need to modify firewall option on the computer.
 
 ### This software misses some characters.
 
-Thank you for letting me know! Please report the bug.
+Thank you for letting me know! Please report the bug in [issue tracker](https://github.com/Constantin1489/ankistreamadd/issues).
 
 ## TODO
 
@@ -109,6 +118,7 @@ Thank you for letting me know! Please report the bug.
     - [x] should it be a HTML off mode a default?
 - [ ] Embedding modules: allow TRRC as a module to use in python script.
 - [x] Error message: file doesn't exist.
+- [ ] search rc file in the working directory.
 - [ ] use # comment in a file as a temporary card option or method switcher.
     - [ ] Allow adding card vertically
         - [ ] #NEW FRONT(field)
