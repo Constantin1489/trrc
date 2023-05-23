@@ -1,4 +1,4 @@
-# AnkiAdderAll
+# ToRRential Card processor
 
 * [INTRODUCTION](#introduction)
 * [INSTALLATION](#installation)
@@ -7,7 +7,7 @@
 
 ## INTRODUCTION
 
-Ankiadderall is a command line unix application to create anki cards using AnkiConnect plugin.(Think a yt-dlp, but It's for adding cards into Anki.)
+**ToRRential Card processor**(**TRRC**) is a command line unix application to create anki cards using AnkiConnect plugin.(Think a yt-dlp, but this application is for adding cards into Anki.)
 
 I intent to make it as a Unix-like application. Therefore it leverages a lot of concepts.
 
@@ -26,7 +26,7 @@ So you can add your card at any circumstance conveniently.
 ## INSTALLATION
 
 ### pip
-`pip install ankiadderall`
+`pip install trrc`
 
 ### Manual installation
 `pip install -r requirements.txt`
@@ -36,27 +36,27 @@ The usage should be pretty self-explanatory. But to solve common mistakes, I wro
 
 ### Standard Input
 ```sh
-pourc '안녕	Hello	Korean Conversation'
-pourc $'안녕\tHello\tKorean'
-../ankiadderall/addstring.py "back\ttestfront\tvim" -F '\t'
-pourc --IFS % '안녕%Hello%Korean'
-pourc --column 'ArbitraryFourthFieldName:ArbitrarysecondFieldName:tag' 'FourthContent\tsecondContent\ttag'
-pourc --ip 192.168.1.230 --port 4832 --debug --file Korean_English_conversation.txt
+trrc '안녕	Hello	Korean Conversation'
+trrc $'안녕\tHello\tKorean'
+trrc "back\ttestfront\tvim" -F '\t'
+trrc --IFS % '안녕%Hello%Korean'
+trrc --column 'ArbitraryFourthFieldName:ArbitrarysecondFieldName:tag' 'FourthContent\tsecondContent\ttag'
+trrc --ip 192.168.1.230 --port 4832 --debug --file Korean_English_conversation.txt
 ```
 
 ### Pipe Redirection
 ```sh
 # bash: \t
-echo -e 'basic_type_front_normal_tab with option\tbasic_type_back\tbasic_type_tag' | pourc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
+echo -e 'basic_type_front_normal_tab with option\tbasic_type_back\tbasic_type_tag' | trrc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
 
 # bash: using a tab
-echo 'basic_type_front_normal_tab with option	basic_type_back	basic_type_tag' | pourc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
+echo 'basic_type_front_normal_tab with option	basic_type_back	basic_type_tag' | trrc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
 
 # zsh: \t
-echo 'basic_type_front_normal_tab with option\tbasic_type_back\tbasic_type_tag' | pourc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
+echo 'basic_type_front_normal_tab with option\tbasic_type_back\tbasic_type_tag' | trrc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
 
 # zsh: using a tab
-echo 'basic_type_front_normal_tab with option	basic_type_back	basic_type_tag' | pourc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
+echo 'basic_type_front_normal_tab with option	basic_type_back	basic_type_tag' | trrc -t 'Basic (and reversed card)' --column 'Front:Back:tag' --debug
 ```
 
 ### --file option
@@ -65,7 +65,7 @@ echo 'basic_type_front_normal_tab with option	basic_type_back	basic_type_tag' | 
 ```
 Anki	Anki is a free and open-source flashcard program using spaced repetition	anki
 ```
-* `pourc --file examplefile.txt`
+* `trrc --file examplefile.txt`
 
 
 ## FAQ
@@ -76,9 +76,9 @@ a tag is a word. Therefore a spacebar will separate tags.
 So for example, (IFS is a tab character as a default.): `linux::http linux::network`
 
 ```
-pourc '[linux] port 80	HTTP's port	linux::http linux::network'
+trrc '[linux] port 80	HTTP's port	linux::http linux::network'
 ```
-Ankiadderall will interpret`linux::http linux::network` as a list which is `['linux::http', 'linux::network']`
+TRRC will interpret`linux::http linux::network` as a list which is `['linux::http', 'linux::network']`
 
 ### How to add a new line?
 
@@ -107,7 +107,7 @@ Thank you for letting me know! Please report the bug.
     - [x] \<br\> &lt, &gt & HTML on <-> HTML off and `\n`
         - [x] First, change every HTML tags to &gt &lt. then change \n to <br>
     - [x] should it be a HTML off mode a default?
-- [ ] Embedding modules: allow ankiadderall as a module to use in python script.
+- [ ] Embedding modules: allow TRRC as a module to use in python script.
 - [x] Error message: file doesn't exist.
 - [ ] use # comment in a file as a temporary card option or method switcher.
     - [ ] Allow adding card vertically

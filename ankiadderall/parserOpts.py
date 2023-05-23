@@ -14,7 +14,7 @@ def create_parser():
     """
 
     parser = argparse.ArgumentParser(
-            prog='pourc',
+            prog='trrc',
             description='a command line application to create anki cards',
             formatter_class=argparse.RawDescriptionHelpFormatter,
             )

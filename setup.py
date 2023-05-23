@@ -2,7 +2,7 @@
 from setuptools import setup
 
 setup(
-    name = 'ankiadderall',
+    name = 'trrc',
     version = '0.1.0',
     description='a command line program for creating anki card using AnkiConnect API.',
     author='Constantin Hong',
@@ -11,7 +11,7 @@ setup(
     maintainer='Constantin Hong',
     maintainer_email='hongconstantin@gmail.com',
     packages = ['ankiadderall'],
-    data_files = [('share/man/man1', ['ankiadderall.1'])],
+    data_files = [('share/man/man1', ['trrc.1'])],
     python_requires='>=3.9',
     install_requires=[
         "requests",
@@ -39,6 +39,6 @@ setup(
         ],
     entry_points = {
         'console_scripts' : [
-            'ankiadderall = ankiadderall.__main__:main'
+            'trrc = ankiadderall.__main__:main'
         ]
     })
