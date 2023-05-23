@@ -1,8 +1,9 @@
 import sys
-import requests
+import logging
 import os
 import re
 import json
+import requests
 from .utils import (
         Card,
         ColorsPrint,
@@ -17,7 +18,6 @@ from .config_opts import (
         toml_arg_handle,
         mask_apikey)
 
-import logging
 main_logger = logging.getLogger(__name__)
 
 def parse_argument(args=None):

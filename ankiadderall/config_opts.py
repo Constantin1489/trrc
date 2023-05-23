@@ -1,7 +1,7 @@
 import sys
 import os
-import tomli_w
 import logging
+import tomli_w
 main_logger = logging.getLogger(__name__)
 
 
