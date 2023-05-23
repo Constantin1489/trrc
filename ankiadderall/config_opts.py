@@ -79,7 +79,7 @@ def read_toml_config(config_file_name, section):
             toml_load = loads(f.read())
 
     # if there is no ~/.trrc nor config_file_name, then return empty dict.
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         main_logger.debug(f"can't open a default {config_file}")
         if config_file_name is None:
             main_logger.debug('Use an empty dictionary instead of the default config file')
@@ -88,7 +88,7 @@ def read_toml_config(config_file_name, section):
             print(f"There is no '{config_file_name}'. Please check the config file name.", file=sys.stderr)
             sys.exit(1)
 
-    except PermissionError as p:
+    except PermissionError:
         print(f"""Permission error: '{config_file}'.
 Please check the permission of the file with 'ls -l {config_file}'.""", file=sys.stderr)
         sys.exit(1)
