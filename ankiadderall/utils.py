@@ -252,7 +252,7 @@ class Card:
     def get_field(self, field):
         if field is None:
             return None
-        return (lambda s: [i for i in s.split(':')])(field)
+        return [i for i in field.split(':')]
 
     def create_cardjson_note(self):
         """
