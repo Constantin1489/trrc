@@ -8,29 +8,9 @@ def create_parser():
     create_parser
     """
 
-	# TODO: Do not remove.
-    example_text="""
-[example]
-  pourc '안녕	Hello	Korean Conversation'
-  pourc $'안녕\\tHello\\tKorean'
-  pourc "back\\ttestfront\\tvim" -F '\\t'
-  pourc --IFS % '안녕%Hello%Korean'
-  pourc --field 'ArbitraryFourthFieldName:ArbitrarysecondFieldName:tag' 'FourthContent\tsecondContent\ttag'
-  pourc --ip 192.168.1.230 --port 4832 --debug --file Korean_English_conversation.txt
-  # bash
-  echo -e 'basic_type_front_normal_tab with option\\tbasic_type_back\\tbasic_type_tag' | pourc -t 'Basic (and reversed card)' --field 'Front:Back:tag' --debug
-  # zsh
-  echo 'basic_type_front_normal_tab with option\\tbasic_type_back\\tbasic_type_tag' | pourc -t 'Basic (and reversed card)' --field 'Front:Back:tag' --debug
-  # supports HEREDOC
-  pourc <<EOF --debug
-  front	back	text
-  EOF
-"""
-
     parser = argparse.ArgumentParser(
             prog='pourc',
             description='a command line application to create anki cards',
-            epilog=example_text,
             formatter_class=argparse.RawDescriptionHelpFormatter,
             )
 
