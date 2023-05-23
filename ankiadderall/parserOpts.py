@@ -3,6 +3,11 @@ import logging
 import sys
 import os
 
+VERSION = """%(prog)s 0.1.0 Copyright (C) 2023  Constantin Hong
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law."""
+
 def create_parser():
     """
     create_parser
@@ -182,6 +187,13 @@ def create_parser():
             action='store_const', dest='debug', const=logging.DEBUG,
             help=(
             'A debug option'
+            ))
+
+    parser.add_argument(
+            '-V', '--version',
+            action='version', dest='version', version=VERSION,
+            help=(
+            'Print a version number and a license of trrc.'
             ))
 
     return parser
