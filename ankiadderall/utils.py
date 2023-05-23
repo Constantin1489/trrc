@@ -167,7 +167,7 @@ class Card:
             try:
                 tag: str = merged_contents.pop('tag')
 
-            except:
+            except KeyError:
                 tag: str = merged_contents.pop('tags')
 
             tag: list = tag.split(sep=' ')
@@ -243,9 +243,6 @@ class Card:
             if 'tags' in e.args:
                 print(f"ERROR: check your IFS is correct '{self.card_str}' IFS '{self.IFS}'",
                       file=sys.stderr)
-
-        except Exception as e:
-            print('ERROR', e, file=sys.stderr)
 
     def get_field(self, field):
         if field is None:
