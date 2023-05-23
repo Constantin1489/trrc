@@ -347,7 +347,8 @@ def get_failed_card_from_response(res_str: str, card_json: dict):
     res_str_load: dict = json.loads(res_str)
     try:
         return [card_json[i] for i, v in enumerate(res_str_load['result']) if v is None]
-    except:
+
+    except KeyError:
         if res_str_load['error'] == 'valid api key must be provided':
             error_message_coloring(ErrorMessages.valid_api_key_require)
             sys.exit(1)
