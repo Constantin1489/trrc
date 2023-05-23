@@ -330,13 +330,6 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str, verbose_or_d
         sys.exit(4)
     except ValueError as e:
         print(e)
-    except Exception as e:
-
-        error_message_coloring(e, 'ERROR')
-        error_message_coloring(ErrorMessages.unknown_network_error)
-        # default network error message.
-        error_message_coloring(ErrorMessages.ask_check_network)
-        sys.exit(4)
 
 def check_response(responsetext, card_json, verbose_or_debug):
     """
