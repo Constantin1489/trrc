@@ -11,8 +11,8 @@ from .utils import (
         userAnkiConnect,
         ErrorMessageColoring,
         RegexPattern)
-from .parserOpts import create_parser
-from .configOpts import (
+from .parser_opts import create_parser
+from .config_opts import (
         make_toml,
         ParsedConfig,
         read_toml_config,

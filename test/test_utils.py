@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from ankiadderall.create_parser import create_parser, parse_argument
 from ankiadderall.utils import RegexPattern
 import ankiadderall.utils as ankiadderall
-from ankiadderall.configOpts import read_toml_config
+from ankiadderall.config_opts import read_toml_config
 from unittest import mock
 
 @pytest.fixture

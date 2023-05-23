@@ -3,7 +3,7 @@ import sys
 import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from ankiadderall.create_parser import create_parser, parse_argument
-from ankiadderall.configOpts import ParsedConfig, toml_arg_handle, make_toml, mask_apikey
+from ankiadderall.config_opts import ParsedConfig, toml_arg_handle, make_toml, mask_apikey
 import tomli_w
 
 @pytest.fixture
