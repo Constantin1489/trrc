@@ -22,16 +22,15 @@ from .configOpts import (
 import logging
 main_logger = logging.getLogger(__name__)
 
-
-# TODO: isn't it a main()?
 def parse_argument(args=None):
 
     parser = create_parser()
 
-    # enable logger
     if args is None:
         args = sys.argv[1:]
     parsed_arg = parser.parse_args(args)
+
+    # enable logger
     logging.basicConfig(encoding='utf-8', level=get_logging_level(parsed_arg))
 
     # TOML
