@@ -31,7 +31,7 @@ def test_toml_generate(parser, sysargv_toml_case, answer):
                           (True, True)])
 @pytest.mark.parametrize("config_file_name, config_file_name_answer",
                          [(None, None),
-                          ('new.asprc', 'new.asprc'),])
+                          ('new.trrc', 'new.trrc'),])
 @pytest.mark.parametrize("section_title, section_title_answer",
                          [(None, 'untitled'),
                           ('untitled', 'untitled'),

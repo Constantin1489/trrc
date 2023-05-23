@@ -18,8 +18,8 @@ def regexes_compiles():
                          [None,
                           FileNotFoundError],)
 @pytest.mark.parametrize("config_file_name",
-                         [None, # the program looks for '~/.asprc'. it is a default.
-                          'some_random.asprc']) # user uses arbitrary config file.
+                         [None, # the program looks for '~/.trrc'. it is a default.
+                          'some_random.trrc']) # user uses arbitrary config file.
 @pytest.mark.parametrize("user_section", # user uses argparse option alias.
                          ['NoSuchASection', # user places wrong section name in argparse option
                           None, # user doesn't use argparse option. It uses default as a hardcoded setting.

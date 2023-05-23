@@ -66,7 +66,7 @@ def read_toml_config(config_file_name, section):
 
     main_logger.debug(f'{config_file_name=}')
 
-    config_file = os.path.expanduser('~/.asprc') if not config_file_name \
+    config_file = os.path.expanduser('~/.trrc') if not config_file_name \
                                                         else os.path.expanduser(config_file_name)
     main_logger.debug(f'{config_file=}')
 
@@ -79,7 +79,7 @@ def read_toml_config(config_file_name, section):
         with open(config_file, "r") as f:
             toml_load = loads(f.read())
 
-    # if there is no ~/.asprc nor config_file_name, then return empty dict.
+    # if there is no ~/.trrc nor config_file_name, then return empty dict.
     except FileNotFoundError as e:
         main_logger.debug(f"can't open a default {config_file}")
         if config_file_name is None:

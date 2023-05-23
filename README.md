@@ -73,7 +73,7 @@ Anki	Anki is a free and open-source flashcard program using spaced repetition	an
 *TRRC* searches for rc(or config) files in the user's home directory:
 
 macOS, Linux:
-    * `$(HOME)/.asprc`
+    * `$(HOME)/.trrc`
 
 ## FAQ
 
