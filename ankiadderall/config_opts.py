@@ -131,14 +131,14 @@ def make_toml(parsed_arg: dict, section_title='untitled'):
                                        'toml_section',
                                        'toml_write'}}}
 
-def toml_arg_handle(Do_print_toml, config_file_name, section_title, parsed_arg):
+def toml_arg_handle(do_print_toml, config_file_name, section_title, parsed_arg):
 
-    if config_file_name or Do_print_toml:
+    if config_file_name or do_print_toml:
         if section_title is None:
             section_title = 'untitled'
         toml = make_toml(parsed_arg, section_title)
 
-        if Do_print_toml:
+        if do_print_toml:
             print(tomli_w.dumps(toml))
 
         if config_file_name:

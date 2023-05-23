@@ -26,7 +26,7 @@ def test_toml_generate(parser, sysargv_toml_case, answer):
     assert parsed_arg.toml_generate == answer
     assert parsed_arg.toml_generate or parsed_arg.toml_write == ( answer or None)
 
-@pytest.mark.parametrize("Do_print_toml, Do_print_toml_answer",
+@pytest.mark.parametrize("do_print_toml, do_print_toml_answer",
                          [(False, False),
                           (True, True)])
 @pytest.mark.parametrize("config_file_name, config_file_name_answer",
@@ -36,8 +36,8 @@ def test_toml_generate(parser, sysargv_toml_case, answer):
                          [(None, 'untitled'),
                           ('untitled', 'untitled'),
                           ('new_section_title', 'new_section_title')])
-def test_toml_arg_handle(capsys, empty_parsed_arg, Do_print_toml,
-                         Do_print_toml_answer, config_file_name,
+def test_toml_arg_handle(capsys, empty_parsed_arg, do_print_toml,
+                         do_print_toml_answer, config_file_name,
                          config_file_name_answer, section_title,
                          section_title_answer):
     """TODO: Docstring for toml_arg_handle.
@@ -48,18 +48,18 @@ def test_toml_arg_handle(capsys, empty_parsed_arg, Do_print_toml,
     """
     parsed_arg = vars(empty_parsed_arg)
 
-    if not Do_print_toml and not config_file_name:
+    if not do_print_toml and not config_file_name:
         pytest.skip('Cannot happen')
 
     with pytest.raises(SystemExit) as e:
-        toml_arg_handle(Do_print_toml, config_file_name, section_title, parsed_arg)
+        toml_arg_handle(do_print_toml, config_file_name, section_title, parsed_arg)
 
     assert e.type == SystemExit
     assert e.value.code == 2
 
     captured = capsys.readouterr()
 
-    if Do_print_toml:
+    if do_print_toml:
         section_title = 'untitled' if not section_title else section_title
         toml_answer_set = make_toml(parsed_arg, section_title)
         toml_answer_set = tomli_w.dumps(toml_answer_set)

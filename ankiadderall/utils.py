@@ -42,32 +42,32 @@ to do sync, this program will ignore it by now. Please, sync manually
 with '--sync' option without card contents in a command line after a while"""
     valid_api_key_require = "valid api key must be provided. please check your apikey and, use --apikey option or add it into a config file."
 
-def ErrorMessageColoring(ErrorMessageString, message_type=None):
+def error_message_coloring(error_message_string, message_type=None):
     if message_type == 'ERROR':
-        errormessage =  f'ERROR message: {ErrorMessageString}'
+        errormessage =  f'ERROR message: {error_message_string}'
     else:
-        errormessage =  f'{ColorsPrint.FAIL + ColorsPrint.BOLD + ErrorMessageString + ColorsPrint.ENDC}'
+        errormessage =  f'{ColorsPrint.FAIL + ColorsPrint.BOLD + error_message_string + ColorsPrint.ENDC}'
     print(errormessage, file=sys.stderr)
 
-def userAnkiConnect(webBindAddress='localhost', webBindPort=8765):
+def get_user_ankiconnect(web_bind_address='localhost', web_bind_port=8765):
 
-    def webBindAddressHandle(webBindAddress):
+    def web_bind_address_handle(web_bind_address):
         """
         Return string pattern
         if there is http:// or https://, r'{Address}:{Port}'
         else, r'http://{Address}:{Port}'
         """
 
-        if webBindAddress[:5] in {'http:', 'https'}:
+        if web_bind_address[:5] in {'http:', 'https'}:
             return r"{Address}:{Port}"
         else:
             return r"http://{Address}:{Port}"
 
-    def get_AnkiConnect_URL(webBindAddress, webBindPort):
-        urlPattern = webBindAddressHandle(webBindAddress)
-        return urlPattern.format(Address=webBindAddress, Port=webBindPort)
+    def get_ankiconnect_url(web_bind_address, web_bind_port):
+        url_pattern = web_bind_address_handle(web_bind_address)
+        return url_pattern.format(Address=web_bind_address, Port=web_bind_port)
 
-    return get_AnkiConnect_URL(webBindAddress, webBindPort)
+    return get_ankiconnect_url(web_bind_address, web_bind_port)
 
 class Card:
     """
@@ -114,7 +114,7 @@ class Card:
             # TODO : def function
             # suggestion : len(list) condition
             tag = self._is_tag(back, splited_card_list[-1])
-            tag = self._is_Notag(tag)
+            tag = self._is_notag(tag)
 
             # is it good idea? obj: json
             return { 'front' : front, 'back' : back }, tag
@@ -123,41 +123,41 @@ class Card:
         # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error
         if field is None and notetype in ['cloze', 'Cloze']:
             main_logger.debug('cloze is on')
-            Text = self._cloze_contain_cloze_tag(splited_card_list[0])
+            text = self._cloze_contain_cloze_tag(splited_card_list[0])
             # suggestion : len(list) condition
             try:
-                Extra = splited_card_list[1]
+                extra = splited_card_list[1]
             except IndexError:
-                Extra = ''
+                extra = ''
 
             # TODO: if len(splited_card_list) == 1, _is_tag's parameter is inapropriate.
             # in this case, tag will be Text.
             # in this case, parameter should be Text, splited_card_list[-1]
 
             tag = ''
-            if Text != splited_card_list[-1]:
+            if text != splited_card_list[-1]:
             # if a record has only Text, then list[-1] is the Text. This cause
             #an error.
-                tag = self._is_tag(Extra, splited_card_list[-1])
+                tag = self._is_tag(extra, splited_card_list[-1])
 
-            tag = self._is_Notag(tag)
+            tag = self._is_notag(tag)
 
-            return { 'Text' : Text, 'Back Extra' : Extra }, tag
+            return { 'Text' : text, 'Back Extra' : extra }, tag
 
         if field:
             main_logger.debug('field is on')
             if notetype in ['cloze', 'Cloze']:
                 if self.cloze_field:
-                    merged_contents: dict = self._merge_splited_card_list_W_field(self.get_field(self.cloze_field), splited_card_list)
+                    merged_contents: dict = self._merge_splited_card_list_w_field(self.get_field(self.cloze_field), splited_card_list)
 
                     if 'tag' not in self.get_field(self.cloze_field) and 'tags' not in self.get_field(self.cloze_field):
                         return merged_contents, ['']
 
                 else:
-                    merged_contents: dict = self._merge_splited_card_list_W_field(field, splited_card_list)
+                    merged_contents: dict = self._merge_splited_card_list_w_field(field, splited_card_list)
 
             else:
-                merged_contents: dict = self._merge_splited_card_list_W_field(field, splited_card_list)
+                merged_contents: dict = self._merge_splited_card_list_w_field(field, splited_card_list)
 
             if 'tag' not in field and 'tags' not in field:
                 return merged_contents, ['']
@@ -177,13 +177,13 @@ class Card:
         print(ColorsPrint.FAIL + ColorsPrint.BOLD + ErrorMessages.check_notetype, ColorsPrint.ENDC, file=sys.stderr)
         print(ColorsPrint.BOLD + ErrorMessages.type_field_suggestion + ColorsPrint.ENDC, file=sys.stderr)
 
-    def _merge_splited_card_list_W_field(self, field: list, card_contents_list: list):
+    def _merge_splited_card_list_w_field(self, field: list, card_contents_list: list):
 
         if len(field) >= len(card_contents_list):
             return dict(zip(field, card_contents_list))
         raise Exception('a number of the fields in the option is smaller than actual fields of a card content')
 
-    def _is_Notag(self, tag):
+    def _is_notag(self, tag):
         if isinstance(tag, type(None)):
             return ''
         else:
@@ -209,16 +209,16 @@ class Card:
         if last_item_except_tag != tag_item:
             return tag_item.split(' ')
 
-    def _cloze_contain_cloze_tag(self, clozeContent):
+    def _cloze_contain_cloze_tag(self, cloze_content):
         """
         check whether Text contains cloze tag. if not, report and skip.
         """
 
-        if re.search(r'{{c\d+::.*}}', clozeContent):
-            return clozeContent
+        if re.search(r'{{c\d+::.*}}', cloze_content):
+            return cloze_content
         else:
             # TODO : How to skip to next loop
-            print(ColorsPrint.FAIL + ColorsPrint.BOLD + f"{clozeContent} does not have any cloze tag", ColorsPrint.ENDC, file=sys.stderr)
+            print(ColorsPrint.FAIL +ColorsPrint.BOLD + f"{cloze_content} does not have any cloze tag", ColorsPrint.ENDC, file=sys.stderr)
             # this break all loops.
             return None
 

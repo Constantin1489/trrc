@@ -76,14 +76,14 @@ def test_read_toml_config(config_file_name, user_section, mock_side_effect, sect
 
 def test_ankiadderall_card_class_WRONG_IFS(capsys):
     WRONGIFS = '#'
-    tempCardObject = ankiadderall.Card('default',
+    temp_card_obj = ankiadderall.Card('default',
                                        'basic',
                                        'front%back%test',
                                        'front:back:tags',
                                        None,
                                        None,
                                        WRONGIFS)
-    tempCardObject.make_card()
+    temp_card_obj.make_card()
     capture = capsys.readouterr()
     assert capture.err[0:5] == 'ERROR'
 
@@ -97,7 +97,7 @@ def test_ankiadderall_card_class_WRONG_IFS(capsys):
 @pytest.mark.parametrize("field", ['front:back:tags', 'back:front:tags'])
 def test_ankiadderall_card_class_correct_IFS(capsys, IFS_in_str, deckname,
                                              cardcontents, cardtype, field):
-    tempCardObject = ankiadderall.Card(deckname,
+    temp_card_obj = ankiadderall.Card(deckname,
                                        cardtype,
                                        cardcontents,
                                        field,
@@ -108,13 +108,13 @@ def test_ankiadderall_card_class_correct_IFS(capsys, IFS_in_str, deckname,
     content_answer = dict(zip(field.split(sep=':') , cardcontents.split(sep=IFS_in_str)))
     tag = content_answer.pop('tags').split(sep=' ')
 
-    tempCardObject.make_card()
+    temp_card_obj.make_card()
     capture = capsys.readouterr()
     assert capture.err == ''
     assert capture.out == ''
-    assert vars(tempCardObject)['content'] == content_answer
-    assert vars(tempCardObject)['tag'] == tag
-    assert tempCardObject.create_cardjson_note() == {'deckName': deckname,
+    assert vars(temp_card_obj)['content'] == content_answer
+    assert vars(temp_card_obj)['tag'] == tag
+    assert temp_card_obj.create_cardjson_note() == {'deckName': deckname,
                                                      'fields': content_answer,
                                                      'modelName': cardtype,
                                                      'tags': tag}
@@ -127,7 +127,7 @@ def test_ankiadderall_card_class_correct_IFS(capsys, IFS_in_str, deckname,
                           ('fr{{c1::o}}nt\tback\ttest', '\t')],)
 @pytest.mark.parametrize("field", ['Back Extra:Text:tags', 'Text:Back Extra:tags'])
 def test_ankiadderall_card_class_cloze(capsys, IFS_in_str, cardcontents, deckname, field):
-    tempCardObject = ankiadderall.Card(deckname,
+    temp_card_obj = ankiadderall.Card(deckname,
                                        'cloze',
                                        cardcontents,
                                        field,
@@ -138,13 +138,13 @@ def test_ankiadderall_card_class_cloze(capsys, IFS_in_str, cardcontents, decknam
     content_answer = dict(zip(field.split(sep=':') , cardcontents.split(sep=IFS_in_str)))
     tag = content_answer.pop('tags').split(sep=' ')
 
-    tempCardObject.make_card()
+    temp_card_obj.make_card()
     capture = capsys.readouterr()
     assert capture.err == ''
     assert capture.out == ''
-    assert vars(tempCardObject)['content'] == content_answer
-    assert vars(tempCardObject)['tag'] == tag
-    assert tempCardObject.create_cardjson_note() == {'deckName': deckname,
+    assert vars(temp_card_obj)['content'] == content_answer
+    assert vars(temp_card_obj)['tag'] == tag
+    assert temp_card_obj.create_cardjson_note() == {'deckName': deckname,
                                                      'fields': content_answer,
                                                      'modelName': 'cloze',
                                                      'tags': tag}

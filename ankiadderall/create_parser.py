@@ -7,8 +7,8 @@ from .utils import (
         Card,
         ColorsPrint,
         ErrorMessages,
-        userAnkiConnect,
-        ErrorMessageColoring,
+        get_user_ankiconnect,
+        error_message_coloring,
         RegexPattern)
 from .parser_opts import create_parser
 from .config_opts import (
@@ -53,7 +53,7 @@ def parse_argument(args=None):
 
     if len(args) >= 1 and sys.stdin.isatty() is True:
 
-        cardcontentsHandle(options)
+        cardcontents_handle(options)
         card_candidates = options.cardContents if options.cardContents else []
         main_logger.debug('stdin: sys.stdin.isatty')
 
@@ -109,15 +109,15 @@ def get_proper_deck(argparse_deck=None):
     main_logger.debug(f"(hard coded) deck is 'Default'")
     return 'Default'
 
-def get_proper_cardType(argparse_cardType=None):
+def get_proper_cardtype(argparse_cardtype=None):
     """
     get a card type.
     order: card's deck & type => variables in bash file  OR export variables OR a temporary variable => (rc-file =>) hard coded defaults
     """
 
-    if argparse_cardType:
-        main_logger.debug(f'(argparse) type is {argparse_cardType}')
-        return argparse_cardType
+    if argparse_cardtype:
+        main_logger.debug(f'(argparse) type is {argparse_cardtype}')
+        return argparse_cardtype
 
     if 'ANKIADDERALL_TYPE' in os.environ.keys():
         main_logger.debug(f"(osenv) type is {os.environ['ANKIADDERALL_TYPE']}")
@@ -128,21 +128,21 @@ def get_proper_cardType(argparse_cardType=None):
     main_logger.debug(f"(hard coded) type is 'Basic'")
     return 'Basic'
 
-def cardcontentsHandle(options):
+def cardcontents_handle(options):
     """
     If card.cardContents is a file, then insert it into --file option.
     """
 
-    files_in_cardContents = []
+    files_in_cardcontents = []
     for i in options.cardContents:
         if os.path.isfile(i):
             main_logger.debug(f"{os.path.isfile(i)=}")
-            files_in_cardContents.append(i)
+            files_in_cardcontents.append(i)
             options.cardContents.remove(i)
 
     # if cardContents is a file, not a card contents, then put it in card.file.
-    if files_in_cardContents:
-        for i in files_in_cardContents:
+    if files_in_cardcontents:
+        for i in files_in_cardcontents:
 
             main_logger.debug(f"{i=}")
 
@@ -167,17 +167,17 @@ def parse_card(card_candidates, options):
     Loop card_candidates to create cards.
     """
 
-    AnkiConnectInfo = userAnkiConnect(options.ip, options.port)
+    ankiconnect_info = get_user_ankiconnect(options.ip, options.port)
 
     regexes = RegexPattern()
 
     if len(card_candidates) == 0:
         if options.sync:
-            sync(AnkiConnectInfo, options.apikey)
+            sync(ankiconnect_info, options.apikey)
             exit(0)
 
-    Notes = []
-    Notes.extend(gather_card_from(card_candidates, options, regexes))
+    notes = []
+    notes.extend(gather_card_from(card_candidates, options, regexes))
 
     if options.file:
         main_logger.debug(f'{options.file=}')
@@ -192,20 +192,20 @@ def parse_card(card_candidates, options):
 
             main_logger.debug(f'read a file: {afile}')
 
-            Notes.extend(gather_card_from(lines, options, regexes, afile))
+            notes.extend(gather_card_from(lines, options, regexes, afile))
 
     if options.dryrun is False:
-        send_card_AnkiConnect(AnkiConnectInfo,
-                              Notes,
+        send_card_ankiconnect(ankiconnect_info,
+                              notes,
                               options.apikey,
                               (options.verbose or options.debug))
 
     if options.sync:
-        sync(AnkiConnectInfo, options.apikey)
+        sync(ankiconnect_info, options.apikey)
 
 def gather_card_from(card_candidates, options, regexes, filename=None):
 
-    Notes = []
+    notes = []
 
     if filename is None:
         main_logger.debug("--file option off")
@@ -239,7 +239,7 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
 
         try:
             # if a line has cloze tag, than the line is a cloze type.
-            Notes.append(process_card(candidate, options, regexes))
+            notes.append(process_card(candidate, options, regexes))
 
         except AttributeError as e:
             if "'card' object has no attribute 'content'" in e.args:
@@ -251,15 +251,15 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
             print(f"Failed to append a card: {e}", file=sys.stderr)
             continue
 
-    return Notes
+    return notes
 
 def process_card(cardcontents: str, options, regex_compiles):
 
-    TYPE: str = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
+    modified_type: str = check_cloze_is_mistakely_there(cardcontents, options.cardtype)
 
     try:
-        tempCardObject = Card(get_proper_deck(options.deck),
-                              TYPE,
+        temp_card_obj = Card(get_proper_deck(options.deck),
+                              modified_type,
                               cardcontents,
                               options.field,
                               options.cloze_field,
@@ -272,29 +272,28 @@ def process_card(cardcontents: str, options, regex_compiles):
 
 
     if options.allow_HTML is None:
-        tempCardObject.card_str_regex_substitute(regex_compiles.prevent_HTML_interpret_compile,
+        temp_card_obj.card_str_regex_substitute(regex_compiles.prevent_HTML_interpret_compile,
                                                  regex_compiles.prevent_HTML_interpret_pattern)
 
-    tempCardObject.card_str_regex_substitute(regex_compiles.newline_to_html_br_compile,
+    temp_card_obj.card_str_regex_substitute(regex_compiles.newline_to_html_br_compile,
                                              regex_compiles.newline_to_html_br_pattern)
 
-    tempCardObject.make_card()
+    temp_card_obj.make_card()
 
     if options.force_add:
-        card = tempCardObject.create_cardjson_note()
+        card = temp_card_obj.create_cardjson_note()
         card.update({"options" : { "allowDuplicate": True, "duplicateScope": "deck"}})
         return card
 
-    return tempCardObject.create_cardjson_note()
+    return temp_card_obj.create_cardjson_note()
 
 #TODO: apikey
-#TODO: CARD_JSON
-def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebug: bool):
+def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str, verbose_or_debug: bool):
 
     # if apikey exist then update it
     jsonobj = { "action": "addNotes",
             "version": 6,
-            "params": { "notes": CARD_JSON }}
+            "params": { "notes": card_json }}
     main_logger.debug(f'{jsonobj=}: {type(jsonobj)=}')
 
     if apikey:
@@ -307,8 +306,8 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebu
 
         # If a number of the cards are over 100, then allow a longer time to
         # send a request.
-        if len(CARD_JSON) > 100:
-            waiting_sec = len(CARD_JSON) // 100 + DEFAULT_WAITING_RESPONSE_READ_SEC
+        if len(card_json) > 100:
+            waiting_sec = len(card_json) // 100 + DEFAULT_WAITING_RESPONSE_READ_SEC
             timeout_value = (10, waiting_sec)
         else:
             # It's a default time to send a request.
@@ -316,48 +315,48 @@ def send_card_AnkiConnect(AnkiConnectInfo, CARD_JSON, apikey: str, verboseOrDebu
                              DEFAULT_WAITING_RESPONSE_READ_SEC)
 
         main_logger.debug(f'{timeout_value=}: {type(timeout_value)=}')
-        response = requests.post(AnkiConnectInfo, json=jsonobj, timeout=timeout_value)
-        check_response(response.text, CARD_JSON, verboseOrDebug)
+        response = requests.post(ankiconnect_info, json=jsonobj, timeout=timeout_value)
+        check_response(response.text, card_json, verbose_or_debug)
 
     except requests.exceptions.ReadTimeout as e:
-        ErrorMessageColoring(ErrorMessages.read_timed_out)
+        error_message_coloring(ErrorMessages.read_timed_out)
         exit(4)
     except requests.exceptions.ConnectTimeout as e:
-        ErrorMessageColoring(ErrorMessages.connect_time_out)
-        ErrorMessageColoring(ErrorMessages.ask_check_network)
+        error_message_coloring(ErrorMessages.connect_time_out)
+        error_message_coloring(ErrorMessages.ask_check_network)
         exit(4)
     except requests.exceptions.ConnectionError as e:
-        ErrorMessageColoring(ErrorMessages.ask_check_network)
+        error_message_coloring(ErrorMessages.ask_check_network)
         exit(4)
     except ValueError as e:
         print(e)
     except Exception as e:
 
-        ErrorMessageColoring(e, 'ERROR')
-        ErrorMessageColoring(ErrorMessages.unknown_network_error)
+        error_message_coloring(e, 'ERROR')
+        error_message_coloring(ErrorMessages.unknown_network_error)
         # default network error message.
-        ErrorMessageColoring(ErrorMessages.ask_check_network)
+        error_message_coloring(ErrorMessages.ask_check_network)
         exit(4)
 
-def check_response(responsetext, CARD_JSON, verboseOrDebug):
+def check_response(responsetext, card_json, verbose_or_debug):
     """
     Parse response text to debug if the AnkiConnect doesn't add the card.
     """
 
-    fail_to_add_card_list = get_failed_card_from_response(responsetext, CARD_JSON)
+    fail_to_add_card_list = get_failed_card_from_response(responsetext, card_json)
 
     for i in fail_to_add_card_list:
         print(f"{ColorsPrint.FAIL + ColorsPrint.BOLD + 'Failed:' + ColorsPrint.ENDC} {i}", file=sys.stderr)
-    print(f"Total cards: {len(CARD_JSON)} Total fails: {len(fail_to_add_card_list)}", file=sys.stdout)
+    print(f"Total cards: {len(card_json)} Total fails: {len(fail_to_add_card_list)}", file=sys.stdout)
 
-def get_failed_card_from_response(res_str: str, CARD_JSON: dict):
+def get_failed_card_from_response(res_str: str, card_json: dict):
 
     res_str_load: dict = json.loads(res_str)
     try:
-        return [CARD_JSON[i] for i, v in enumerate(res_str_load['result']) if v is None]
+        return [card_json[i] for i, v in enumerate(res_str_load['result']) if v is None]
     except:
         if res_str_load['error'] == 'valid api key must be provided':
-            ErrorMessageColoring(ErrorMessages.valid_api_key_require)
+            error_message_coloring(ErrorMessages.valid_api_key_require)
             exit(1)
         else:
             raise ValueError(f"{res_str_load['error']}")
@@ -374,12 +373,12 @@ def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
         main_logger.debug('found a cloze')
         return 'cloze'
     else:
-        return get_proper_cardType(cardtype)
+        return get_proper_cardtype(cardtype)
 
-def sync(AnkiConnectInfo, apikey=''):
+def sync(ankiconnect_info, apikey=''):
     """
     Sync an anki.
-    :AnkiConnectInfo: TODO
+    :ankiconnect_info: TODO
     """
-    response = requests.post(AnkiConnectInfo, json={"action": "sync", "version": 6,'key' : apikey}, timeout=(1,1))
+    response = requests.post(ankiconnect_info, json={"action": "sync", "version": 6,'key' : apikey}, timeout=(1,1))
     print(f'sync: {response.text}')
