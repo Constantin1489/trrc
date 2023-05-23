@@ -75,7 +75,7 @@ def parse_argument(args=None):
 
         else:
             parser.print_help()
-            exit(2)
+            sys.exit(2)
 
     return card_candidates, options
 
@@ -174,7 +174,7 @@ def parse_card(card_candidates, options):
     if len(card_candidates) == 0:
         if options.sync:
             sync(ankiconnect_info, options.apikey)
-            exit(0)
+            sys.exit(0)
 
     notes = []
     notes.extend(gather_card_from(card_candidates, options, regexes))
@@ -320,14 +320,14 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str, verbose_or_d
 
     except requests.exceptions.ReadTimeout as e:
         error_message_coloring(ErrorMessages.read_timed_out)
-        exit(4)
+        sys.exit(4)
     except requests.exceptions.ConnectTimeout as e:
         error_message_coloring(ErrorMessages.connect_time_out)
         error_message_coloring(ErrorMessages.ask_check_network)
-        exit(4)
+        sys.exit(4)
     except requests.exceptions.ConnectionError as e:
         error_message_coloring(ErrorMessages.ask_check_network)
-        exit(4)
+        sys.exit(4)
     except ValueError as e:
         print(e)
     except Exception as e:
@@ -336,7 +336,7 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str, verbose_or_d
         error_message_coloring(ErrorMessages.unknown_network_error)
         # default network error message.
         error_message_coloring(ErrorMessages.ask_check_network)
-        exit(4)
+        sys.exit(4)
 
 def check_response(responsetext, card_json, verbose_or_debug):
     """
@@ -357,7 +357,7 @@ def get_failed_card_from_response(res_str: str, card_json: dict):
     except:
         if res_str_load['error'] == 'valid api key must be provided':
             error_message_coloring(ErrorMessages.valid_api_key_require)
-            exit(1)
+            sys.exit(1)
         else:
             raise ValueError(f"{res_str_load['error']}")
 
