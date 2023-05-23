@@ -2,10 +2,9 @@ import argparse
 import sys
 import requests
 import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import re
 import json
-from .ankiadderall import (
+from .utils import (
         Card,
         bcolors,
         ErrorMessages,
