@@ -1,4 +1,3 @@
-import argparse
 import sys
 import requests
 import os
@@ -13,7 +12,6 @@ from .utils import (
         RegexPattern)
 from .parser_opts import create_parser
 from .config_opts import (
-        make_toml,
         ParsedConfig,
         read_toml_config,
         toml_arg_handle,

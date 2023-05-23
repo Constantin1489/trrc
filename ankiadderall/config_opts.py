@@ -1,4 +1,3 @@
-import configparser
 import sys
 import os
 import tomli_w

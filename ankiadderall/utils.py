@@ -1,6 +1,4 @@
 import sys
-import os
-import requests
 import re
 import logging
 main_logger = logging.getLogger(__name__)

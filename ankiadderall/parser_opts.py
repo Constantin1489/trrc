@@ -1,7 +1,5 @@
 import argparse
 import logging
-import sys
-import os
 
 VERSION = """%(prog)s 0.1.0 Copyright (C) 2023  Constantin Hong
 License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.

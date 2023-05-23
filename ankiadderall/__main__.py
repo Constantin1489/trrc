@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import sys
-import os
 from .create_parser import parse_argument, parse_card
 
 def main():
