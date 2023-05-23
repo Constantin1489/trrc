@@ -21,7 +21,7 @@ class RegexPattern:
         self.str_to_html_compile = re.compile("(%s)" % "|".join(map(re.escape, self.str_to_html_pattern.keys())))
 
 class ErrorMessages:
-    ask_check_network = f"""
+    ask_check_network = """
 Sending a card to AnkiConnect is failed.
 Check list
 1. Is your Anki running now? your Anki must be running to use AnkiConnect.

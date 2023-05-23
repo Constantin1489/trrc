@@ -106,7 +106,7 @@ def get_proper_deck(argparse_deck=None):
         main_logger.debug(f"(env) deck is {os.environ['ANKIADDERALL_DECK']}")
         return os.environ['ANKIADDERALL_DECK']
 
-    main_logger.debug(f"(hard coded) deck is 'Default'")
+    main_logger.debug("(hard coded) deck is 'Default'")
     return 'Default'
 
 def get_proper_cardtype(argparse_cardtype=None):
@@ -125,7 +125,7 @@ def get_proper_cardtype(argparse_cardtype=None):
 
     # TODO: the default term depends on the language user uses may vary.
     # ex) Korean -> '기본'
-    main_logger.debug(f"(hard coded) type is 'Basic'")
+    main_logger.debug("(hard coded) type is 'Basic'")
     return 'Basic'
 
 def cardcontents_handle(options):
@@ -155,9 +155,9 @@ def cardcontents_handle(options):
 
     else:
         if options.cardContents:
-            main_logger.debug(f"No file in card")
+            main_logger.debug("No file in card")
         else:
-            main_logger.debug(f"Empty card")
+            main_logger.debug("Empty card")
 
     # if there is no card OR a sole fole --file option
 
