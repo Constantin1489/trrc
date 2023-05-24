@@ -87,6 +87,8 @@ class Card:
         self.ifs = ifs
         self.cloze_field = cloze_field
         self.cloze_type = cloze_type
+        self.content = {}
+        self.tag = []
 
         main_logger.debug(f'card object: {self.notetype=}: {type(self.notetype)=}')
         main_logger.debug(f'card object: {ifs=}: {type(ifs)=}')
