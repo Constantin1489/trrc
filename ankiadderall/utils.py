@@ -16,9 +16,9 @@ class RegexPattern:
     str_to_html_pattern = { ' ' : '&nbsp'}
 
     def __init__(self):
-        self.prevent_HTML_interpret_compile = re.compile("(%s)" % "|".join(map(re.escape, self.prevent_HTML_interpret_pattern.keys())))
-        self.newline_to_html_br_compile = re.compile("(%s)" % "|".join(map(re.escape, self.newline_to_html_br_pattern.keys())))
-        self.str_to_html_compile = re.compile("(%s)" % "|".join(map(re.escape, self.str_to_html_pattern.keys())))
+        self.prevent_HTML_interpret_compile = re.compile("|".join(map(re.escape, self.prevent_HTML_interpret_pattern.keys())))
+        self.newline_to_html_br_compile = re.compile("|".join(map(re.escape, self.newline_to_html_br_pattern.keys())))
+        self.str_to_html_compile = re.compile("|".join(map(re.escape, self.str_to_html_pattern.keys())))
 
 class ErrorMessages:
     ask_check_network = """
