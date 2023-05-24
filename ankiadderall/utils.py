@@ -186,8 +186,8 @@ class Card:
     def _is_notag(self, tag):
         if isinstance(tag, type(None)):
             return ''
-        else:
-            return tag
+
+        return tag
 
     def _is_tag(self, last_item_except_tag, tag_item):
         """
