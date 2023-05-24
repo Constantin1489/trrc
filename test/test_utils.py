@@ -10,9 +10,25 @@ from ankiadderall.config_opts import read_toml_config
 from unittest import mock
 
 @pytest.fixture
-def regexes_compiles():
-    regexes = RegexPattern()
-    return regexes
+def regex_compiles():
+    regex = RegexPattern()
+    return regex
+
+
+@pytest.mark.parametrize("card_str, br_answer, prevent_HTML_answer",
+                         [('long <br>sent\\nences\\\\n', 'long <br>sent<br>ences&#92n', 'long &ltbr&gtsent\\nences\\\\n'),
+                          ('other <br>sent\\nences\\\\n', 'other <br>sent<br>ences&#92n', 'other &ltbr&gtsent\\nences\\\\n')])
+def test_regexes_compiles(regex_compiles, card_str, br_answer, prevent_HTML_answer):
+
+    re_compile = regex_compiles.newline_to_html_br_compile
+    pattern = regex_compiles.newline_to_html_br_pattern
+
+    assert re_compile.sub(lambda mo: pattern[mo.group()], card_str) == br_answer
+
+    re_compile = regex_compiles.prevent_HTML_interpret_compile
+    pattern = regex_compiles.prevent_HTML_interpret_pattern
+
+    assert re_compile.sub(lambda mo: pattern[mo.group()], card_str) == prevent_HTML_answer
 
 @pytest.mark.parametrize("mock_side_effect",
                          [None,
