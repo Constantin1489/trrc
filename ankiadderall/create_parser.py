@@ -204,8 +204,7 @@ Please check the permission of the file with 'ls -l {afile}'.""", file=sys.stder
     if options.dryrun is False:
         send_card_ankiconnect(ankiconnect_info,
                               notes,
-                              options.apikey,
-                              (options.verbose or options.debug))
+                              options.apikey)
 
     if options.sync:
         sync(ankiconnect_info, options.apikey)
@@ -292,7 +291,7 @@ def process_card(cardcontents: str, options, regex_compiles):
     return temp_card_obj.create_cardjson_note()
 
 #TODO: apikey
-def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str, verbose_or_debug: bool):
+def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str):
 
     # if apikey exist then update it
     jsonobj = { "action": "addNotes",
