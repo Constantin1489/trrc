@@ -320,7 +320,7 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str, verbose_or_d
 
         main_logger.debug(f'{timeout_value=}: {type(timeout_value)=}')
         response = requests.post(ankiconnect_info, json=jsonobj, timeout=timeout_value)
-        check_response(response.text, card_json, verbose_or_debug)
+        check_response(response.text, card_json)
 
     except requests.exceptions.ReadTimeout:
         error_message_coloring(ErrorMessages.read_timed_out)
