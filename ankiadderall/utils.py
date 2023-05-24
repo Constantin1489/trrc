@@ -139,38 +139,35 @@ class Card:
 
             return { 'Text' : text, 'Back Extra' : extra }, tag
 
-        if field:
-            main_logger.debug('field is on')
-            if notetype in ['cloze', 'Cloze']:
-                if self.cloze_field:
-                    merged_contents: dict = self._merge_splited_card_list_w_field(self.get_field(self.cloze_field), splited_card_list)
+        # if user defined field exists
+        main_logger.debug('field is on')
+        if notetype in ['cloze', 'Cloze']:
+            if self.cloze_field:
+                merged_contents: dict = self._merge_splited_card_list_w_field(self.get_field(self.cloze_field), splited_card_list)
 
-                    if 'tag' not in self.get_field(self.cloze_field) and 'tags' not in self.get_field(self.cloze_field):
-                        return merged_contents, ['']
-
-                else:
-                    merged_contents: dict = self._merge_splited_card_list_w_field(field, splited_card_list)
+                if 'tag' not in self.get_field(self.cloze_field) and 'tags' not in self.get_field(self.cloze_field):
+                    return merged_contents, ['']
 
             else:
                 merged_contents: dict = self._merge_splited_card_list_w_field(field, splited_card_list)
 
-            if 'tag' not in field and 'tags' not in field:
-                return merged_contents, ['']
+        else:
+            merged_contents: dict = self._merge_splited_card_list_w_field(field, splited_card_list)
 
-            # If try-except failed, then spliting self.card_str by IFS is failed.
-            # Even if this card failed, it wouldn't break the program but skip to the next card.
-            try:
-                tag: str = merged_contents.pop('tag')
+        if 'tag' not in field and 'tags' not in field:
+            return merged_contents, ['']
 
-            except KeyError:
-                tag: str = merged_contents.pop('tags')
+        # If try-except failed, then spliting self.card_str by IFS is failed.
+        # Even if this card failed, it wouldn't break the program but skip to the next card.
+        try:
+            tag: str = merged_contents.pop('tag')
 
-            tag: list = tag.split(sep=' ')
+        except KeyError:
+            tag: str = merged_contents.pop('tags')
 
-            return merged_contents, tag
+        tag: list = tag.split(sep=' ')
 
-        print(ColorsPrint.FAIL + ColorsPrint.BOLD + ErrorMessages.check_notetype, ColorsPrint.ENDC, file=sys.stderr)
-        print(ColorsPrint.BOLD + ErrorMessages.type_field_suggestion + ColorsPrint.ENDC, file=sys.stderr)
+        return merged_contents, tag
 
     def _merge_splited_card_list_w_field(self, field: list, card_contents_list: list):
 
@@ -199,8 +196,7 @@ class Card:
         if last_item_except_tag == tag_item:
             return None
 
-        if last_item_except_tag != tag_item:
-            return tag_item.split(' ')
+        return tag_item.split(' ')
 
     def _cloze_contain_cloze_tag(self, cloze_content):
         """
