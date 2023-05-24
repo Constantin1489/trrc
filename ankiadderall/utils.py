@@ -92,7 +92,6 @@ class Card:
         main_logger.debug(f'card object: {ifs=}: {type(ifs)=}')
         main_logger.debug(f'card object: {card_str=}: {type(card_str)=}')
 
-    # TODO: cloze fallback
     def _check_notetype(self, notetype, splited_card_list: list[str], field: list[str]):
         """
         return card content variables per notetype.
@@ -111,7 +110,6 @@ class Card:
                 raise Exception(ErrorMessages.basictype)
 
             # tag does not need to be splited
-            # TODO : def function
             # suggestion : len(list) condition
             tag = self._is_tag(back, splited_card_list[-1])
             tag = self._is_notag(tag)
@@ -119,8 +117,6 @@ class Card:
             # is it good idea? obj: json
             return { 'front' : front, 'back' : back }, tag
 
-        # TODO : import config from outside.
-        # TODO : len(cloze) < 3 OR search('\t') OR search('\\t') < 2, check 'tag:' OR make error
         if field is None and notetype in ['cloze', 'Cloze']:
             main_logger.debug('cloze is on')
             text = self._cloze_contain_cloze_tag(splited_card_list[0])
@@ -130,7 +126,6 @@ class Card:
             except IndexError:
                 extra = ''
 
-            # TODO: if len(splited_card_list) == 1, _is_tag's parameter is inapropriate.
             # in this case, tag will be Text.
             # in this case, parameter should be Text, splited_card_list[-1]
 
@@ -215,7 +210,6 @@ class Card:
         if re.search(r'{{c\d+::.*}}', cloze_content):
             return cloze_content
 
-        # TODO : How to skip to next loop
         print(ColorsPrint.FAIL + ColorsPrint.BOLD + f"{cloze_content} does not have any cloze tag", ColorsPrint.ENDC, file=sys.stderr)
         # this break all loops.
         return None

@@ -24,7 +24,6 @@ def create_parser():
             "Content of a card"
             ))
 
-    # TODO: LOCALE
     parser.add_argument(
             '-D', '--deck',
             action='store', dest='deck',
@@ -32,7 +31,6 @@ def create_parser():
             'Set a Deck.'
             ))
 
-    # TODO: LOCALE
     parser.add_argument(
             '-t', '--type',
             action='store', dest='cardtype',

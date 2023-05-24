@@ -45,8 +45,6 @@ def parse_argument(args=None):
     options.overwrite_config(read_toml_config(parsed_arg.config, parsed_arg.alias))
     main_logger.debug(f'TOML overwriting: {mask_apikey(vars(options))=}')
 
-    # TODO: parse environment variables
-
     # overwrite argparse options
     options.overwrite_config(vars(parsed_arg))
     main_logger.debug(f'argument overwriting: {mask_apikey(vars(options))=}')
@@ -123,8 +121,6 @@ def get_proper_cardtype(argparse_cardtype=None):
         main_logger.debug(f"(osenv) type is {os.environ['ANKIADDERALL_TYPE']}")
         return os.environ['ANKIADDERALL_TYPE']
 
-    # TODO: the default term depends on the language user uses may vary.
-    # ex) Korean -> '기본'
     main_logger.debug("(hard coded) type is 'Basic'")
     return 'Basic'
 
@@ -290,7 +286,6 @@ def process_card(cardcontents: str, options, regex_compiles):
 
     return temp_card_obj.create_cardjson_note()
 
-#TODO: apikey
 def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str):
 
     # if apikey exist then update it
