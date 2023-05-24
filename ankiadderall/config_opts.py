@@ -84,9 +84,9 @@ def read_toml_config(config_file_name, section):
         if config_file_name is None:
             main_logger.debug('Use an empty dictionary instead of the default config file')
             return {}
-        else:
-            print(f"There is no '{config_file_name}'. Please check the config file name.", file=sys.stderr)
-            sys.exit(1)
+
+        print(f"There is no '{config_file_name}'. Please check the config file name.", file=sys.stderr)
+        sys.exit(1)
 
     except PermissionError:
         print(f"""Permission error: '{config_file}'.
