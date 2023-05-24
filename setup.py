@@ -11,7 +11,7 @@ setup(
     maintainer='Constantin Hong',
     maintainer_email='hongconstantin@gmail.com',
     readme = "README.md",
-    packages = ['ankiadderall'],
+    packages = ['trrc'],
     data_files = [('share/man/man1', ['trrc.1'])],
     python_requires='>=3.9',
     install_requires=[
@@ -40,6 +40,6 @@ setup(
         ],
     entry_points = {
         'console_scripts' : [
-            'trrc = ankiadderall.__main__:main'
+            'trrc = trrc.__main__:main'
         ]
     })
