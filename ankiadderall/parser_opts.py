@@ -117,7 +117,7 @@ def create_parser():
     parser.add_argument(
             '--toml-write',
 			metavar="FILE",
-            action='store', dest='toml_write', 
+            action='store', dest='toml_write',
             help=(
             "Write a toml file with options used. To set a section, use '--toml-section'"
             ))
