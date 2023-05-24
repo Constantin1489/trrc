@@ -75,7 +75,7 @@ def read_toml_config(config_file_name, section):
 
     from tomlkit import loads, exceptions
     try:
-        with open(config_file, "r") as f:
+        with open(config_file, "r", encoding="utf-8") as f:
             toml_load = loads(f.read())
 
     # if there is no ~/.trrc nor config_file_name, then return empty dict.

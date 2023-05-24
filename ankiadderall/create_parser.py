@@ -181,7 +181,7 @@ def parse_card(card_candidates, options):
         for afile in options.file:
             lines = []
             try:
-                with open(afile) as f:
+                with open(afile, "r", encoding="utf-8") as f:
                     lines += f.read().splitlines()
 
             except FileNotFoundError:
