@@ -33,6 +33,7 @@ setup(
         "Topic :: Utilities",
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: POSIX :: Linux',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
