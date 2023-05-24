@@ -196,3 +196,32 @@ def test_ankiadderall_card_class_cloze(capsys, IFS_in_str, cardcontents, decknam
                                                      'fields': content_answer,
                                                      'modelName': 'cloze',
                                                      'tags': tag}
+
+@pytest.mark.parametrize("deckname", ['default', 'arbitrary name'])
+@pytest.mark.parametrize("cardcontents, IFS_in_str",
+                         [('fr{{c1::o}}nt%back%test', '%'),
+                          ('fr{{c1::o}}nt	back	test', '\t'),
+                          ('fr{{c1::o}}nt	back	test second_tag', '\t'),
+                          ('fr{{c1::o}}nt\tback\ttest', '\t')],)
+def test_ankiadderall_card_class_cloze_None_user_field(capsys, IFS_in_str, cardcontents, deckname):
+    temp_card_obj = ankiadderall.Card(deckname,
+                                       'cloze',
+                                       cardcontents,
+                                       None,
+                                       None,
+                                       None,
+                                       IFS_in_str)
+
+    content_answer = dict(zip(['Text', 'Back Extra', 'tags'], cardcontents.split(sep=IFS_in_str)))
+    tag = content_answer.pop('tags').split(sep=' ')
+
+    temp_card_obj.make_card()
+    capture = capsys.readouterr()
+    assert capture.err == ''
+    assert capture.out == ''
+    assert vars(temp_card_obj)['content'] == content_answer
+    assert vars(temp_card_obj)['tag'] == tag
+    assert temp_card_obj.create_cardjson_note() == {'deckName': deckname,
+                                                     'fields': content_answer,
+                                                     'modelName': 'cloze',
+                                                     'tags': tag}
