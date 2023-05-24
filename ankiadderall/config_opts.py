@@ -1,6 +1,7 @@
 import sys
 import os
 import logging
+from tomlkit import loads, exceptions
 import tomli_w
 main_logger = logging.getLogger(__name__)
 
@@ -73,7 +74,6 @@ def read_toml_config(config_file_name, section):
         main_logger.debug('default section')
         section = 'default'
 
-    from tomlkit import loads, exceptions
     try:
         with open(config_file, "r", encoding="utf-8") as f:
             toml_load = loads(f.read())
