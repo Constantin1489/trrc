@@ -141,7 +141,7 @@ def cardcontents_handle(options):
     if files_in_cardcontents:
         for i in files_in_cardcontents:
 
-            if options.file :
+            if options.file:
                 options.file.append(i)
 
             # If card.file is None, then insert the list to --file option.
