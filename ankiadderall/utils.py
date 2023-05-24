@@ -195,11 +195,9 @@ class Card:
         therefore, if they are the same, there is no tag.
         """
 
+        # This prevent to compare empty tag and last item of cloze.
+        # Therefore, cloze can have only one item.
         if tag_item == '':
-            """
-            this prevent to compare empty tag and last item of cloze
-            therefore, cloze can have only one item.
-            """
             return ''
 
         # Last item should not be a tag
