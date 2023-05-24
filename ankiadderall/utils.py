@@ -112,7 +112,6 @@ class Card:
             # tag does not need to be splited
             # suggestion : len(list) condition
             tag = self._is_tag(back, splited_card_list[-1])
-            tag = self._is_notag(tag)
 
             # is it good idea? obj: json
             return { 'front' : front, 'back' : back }, tag
@@ -129,13 +128,11 @@ class Card:
             # in this case, tag will be Text.
             # in this case, parameter should be Text, splited_card_list[-1]
 
-            tag = ''
+            tag = []
             if text != splited_card_list[-1]:
             # if a record has only Text, then list[-1] is the Text. This cause
             #an error.
                 tag = self._is_tag(extra, splited_card_list[-1])
-
-            tag = self._is_notag(tag)
 
             return { 'Text' : text, 'Back Extra' : extra }, tag
 
@@ -190,11 +187,11 @@ class Card:
         # This prevent to compare empty tag and last item of cloze.
         # Therefore, cloze can have only one item.
         if tag_item == '':
-            return ''
+            return []
 
         # Last item should not be a tag
         if last_item_except_tag == tag_item:
-            return None
+            return []
 
         return tag_item.split(' ')
 
