@@ -114,7 +114,7 @@ class Card:
             tag = self._is_tag(back, splited_card_list[-1])
 
             # is it good idea? obj: json
-            return { 'front' : front, 'back' : back }, tag
+            return { 'Front' : front, 'Back' : back }, tag
 
         if field is None and notetype in ['cloze', 'Cloze']:
             main_logger.debug('cloze is on')
