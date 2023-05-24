@@ -373,8 +373,8 @@ def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     if re.search(r'{{c\d::.*}}', card_contents):
         main_logger.debug('found a cloze')
         return 'cloze'
-    else:
-        return get_proper_cardtype(cardtype)
+
+    return get_proper_cardtype(cardtype)
 
 def sync(ankiconnect_info, apikey=''):
     """
