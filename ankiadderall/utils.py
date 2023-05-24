@@ -216,11 +216,11 @@ class Card:
 
         if re.search(r'{{c\d+::.*}}', cloze_content):
             return cloze_content
-        else:
-            # TODO : How to skip to next loop
-            print(ColorsPrint.FAIL +ColorsPrint.BOLD + f"{cloze_content} does not have any cloze tag", ColorsPrint.ENDC, file=sys.stderr)
-            # this break all loops.
-            return None
+
+        # TODO : How to skip to next loop
+        print(ColorsPrint.FAIL + ColorsPrint.BOLD + f"{cloze_content} does not have any cloze tag", ColorsPrint.ENDC, file=sys.stderr)
+        # this break all loops.
+        return None
 
     def card_str_regex_substitute(self, regex_compile, pattern):
 
