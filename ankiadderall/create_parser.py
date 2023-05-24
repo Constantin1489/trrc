@@ -87,10 +87,10 @@ def get_logging_level(parser):
 
     if parser.debug is not None:
         return parser.debug
-    elif parser.verbose is not None:
+    if parser.verbose is not None:
         return parser.verbose
-    else:
-        return None
+
+    return None
 
 def get_proper_deck(argparse_deck=None):
     """
