@@ -135,6 +135,38 @@ def test_ankiadderall_card_class_correct_IFS(capsys, IFS_in_str, deckname,
                                                      'modelName': cardtype,
                                                      'tags': tag}
 
+@pytest.mark.parametrize("cardcontents, IFS_in_str",
+                         [('front%back%test', '%'),
+                          ('front	back	test second_tag', '\t'),
+                          ('front	back	test', '\t'),
+                          ('front\tback\ttest', '\t')],)
+@pytest.mark.parametrize("deckname", ['default', 'arbitrary name'])
+@pytest.mark.parametrize("cardtype", ['basic', 'deck name with space', 'cloze']) # there can be a cloze but I should not raise an error in this phase. AnkiConnect will report an error.
+def test_ankiadderall_card_class_correct_IFS_None_user_field(capsys, IFS_in_str, deckname,
+                                                             cardcontents, cardtype):
+    temp_card_obj = ankiadderall.Card(deckname,
+                                       cardtype,
+                                       cardcontents,
+                                       None,
+                                       None,
+                                       None,
+                                       IFS_in_str)
+
+    content_answer = dict(zip(['Front', 'Back', 'tags'], cardcontents.split(sep=IFS_in_str)))
+    tag = content_answer.pop('tags').split(sep=' ')
+
+    temp_card_obj.make_card()
+    capture = capsys.readouterr()
+    if cardtype == 'basic':
+        assert capture.err == ''
+        assert capture.out == ''
+    assert vars(temp_card_obj)['content'] == content_answer
+    assert vars(temp_card_obj)['tag'] == tag
+    assert temp_card_obj.create_cardjson_note() == {'deckName': deckname,
+                                                     'fields': content_answer,
+                                                     'modelName': cardtype,
+                                                     'tags': tag}
+
 @pytest.mark.parametrize("deckname", ['default', 'arbitrary name'])
 @pytest.mark.parametrize("cardcontents, IFS_in_str",
                          [('fr{{c1::o}}nt%back%test', '%'),
