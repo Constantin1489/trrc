@@ -326,7 +326,7 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str, verbose_or_d
         error_message_coloring(ErrorMessages.read_timed_out)
         sys.exit(4)
 
-    except requests.exceptions.ConnectTimeout as e:
+    except requests.exceptions.ConnectTimeout:
         error_message_coloring(ErrorMessages.connect_time_out)
         error_message_coloring(ErrorMessages.ask_check_network)
         sys.exit(4)
