@@ -187,8 +187,15 @@ def parse_card(card_candidates, options):
             try:
                 with open(afile) as f:
                     lines += f.read().splitlines()
-            except Exception as e:
-                print(e, file=sys.stderr)
+
+            except FileNotFoundError:
+                main_logger.debug(f'file not found: {afile}')
+                continue
+
+            except PermissionError:
+                print(f"""Permission error: '{afile}'.
+Please check the permission of the file with 'ls -l {afile}'.""", file=sys.stderr)
+                continue
 
             main_logger.debug(f'read a file: {afile}')
 
@@ -246,9 +253,6 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
                 pass
             else:
                 print(f"Unknown error: {e}", file=sys.stderr)
-            continue
-        except Exception as e:
-            print(f"Failed to append a card: {e}", file=sys.stderr)
             continue
 
     return notes
@@ -321,13 +325,16 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str, verbose_or_d
     except requests.exceptions.ReadTimeout:
         error_message_coloring(ErrorMessages.read_timed_out)
         sys.exit(4)
+
     except requests.exceptions.ConnectTimeout as e:
         error_message_coloring(ErrorMessages.connect_time_out)
         error_message_coloring(ErrorMessages.ask_check_network)
         sys.exit(4)
+
     except requests.exceptions.ConnectionError as e:
         error_message_coloring(ErrorMessages.ask_check_network)
         sys.exit(4)
+
     except ValueError as e:
         print(e)
 
