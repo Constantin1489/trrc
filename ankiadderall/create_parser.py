@@ -35,19 +35,20 @@ def parse_argument(args=None):
     if parsed_arg.toml_generate or parsed_arg.toml_write:
         toml_arg_handle(parsed_arg.toml_generate, parsed_arg.toml_write, parsed_arg.toml_section, parsed_arg)
 
-    main_logger.debug(f'arguments : {mask_apikey(vars(parsed_arg))=} = {type(vars(parsed_arg))=}')
+    main_logger.debug('arguments: %s, type: %s',
+                      mask_apikey(vars(parsed_arg)), type(vars(parsed_arg)))
 
     # parse hard coded options
     options = ParsedConfig(parsed_arg)
-    main_logger.debug(f'hard coded options: {mask_apikey(vars(options))=}')
+    main_logger.debug('hard coded options: %s', mask_apikey(vars(options)))
 
     # parse config file
     options.overwrite_config(read_toml_config(parsed_arg.config, parsed_arg.alias))
-    main_logger.debug(f'TOML overwriting: {mask_apikey(vars(options))=}')
+    main_logger.debug('TOML overwriting: %s', mask_apikey(vars(options)))
 
     # overwrite argparse options
     options.overwrite_config(vars(parsed_arg))
-    main_logger.debug(f'argument overwriting: {mask_apikey(vars(options))=}')
+    main_logger.debug('argument overwriting: %s', mask_apikey(vars(options)))
 
     if len(args) >= 1 and sys.stdin.isatty() is True:
 
@@ -97,11 +98,11 @@ def get_proper_deck(argparse_deck=None):
     """
 
     if argparse_deck:
-        main_logger.debug(f'(argparse) deck is {argparse_deck}')
+        main_logger.debug('(argparse) deck is %s', argparse_deck)
         return argparse_deck
 
     if 'ANKIADDERALL_DECK' in os.environ.keys():
-        main_logger.debug(f"(env) deck is {os.environ['ANKIADDERALL_DECK']}")
+        main_logger.debug("(env) deck is %s", os.environ['ANKIADDERALL_DECK'])
         return os.environ['ANKIADDERALL_DECK']
 
     main_logger.debug("(hard coded) deck is 'Default'")
@@ -114,11 +115,11 @@ def get_proper_cardtype(argparse_cardtype=None):
     """
 
     if argparse_cardtype:
-        main_logger.debug(f'(argparse) type is {argparse_cardtype}')
+        main_logger.debug('(argparse) card type: %s', argparse_cardtype)
         return argparse_cardtype
 
     if 'ANKIADDERALL_TYPE' in os.environ.keys():
-        main_logger.debug(f"(osenv) type is {os.environ['ANKIADDERALL_TYPE']}")
+        main_logger.debug('(osenv) type is %s', os.environ['ANKIADDERALL_TYPE'])
         return os.environ['ANKIADDERALL_TYPE']
 
     main_logger.debug("(hard coded) type is 'Basic'")
@@ -132,15 +133,13 @@ def cardcontents_handle(options):
     files_in_cardcontents = []
     for i in options.cardContents:
         if os.path.isfile(i):
-            main_logger.debug(f"{os.path.isfile(i)=}")
+            main_logger.debug("File: %s, existance: %s", i, os.path.isfile(i))
             files_in_cardcontents.append(i)
             options.cardContents.remove(i)
 
     # if cardContents is a file, not a card contents, then put it in card.file.
     if files_in_cardcontents:
         for i in files_in_cardcontents:
-
-            main_logger.debug(f"{i=}")
 
             if options.file :
                 options.file.append(i)
@@ -176,7 +175,7 @@ def parse_card(card_candidates, options):
     notes.extend(gather_card_from(card_candidates, options, regexes))
 
     if options.file:
-        main_logger.debug(f'{options.file=}')
+        main_logger.debug('file in option: %s', options.file)
 
         for afile in options.file:
             lines = []
@@ -185,7 +184,7 @@ def parse_card(card_candidates, options):
                     lines += f.read().splitlines()
 
             except FileNotFoundError:
-                main_logger.debug(f'file not found: {afile}')
+                main_logger.debug('File not found: %s', afile)
                 continue
 
             except PermissionError:
@@ -193,7 +192,7 @@ def parse_card(card_candidates, options):
 Please check the permission of the file with 'ls -l {afile}'.""", file=sys.stderr)
                 continue
 
-            main_logger.debug(f'read a file: {afile}')
+            main_logger.debug('Read a file: %s', afile)
 
             notes.extend(gather_card_from(lines, options, regexes, afile))
 
@@ -215,7 +214,7 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
     for i, candidate in enumerate(card_candidates, start=1):
 
         # print a current card.
-        main_logger.debug(f'string: {candidate}')
+        main_logger.debug('string: %s', candidate)
 
         if not candidate:
             if filename:
@@ -235,9 +234,12 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
             continue
 
         if filename:
-            main_logger.info(f"{filename}:{i}: {candidate}")
+            # Print current card and the line of a file if verbose option is on
+            main_logger.info("%s:%s: %s",
+                             filename, i, candidate)
         else:
-            main_logger.info(f"{i}: {candidate}")
+            # Print current card If stdin, pipe or redirection
+            main_logger.info("%s: %s", i, candidate)
 
         try:
             # if a line has cloze tag, than the line is a cloze type.
@@ -292,7 +294,7 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str):
     jsonobj = { "action": "addNotes",
             "version": 6,
             "params": { "notes": card_json }}
-    main_logger.debug(f'{jsonobj=}: {type(jsonobj)=}')
+    main_logger.debug('jsonobj: %s, type: %s', jsonobj, type(jsonobj))
 
     if apikey:
         jsonobj.update({'key' : apikey})
@@ -312,7 +314,8 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str):
             timeout_value = (DEFAULT_WAITING_CONNECTION_SEC,
                              DEFAULT_WAITING_RESPONSE_READ_SEC)
 
-        main_logger.debug(f'{timeout_value=}: {type(timeout_value)=}')
+        main_logger.debug('timeout_value: %s, type: %s',
+                          timeout_value, type(timeout_value))
         response = requests.post(ankiconnect_info, json=jsonobj, timeout=timeout_value)
         check_response(response.text, card_json)
 

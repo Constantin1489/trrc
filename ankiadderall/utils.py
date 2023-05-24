@@ -90,9 +90,9 @@ class Card:
         self.content = {}
         self.tag = []
 
-        main_logger.debug(f'card object: {self.notetype=}: {type(self.notetype)=}')
-        main_logger.debug(f'card object: {ifs=}: {type(ifs)=}')
-        main_logger.debug(f'card object: {card_str=}: {type(card_str)=}')
+        main_logger.debug('note type: %s, type: %s', self.notetype, type(self.notetype))
+        main_logger.debug('IFS: %s, type: %s', ifs, type(ifs))
+        main_logger.debug('card object: %s, type: %s', card_str, type(card_str))
 
     def _check_notetype(self, notetype, splited_card_list: list[str], field: list[str]):
         """
@@ -108,7 +108,8 @@ class Card:
 
             # if splited_card_list[1] doesn't exist, then return None.
             except IndexError:
-                main_logger.debug(f'index error: {splited_card_list=}: {type(splited_card_list)=}')
+                main_logger.debug('index error: %s, type: %s',
+                                  splited_card_list, type(splited_card_list))
                 raise Exception(ErrorMessages.basictype)
 
             # tag does not need to be splited

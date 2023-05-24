@@ -39,7 +39,7 @@ class ParsedConfig:
         """
 
         if section_title is None:
-            main_logger.debug(f'{section_title=}')
+            main_logger.debug('section_title: %s', section_title)
 
             if configparse is None:
                 # this doesn't affect existing attributes
@@ -50,12 +50,12 @@ class ParsedConfig:
             if not isinstance(configparse, dict):
                 configparse = vars(configparse)
 
-            main_logger.debug(f'{mask_apikey(configparse)=}')
+            main_logger.debug('configparse: %s', mask_apikey(configparse))
 
             for k, v in configparse.items():
                 if v is not None and v is not False:
                     setattr(self, k, v)
-            main_logger.debug(f'{section_title=}')
+            main_logger.debug('section_title: %s', section_title)
 
         else:
             for k, v in make_toml(configparse, section_title)[section_title].items():
@@ -64,11 +64,11 @@ class ParsedConfig:
 
 def read_toml_config(config_file_name, section):
 
-    main_logger.debug(f'{config_file_name=}')
+    main_logger.debug('config_file_name: %s', config_file_name)
 
     config_file = os.path.expanduser('~/.trrc') if not config_file_name \
                                                         else os.path.expanduser(config_file_name)
-    main_logger.debug(f'{config_file=}')
+    main_logger.debug('config_file: %s', config_file)
 
     if section is None:
         main_logger.debug('default section')
@@ -80,7 +80,7 @@ def read_toml_config(config_file_name, section):
 
     # if there is no ~/.trrc nor config_file_name, then return empty dict.
     except FileNotFoundError:
-        main_logger.debug(f"can't open a default {config_file}")
+        main_logger.debug("can't open a config file: %s", config_file)
         if config_file_name is None:
             main_logger.debug('Use an empty dictionary instead of the default config file')
             return {}
@@ -94,7 +94,7 @@ Please check the permission of the file with 'ls -l {config_file}'.""", file=sys
         sys.exit(1)
 
     try:
-        main_logger.debug(f'{mask_apikey(toml_load[section])=}')
+        main_logger.debug('load config: %s', toml_load[section])
 
         return toml_load[section]
 
