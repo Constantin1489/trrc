@@ -25,7 +25,7 @@ class ParsedConfig:
         self.cardtype = 'Basic'
         self.ip = '127.0.0.1'
         self.port = 8765
-        self.IFS = '\t'
+        self.ifs = '\t'
         self.field = 'Front:Back:tags'
         self.file = None
         self.dryrun = False

@@ -79,7 +79,7 @@ def create_parser():
 
     parser.add_argument(
             '-F', '--IFS',
-            action='store', dest='IFS',
+            action='store', dest='ifs',
             help=(
             "Set a delimiter of card contents to use any character other than a tab(\\t) character."
             ))

@@ -65,16 +65,16 @@ def test_IFS_option(parser):
 
     result = parser.parse_args(f"-F 'x'".split())
 
-    assert result.IFS == "'x'"
-    assert len(result.IFS) == 3
+    assert result.ifs == "'x'"
+    assert len(result.ifs) == 3
 
     result = parser.parse_args(f"-F x".split())
-    assert result.IFS == 'x'
-    assert len(result.IFS) == 1
+    assert result.ifs == 'x'
+    assert len(result.ifs) == 1
 
     result = parser.parse_args(f"--IFS x".split())
-    assert result.IFS == 'x'
-    assert len(result.IFS) == 1
+    assert result.ifs == 'x'
+    assert len(result.ifs) == 1
 
 def test_card_deck(parser):
     """
@@ -108,7 +108,7 @@ def test_parse_multiple_option(parser):
 
     result = parser.parse_args(f'/Users/constantinhong/TODO/tempfile_dir/snippet.q2iIDLVU.ExportedCard -p 8888 -F x'.split())
     assert result.port == 8888
-    assert result.IFS == 'x'
+    assert result.ifs == 'x'
     assert result.cardContents == ['/Users/constantinhong/TODO/tempfile_dir/snippet.q2iIDLVU.ExportedCard' ]
     assert result.file == None
 

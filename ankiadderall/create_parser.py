@@ -267,7 +267,7 @@ def process_card(cardcontents: str, options, regex_compiles):
                               options.field,
                               options.cloze_field,
                               options.cloze_type,
-                              options.IFS)
+                              options.ifs)
 
     except Exception as e:
         print(e, file=sys.stderr)

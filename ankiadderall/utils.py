@@ -75,7 +75,7 @@ class Card:
     """
 
     def __init__(self, deck: str, notetype: str, card_str: str, field: str,
-                 cloze_field, cloze_type, IFS='\t'):
+                 cloze_field, cloze_type, ifs='\t'):
         """
         no deck and notetype. because cardlist has deck and notetype.
         """
@@ -84,12 +84,12 @@ class Card:
         self.notetype: str = notetype
         self.card_str = card_str
         self.field: str = field
-        self.IFS = IFS
+        self.ifs = ifs
         self.cloze_field = cloze_field
         self.cloze_type = cloze_type
 
         main_logger.debug(f'card object: {self.notetype=}: {type(self.notetype)=}')
-        main_logger.debug(f'card object: {IFS=}: {type(IFS)=}')
+        main_logger.debug(f'card object: {ifs=}: {type(ifs)=}')
         main_logger.debug(f'card object: {card_str=}: {type(card_str)=}')
 
     # TODO: cloze fallback
@@ -234,12 +234,12 @@ class Card:
 
         try:
             self.content, self.tag = self._check_notetype(self.notetype,
-                                                          self.card_str.split(sep=self.IFS),
+                                                          self.card_str.split(sep=self.ifs),
                                                           self.get_field(self.field))
 
         except KeyError as e:
             if 'tags' in e.args:
-                print(f"ERROR: check your IFS is correct '{self.card_str}' IFS '{self.IFS}'",
+                print(f"ERROR: check your IFS is correct '{self.card_str}' IFS '{self.ifs}'",
                       file=sys.stderr)
 
     def get_field(self, field):
