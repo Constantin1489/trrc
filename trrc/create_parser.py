@@ -273,8 +273,8 @@ def process_card(cardcontents: str, options, regex_compiles):
 
 
     if options.allow_HTML is None:
-        temp_card_obj.card_str_regex_substitute(regex_compiles.prevent_HTML_interpret_compile,
-                                                 regex_compiles.prevent_HTML_interpret_pattern)
+        temp_card_obj.card_str_regex_substitute(regex_compiles.prevent_html_interpret_compile,
+                                                 regex_compiles.prevent_html_interpret_pattern)
 
     temp_card_obj.card_str_regex_substitute(regex_compiles.newline_to_html_br_compile,
                                              regex_compiles.newline_to_html_br_pattern)

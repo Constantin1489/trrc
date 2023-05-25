@@ -24,8 +24,8 @@ def test_regexes_compiles(regex_compiles, card_str, br_answer, prevent_HTML_answ
 
     assert re_compile.sub(lambda mo: pattern[mo.group()], card_str) == br_answer
 
-    re_compile = regex_compiles.prevent_HTML_interpret_compile
-    pattern = regex_compiles.prevent_HTML_interpret_pattern
+    re_compile = regex_compiles.prevent_html_interpret_compile
+    pattern = regex_compiles.prevent_html_interpret_pattern
 
     assert re_compile.sub(lambda mo: pattern[mo.group()], card_str) == prevent_HTML_answer
 
