@@ -100,45 +100,46 @@ class Card:
         return card content variables per notetype.
         """
 
-        if field is None and notetype in ['basic', 'Basic']:
-            main_logger.debug('hard coded basic is on')
-            front = splited_card_list[0]
+        if field is None:
+            if notetype in ['basic', 'Basic']:
+                main_logger.debug('hard coded basic is on')
+                front = splited_card_list[0]
 
-            try:
-                back = splited_card_list[1]
+                try:
+                    back = splited_card_list[1]
 
-            # if splited_card_list[1] doesn't exist, then return None.
-            except IndexError:
-                main_logger.debug('index error: %s, type: %s',
-                                  splited_card_list, type(splited_card_list))
-                raise Exception(ErrorMessages.basictype)
+                # if splited_card_list[1] doesn't exist, then return None.
+                except IndexError:
+                    main_logger.debug('index error: %s, type: %s',
+                                      splited_card_list, type(splited_card_list))
+                    raise Exception(ErrorMessages.basictype)
 
-            # tag does not need to be splited
-            # suggestion : len(list) condition
-            tag = self._is_tag(back, splited_card_list[-1])
+                # tag does not need to be splited
+                # suggestion : len(list) condition
+                tag = self._is_tag(back, splited_card_list[-1])
 
-            # is it good idea? obj: json
-            return { 'Front' : front, 'Back' : back }, tag
+                # is it good idea? obj: json
+                return { 'Front' : front, 'Back' : back }, tag
 
-        if field is None and notetype in ['cloze', 'Cloze']:
-            main_logger.debug('cloze is on')
-            text = self._cloze_contain_cloze_tag(splited_card_list[0])
-            # suggestion : len(list) condition
-            try:
-                extra = splited_card_list[1]
-            except IndexError:
-                extra = ''
+            if notetype in ['cloze', 'Cloze']:
+                main_logger.debug('cloze is on')
+                text = self._cloze_contain_cloze_tag(splited_card_list[0])
+                # suggestion : len(list) condition
+                try:
+                    extra = splited_card_list[1]
+                except IndexError:
+                    extra = ''
 
-            # in this case, tag will be Text.
-            # in this case, parameter should be Text, splited_card_list[-1]
+                # in this case, tag will be Text.
+                # in this case, parameter should be Text, splited_card_list[-1]
 
-            tag = []
-            if text != splited_card_list[-1]:
-            # if a record has only Text, then list[-1] is the Text. This cause
-            #an error.
-                tag = self._is_tag(extra, splited_card_list[-1])
+                tag = []
+                if text != splited_card_list[-1]:
+                # if a record has only Text, then list[-1] is the Text. This cause
+                #an error.
+                    tag = self._is_tag(extra, splited_card_list[-1])
 
-            return { 'Text' : text, 'Back Extra' : extra }, tag
+                return { 'Text' : text, 'Back Extra' : extra }, tag
 
         # if user defined field exists
         main_logger.debug('field is on')
