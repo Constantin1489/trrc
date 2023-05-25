@@ -44,8 +44,8 @@ with '--sync' option without card contents in a command line after a while"""
             "your apikey and, use --apikey option or add it into a config file."
 
 def error_message_coloring(error_message_string, message_type=None):
-    if message_type == 'ERROR':
-        errormessage =  f'ERROR message: {error_message_string}'
+    if message_type:
+        errormessage = f'{ColorsPrint.FAIL + ColorsPrint.BOLD + message_type + ColorsPrint.ENDC}: {error_message_string}'
     else:
         errormessage =  f'{ColorsPrint.FAIL + ColorsPrint.BOLD + error_message_string + ColorsPrint.ENDC}'
     print(errormessage, file=sys.stderr)

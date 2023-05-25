@@ -343,7 +343,7 @@ def check_response(responsetext, card_json):
     fail_to_add_card_list = get_failed_card_from_response(responsetext, card_json)
 
     for i in fail_to_add_card_list:
-        print(f"{ColorsPrint.FAIL + ColorsPrint.BOLD + 'Failed:' + ColorsPrint.ENDC} {i}", file=sys.stderr)
+        error_message_coloring(i, 'Failed: ')
 
     print(f"Total cards: {len(card_json)} " \
     f"Total fails: {len(fail_to_add_card_list)}", file=sys.stdout)
