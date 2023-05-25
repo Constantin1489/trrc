@@ -86,7 +86,8 @@ def read_toml_config(config_file_name, section):
             main_logger.debug('Use an empty dictionary instead of the default config file')
             return {}
 
-        print(f"There is no '{config_file_name}'. Please check the config file name.", file=sys.stderr)
+        print(f"There is no '{config_file_name}'. " \
+              f"Please check the config file name.", file=sys.stderr)
         sys.exit(1)
 
     except PermissionError:
@@ -107,7 +108,8 @@ def mask_apikey(config: dict):
     Mask apikey only if an apikey value exists.
     """
 
-    # If key is key or apikey and v is not false nor None, then return 'masked'. In other cases, print as it is.
+    # If key is key or apikey and v is not false nor None,
+    # then return 'masked'. In other cases, print as it is.
     return { k: ('masked' if k in {'key', 'apikey'} and v else v) for k, v in  config.items() }
 
 def make_toml(parsed_arg: dict, section_title='untitled'):
