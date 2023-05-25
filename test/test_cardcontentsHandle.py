@@ -2,7 +2,7 @@ import os
 import sys
 import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from ankiadderall.create_parser import create_parser, parse_argument
+from trrc.create_parser import create_parser, parse_argument
 import configparser
 # create_parser.create_parser
 
