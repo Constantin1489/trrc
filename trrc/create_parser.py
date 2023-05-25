@@ -344,7 +344,9 @@ def check_response(responsetext, card_json):
 
     for i in fail_to_add_card_list:
         print(f"{ColorsPrint.FAIL + ColorsPrint.BOLD + 'Failed:' + ColorsPrint.ENDC} {i}", file=sys.stderr)
-    print(f"Total cards: {len(card_json)} Total fails: {len(fail_to_add_card_list)}", file=sys.stdout)
+
+    print(f"Total cards: {len(card_json)} " \
+    f"Total fails: {len(fail_to_add_card_list)}", file=sys.stdout)
 
 def get_failed_card_from_response(res_str: str, card_json: dict):
 
@@ -378,5 +380,7 @@ def sync(ankiconnect_info, apikey=''):
     Sync an anki.
     :ankiconnect_info: TODO
     """
-    response = requests.post(ankiconnect_info, json={"action": "sync", "version": 6,'key' : apikey}, timeout=(1,1))
+    response = requests.post(ankiconnect_info,
+                             json={"action": "sync", "version": 6,'key' : apikey},
+                             timeout=(1,1))
     print(f'sync: {response.text}')
