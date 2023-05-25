@@ -52,15 +52,15 @@ class ParsedConfig:
 
             main_logger.debug('configparse: %s', mask_apikey(configparse))
 
-            for k, v in configparse.items():
-                if v is not None and v is not False:
-                    setattr(self, k, v)
+            for key, value in configparse.items():
+                if value is not None and value is not False:
+                    setattr(self, key, value)
             main_logger.debug('section_title: %s', section_title)
 
         else:
-            for k, v in make_toml(configparse, section_title)[section_title].items():
-                if v is not None:
-                    setattr(self, k, v)
+            for key, value in make_toml(configparse, section_title)[section_title].items():
+                if value is not None:
+                    setattr(self, key, value)
 
 def read_toml_config(config_file_name, section):
 
@@ -75,8 +75,8 @@ def read_toml_config(config_file_name, section):
         section = 'default'
 
     try:
-        with open(config_file, "r", encoding="utf-8") as f:
-            toml_load = loads(f.read())
+        with open(config_file, "r", encoding="utf-8") as file_obj:
+            toml_load = loads(file_obj.read())
 
     # if there is no ~/.trrc nor config_file_name, then return empty dict.
     except FileNotFoundError:
@@ -135,7 +135,7 @@ def toml_arg_handle(do_print_toml, config_file_name, section_title, parsed_arg):
             print(tomli_w.dumps(toml))
 
         if config_file_name:
-            with open(config_file_name, "wb") as f:
-                tomli_w.dump(toml, f)
+            with open(config_file_name, "wb") as file_obj:
+                tomli_w.dump(toml, file_obj)
 
         sys.exit(2)

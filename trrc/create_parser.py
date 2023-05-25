@@ -180,8 +180,8 @@ def parse_card(card_candidates, options):
         for afile in options.file:
             lines = []
             try:
-                with open(afile, "r", encoding="utf-8") as f:
-                    lines += f.read().splitlines()
+                with open(afile, "r", encoding="utf-8") as file_obj:
+                    lines += file_obj.read().splitlines()
 
             except FileNotFoundError:
                 main_logger.debug('File not found: %s', afile)
@@ -245,11 +245,11 @@ def gather_card_from(card_candidates, options, regexes, filename=None):
             # if a line has cloze tag, than the line is a cloze type.
             notes.append(process_card(candidate, options, regexes))
 
-        except AttributeError as e:
-            if "'card' object has no attribute 'content'" in e.args:
+        except AttributeError as err:
+            if "'card' object has no attribute 'content'" in err.args:
                 pass
             else:
-                print(f"Unknown error: {e}", file=sys.stderr)
+                print(f"Unknown error: {err}", file=sys.stderr)
             continue
 
     return notes
@@ -267,8 +267,8 @@ def process_card(cardcontents: str, options, regex_compiles):
                               options.cloze_type,
                               options.ifs)
 
-    except Exception as e:
-        print(e, file=sys.stderr)
+    except Exception as err:
+        print(err, file=sys.stderr)
         print('failed: ' + cardcontents, file=sys.stderr)
 
 
@@ -332,8 +332,8 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str):
         error_message_coloring(ErrorMessages.ask_check_network)
         sys.exit(4)
 
-    except ValueError as e:
-        print(e)
+    except ValueError as err:
+        print(err)
 
 def check_response(responsetext, card_json):
     """
