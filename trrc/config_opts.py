@@ -22,6 +22,7 @@ class ParsedConfig:
                 setattr(self, k, None)
 
         # overwrite Hard coded config
+        self.cardContents = []
         self.deck = 'Default'
         self.cardtype = 'Basic'
         self.ip = '127.0.0.1'
