@@ -101,7 +101,7 @@ def get_proper_deck(argparse_deck=None):
         main_logger.debug('(argparse) deck is %s', argparse_deck)
         return argparse_deck
 
-    if 'ANKIADDERALL_DECK' in os.environ.keys():
+    if 'ANKIADDERALL_DECK' in os.environ:
         main_logger.debug("(env) deck is %s", os.environ['ANKIADDERALL_DECK'])
         return os.environ['ANKIADDERALL_DECK']
 
@@ -118,7 +118,7 @@ def get_proper_cardtype(argparse_cardtype=None):
         main_logger.debug('(argparse) card type: %s', argparse_cardtype)
         return argparse_cardtype
 
-    if 'ANKIADDERALL_TYPE' in os.environ.keys():
+    if 'ANKIADDERALL_TYPE' in os.environ:
         main_logger.debug('(osenv) type is %s', os.environ['ANKIADDERALL_TYPE'])
         return os.environ['ANKIADDERALL_TYPE']
 
