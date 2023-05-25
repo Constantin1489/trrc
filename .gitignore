@@ -119,6 +119,8 @@ tags
 # Persistent undo
 [._]*.un~
 
+# End of https://www.toptal.com/developers/gitignore/api/vim,macos,linux,emacs
+
 # ignore pycache
 __pycache__/
 
@@ -132,4 +134,3 @@ __pycache__/
 # ignore build directory
 build/
 
-# End of https://www.toptal.com/developers/gitignore/api/vim,macos,linux,emacs
