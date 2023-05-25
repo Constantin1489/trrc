@@ -40,7 +40,8 @@ Please report it to https://github.com/Constantin1489/ankistreamadd/issues"""
 cards now. Within a minute, Your card is maybe available. If you set
 to do sync, this program will ignore it by now. Please, sync manually
 with '--sync' option without card contents in a command line after a while"""
-    valid_api_key_require = "valid api key must be provided. please check your apikey and, use --apikey option or add it into a config file."
+    valid_api_key_require = "valid api key must be provided. please check " \
+            "your apikey and, use --apikey option or add it into a config file."
 
 def error_message_coloring(error_message_string, message_type=None):
     if message_type == 'ERROR':
@@ -145,7 +146,8 @@ class Card:
             if self.cloze_field:
                 merged_contents: dict = self._merge_splited_card_list_w_field(self.get_field(self.cloze_field), splited_card_list)
 
-                if 'tag' not in self.get_field(self.cloze_field) and 'tags' not in self.get_field(self.cloze_field):
+                if ('tag' not in self.get_field(self.cloze_field) and
+                    'tags' not in self.get_field(self.cloze_field)):
                     return merged_contents, ['']
 
             else:
@@ -173,7 +175,8 @@ class Card:
 
         if len(field) >= len(card_contents_list):
             return dict(zip(field, card_contents_list))
-        raise Exception('a number of the fields in the option is smaller than actual fields of a card content')
+        raise Exception('a number of the fields in the option is ' \
+                        'smaller than actual fields of a card content')
 
     def _is_notag(self, tag):
         if isinstance(tag, type(None)):
@@ -206,7 +209,7 @@ class Card:
         if re.search(r'{{c\d+::.*}}', cloze_content):
             return cloze_content
 
-        print(ColorsPrint.FAIL + ColorsPrint.BOLD + f"{cloze_content} does not have any cloze tag", ColorsPrint.ENDC, file=sys.stderr)
+        error_message_coloring(f"{cloze_content} does not have any cloze tag")
         # this break all loops.
         return None
 
