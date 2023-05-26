@@ -1,6 +1,8 @@
 import sys
 import os
 import logging
+# tomllib is new in python 3.11. To support backward-compatiblity I use third
+# party lib.
 from tomlkit import loads, exceptions
 import tomli_w
 main_logger = logging.getLogger(__name__)
@@ -8,7 +10,7 @@ main_logger = logging.getLogger(__name__)
 
 class ParsedConfig:
 
-    """class for read config
+    """class for reading config
 
     Other functions retrieve attributes from this class.
 
@@ -67,6 +69,9 @@ DEFAULT_CONFIG_FILES = ['~/.trrc', # HOME directory.
                         './.trrc'] # Working directory.
 
 def read_toml_config(config_file_name, section):
+    """
+    Read config files in default location and a user config file from argument.
+    """
     main_logger.debug('config_file_name: %s', config_file_name)
 
     config_file = os.path.expanduser(config_file_name)
