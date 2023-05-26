@@ -63,6 +63,9 @@ class ParsedConfig:
                 if value is not None:
                     setattr(self, key, value)
 
+DEFAULT_CONFIG_FILES = ['~/.trrc', # HOME directory.
+                        './.trrc'] # Working directory.
+
 def read_toml_config(config_file_name, section):
 
     main_logger.debug('config_file_name: %s', config_file_name)
