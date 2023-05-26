@@ -94,7 +94,7 @@ def read_toml_config(config_file_name, section):
     except FileNotFoundError:
 
         # pring error of default config file when debugging
-        main_logger.debug("There isn't a config file: %s", config_file)
+        main_logger.debug("There is no config file: %s", config_file)
 
         # if there is no user config file, break
         if config_file_name not in DEFAULT_CONFIG_FILES:
@@ -123,7 +123,7 @@ Please check the permission of the file with 'ls -l %s'.""", config_file, config
         return config
 
     except exceptions.NonExistentKey:
-        raise KeyError(f"There is No '{section}' section in the config file. Please check an alias of the config file.")
+        raise KeyError(f"There is no '{section}' section in the config file. Please check an alias of the config file.")
 
 def mask_apikey(config: dict):
     """
