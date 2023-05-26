@@ -67,12 +67,15 @@ DEFAULT_CONFIG_FILES = ['~/.trrc', # HOME directory.
                         './.trrc'] # Working directory.
 
 def read_toml_config(config_file_name, section):
-
     main_logger.debug('config_file_name: %s', config_file_name)
 
-    config_file = os.path.expanduser('~/.trrc') if not config_file_name \
-                                                        else os.path.expanduser(config_file_name)
+    config_file = os.path.expanduser(config_file_name)
     main_logger.debug('config_file: %s', config_file)
+
+    # If user doesn't set section, then use 'default' even the config file is a
+    # default config files or user config file.
+    # So user can use both 'default' section of default config file and user
+    # section of user config file.
 
     if section is None:
         main_logger.debug('default section')
@@ -82,26 +85,37 @@ def read_toml_config(config_file_name, section):
         with open(config_file, "r", encoding="utf-8") as file_obj:
             toml_load = loads(file_obj.read())
 
-    # if there is no ~/.trrc nor config_file_name, then return empty dict.
+    # if there is no config file, then return empty dict to prevent not to break program.
     except FileNotFoundError:
-        main_logger.debug("can't open a config file: %s", config_file)
-        if config_file_name is None:
-            main_logger.debug('Use an empty dictionary instead of the default config file')
-            return {}
 
-        print(f"There is no '{config_file_name}'. " \
-              f"Please check the config file name.", file=sys.stderr)
-        sys.exit(1)
+        # pring error of default config file when debugging
+        main_logger.debug("There isn't a config file: %s", config_file)
+
+        # if there is no user config file, break
+        if config_file_name not in DEFAULT_CONFIG_FILES:
+            print(f"FileNotFoundError: '{config_file}'. " \
+                  f"Please check the config file name.", file=sys.stderr)
+            sys.exit(1)
+
+        return {}
 
     except PermissionError:
-        print(f"""Permission error: '{config_file}'.
-Please check the permission of the file with 'ls -l {config_file}'.""", file=sys.stderr)
-        sys.exit(1)
+        # pring error of default config file when debugging
+        main_logger.debug("""Permission error: '%s'.
+Please check the permission of the file with 'ls -l %s'.""", config_file, config_file)
+
+        # if user config file has PermissionError, break
+        if config_file_name not in DEFAULT_CONFIG_FILES:
+            print(f"PermissionError in user config file: '{config_file}'. " \
+                  f"Please check the config file name.", file=sys.stderr)
+            sys.exit(1)
+
+        return {}
 
     try:
-        main_logger.debug('load config: %s', toml_load[section])
-
-        return toml_load[section]
+        config = toml_load[section]
+        main_logger.debug('load config section: %s', section)
+        return config
 
     except exceptions.NonExistentKey:
         raise KeyError(f"There is No '{section}' section in the config file. Please check an alias of the config file.")
