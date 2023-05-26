@@ -172,12 +172,6 @@ class Card:
         raise Exception('a number of the fields in the option is ' \
                         'smaller than actual fields of a card content')
 
-    def _is_notag(self, tag):
-        if isinstance(tag, type(None)):
-            return ''
-
-        return tag
-
     def _is_tag(self, last_item_except_tag, tag_item):
         """
         last card item can not be tag item.
