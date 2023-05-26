@@ -25,8 +25,6 @@ def parse_argument(args=None):
 
     parser = create_parser()
 
-    if args is None:
-        args = sys.argv[1:]
     parsed_arg = parser.parse_args(args)
 
     # enable logger
