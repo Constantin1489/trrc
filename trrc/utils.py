@@ -59,16 +59,9 @@ def get_user_ankiconnect(web_bind_address='localhost', web_bind_port=8765):
         else, r'http://{Address}:{Port}'
         """
 
-        if web_bind_address[:5] in {'http:', 'https'}:
-            return r"{Address}:{Port}"
-
-        return r"http://{Address}:{Port}"
-
-    def get_ankiconnect_url(web_bind_address, web_bind_port):
-        url_pattern = web_bind_address_handle(web_bind_address)
-        return url_pattern.format(Address=web_bind_address, Port=web_bind_port)
-
-    return get_ankiconnect_url(web_bind_address, web_bind_port)
+    if web_bind_address.startswith(('http://', 'https://')):
+        return f"{web_bind_address}:{web_bind_port}"
+    return f"http://{web_bind_address}:{web_bind_port}"
 
 class Card:
     """
