@@ -14,6 +14,7 @@ from .utils import (
 from .parser_opts import create_parser
 from .config_opts import (
         ParsedConfig,
+        DEFAULT_CONFIG_FILES,
         read_toml_config,
         toml_arg_handle,
         mask_apikey)
@@ -38,17 +39,8 @@ def parse_argument(args=None):
     main_logger.debug('arguments: %s, type: %s',
                       mask_apikey(vars(parsed_arg)), type(vars(parsed_arg)))
 
-    # parse hard coded options
-    options = ParsedConfig(parsed_arg)
-    main_logger.debug('hard coded options: %s', mask_apikey(vars(options)))
-
-    # parse config file
-    options.overwrite_config(read_toml_config(parsed_arg.config, parsed_arg.alias))
-    main_logger.debug('TOML overwriting: %s', mask_apikey(vars(options)))
-
-    # overwrite argparse options
-    options.overwrite_config(vars(parsed_arg))
-    main_logger.debug('argument overwriting: %s', mask_apikey(vars(options)))
+    # parse configs from default config files and user option arguments.
+    options = parse_config(parsed_arg)
 
     if len(args) >= 1 and sys.stdin.isatty() is True:
 
@@ -384,3 +376,38 @@ def sync(ankiconnect_info, apikey=''):
                              json={"action": "sync", "version": 6,'key' : apikey},
                              timeout=(1,1))
     print(f'sync: {response.text}')
+
+def parse_config(parsed_arg=None):
+    """Parse config options from default config files and user option argument."""
+
+    if parsed_arg:
+        # parse hard coded options
+        options = ParsedConfig(parsed_arg)
+        main_logger.debug('hard coded options: %s', mask_apikey(vars(options)))
+
+        # parse default config files
+        for default_config in DEFAULT_CONFIG_FILES:
+            options.overwrite_config(read_toml_config(default_config,
+                                                      parsed_arg.alias))
+
+        # parse user config file
+        if parsed_arg.config:
+            options.overwrite_config(read_toml_config(parsed_arg.config, parsed_arg.alias))
+            main_logger.debug('TOML overwriting: %s', mask_apikey(vars(options)))
+
+        # finally overwrite argparse options
+        options.overwrite_config(vars(parsed_arg))
+        main_logger.debug('argument overwriting: %s', mask_apikey(vars(options)))
+
+        return options
+
+    # parse hard coded options
+    options = ParsedConfig({})
+
+    # if ther is no user argument,
+    # parse default config files
+    for default_config in DEFAULT_CONFIG_FILES:
+        options.overwrite_config(read_toml_config(default_config,
+                                                  'default'))
+
+    return options
