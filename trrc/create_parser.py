@@ -354,6 +354,11 @@ def get_failed_card_from_response(res_str: str, card_json: dict):
         else:
             raise ValueError(f"{res_str_load['error']}")
 
+def get_failed_card_from_response(res_str: str, card_json: dict):
+
+    res_str_load: dict = json.loads(res_str)
+    return [card_json[i] for i, v in enumerate(res_str_load['result']) if v is None]
+
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     """TODO: Docstring for check_cloze_is_mistakely_there.
 
