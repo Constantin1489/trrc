@@ -32,7 +32,10 @@ def parse_argument(args=None):
 
     # TOML
     if parsed_arg.toml_generate or parsed_arg.toml_write:
-        toml_arg_handle(parsed_arg.toml_generate, parsed_arg.toml_write, parsed_arg.toml_section, parsed_arg)
+        toml_arg_handle(parsed_arg.toml_generate,
+                        parsed_arg.toml_write,
+                        parsed_arg.toml_section,
+                        parsed_arg)
 
     main_logger.debug('arguments: %s, type: %s',
                       mask_apikey(vars(parsed_arg)), type(vars(parsed_arg)))
