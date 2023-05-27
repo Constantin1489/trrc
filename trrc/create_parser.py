@@ -370,6 +370,14 @@ def check_response(responsetext, card_json, ankiconnect_info, apikey):
             error_message_coloring(card, 'Failed: ')
             error_message_coloring(reasons[i], 'Reason: ')
 
+
+        # INDIVIDUAL CARD ERROR REPORT
+        reasons_set = {i['error'] for i in reasons.values()}
+        print(f"\n#### Kinds of failures: {len(reasons_set)}")
+        for i, v in enumerate(reasons_set, start=1):
+            print(f'{i}: {v}')
+        print("####")
+
     print(f"Total cards: {len(card_json)} " \
     f"Total fails: {len(fail_to_add_card_list)}", file=sys.stdout)
 
