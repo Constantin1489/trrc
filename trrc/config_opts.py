@@ -123,7 +123,9 @@ Please check the permission of the file with 'ls -l %s'.""", config_file, config
         return config
 
     except exceptions.NonExistentKey:
-        raise KeyError(f"There is no '{section}' section in the config file. Please check an alias of the config file.")
+        print(f"""There is no '{section}' section in the config file.
+Sections found: {[i for i in toml_load]}""", file=sys.stderr)
+        sys.exit(5)
 
 def mask_apikey(config: dict):
     """
