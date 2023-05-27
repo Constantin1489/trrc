@@ -189,9 +189,12 @@ Please check the permission of the file with 'ls -l {afile}'.""", file=sys.stder
             notes.extend(gather_card_from(lines, options, regexes, afile))
 
     if options.dryrun is False:
-        send_card_ankiconnect(ankiconnect_info,
-                              notes,
-                              options.apikey)
+        response = send_card_ankiconnect(ankiconnect_info,
+                                         notes,
+                                         'addNotes',
+                                         options.apikey)
+
+        check_response(response.text, notes, ankiconnect_info, options.apikey)
 
     if options.sync:
         sync(ankiconnect_info, options.apikey)
@@ -280,12 +283,28 @@ def process_card(cardcontents: str, options, regex_compiles):
 
     return temp_card_obj.create_cardjson_note()
 
-def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str):
+def get_api_dict(action, parameter, apikey=''):
+    """Get AnkiConnect API obj"""
+
+    dict_template = { 'addNote' : {"action" : "addNote",
+                                   "version": 6,
+                                   "params": { "note" : parameter },
+                                   "key": apikey },
+                     'addNotes' : {"action" : "addNotes",
+                                   "version": 6,
+                                   "params": { "notes" : parameter }},
+                     'multi' : {"action" : "multi",
+                                "version": 6,
+                                "params": { "actions" : parameter }}
+                     }
+
+    return dict_template[action]
+
+def send_card_ankiconnect(ankiconnect_info, card_json, action, apikey: str):
 
     # if apikey exist then update it
-    jsonobj = { "action": "addNotes",
-            "version": 6,
-            "params": { "notes": card_json }}
+    jsonobj = get_api_dict(action, card_json)
+
     main_logger.debug('jsonobj: %s, type: %s', jsonobj, type(jsonobj))
 
     if apikey:
@@ -308,8 +327,8 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str):
 
         main_logger.debug('timeout_value: %s, type: %s',
                           timeout_value, type(timeout_value))
-        response = requests.post(ankiconnect_info, json=jsonobj, timeout=timeout_value)
-        check_response(response.text, card_json)
+
+        return requests.post(ankiconnect_info, json=jsonobj, timeout=timeout_value)
 
     except requests.exceptions.ReadTimeout:
         error_message_coloring(ErrorMessages.read_timed_out)
@@ -328,24 +347,38 @@ def send_card_ankiconnect(ankiconnect_info, card_json, apikey: str):
         print(err)
         sys.exit(4)
 
-def check_response(responsetext, card_json):
+def check_response(responsetext, card_json, ankiconnect_info, apikey):
     """
     Parse response text to debug if the AnkiConnect doesn't add the card.
     """
 
     fail_to_add_card_list = get_failed_card_from_response(responsetext, card_json)
 
-    for i in fail_to_add_card_list:
-        error_message_coloring(i, 'Failed: ')
+    if len(fail_to_add_card_list) > 0:
+
+        multi_failed_card = [ get_api_dict('addNote', card, apikey)
+                             for card in fail_to_add_card_list ]
+
+        multi_response = send_card_ankiconnect(ankiconnect_info,
+                                               multi_failed_card,
+                                               'multi',
+                                               apikey)
+
+        reasons = get_failed_card_from_multi_response(multi_response.text)
+
+        for i, card in enumerate(fail_to_add_card_list):
+            error_message_coloring(card, 'Failed: ')
+            error_message_coloring(reasons[i], 'Reason: ')
 
     print(f"Total cards: {len(card_json)} " \
     f"Total fails: {len(fail_to_add_card_list)}", file=sys.stdout)
 
-def get_failed_card_from_response(res_str: str, card_json: dict):
+def get_failed_card_from_multi_response(res_str):
 
     res_str_load: dict = json.loads(res_str)
+
     try:
-        return [card_json[i] for i, v in enumerate(res_str_load['result']) if v is None]
+        return dict(enumerate(res_str_load['result']))
 
     except KeyError:
         if res_str_load['error'] == 'valid api key must be provided':
