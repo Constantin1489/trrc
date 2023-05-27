@@ -6,7 +6,6 @@ import json
 import requests
 from .utils import (
         Card,
-        ColorsPrint,
         ErrorMessages,
         get_user_ankiconnect,
         error_message_coloring,
