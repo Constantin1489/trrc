@@ -388,12 +388,12 @@ def get_failed_card_from_multi_response(res_str):
     try:
         return dict(enumerate(res_str_load['result']))
 
-    except KeyError:
+    except KeyError as exc:
         if res_str_load['error'] == 'valid api key must be provided':
             error_message_coloring(ErrorMessages.valid_api_key_require)
             sys.exit(1)
         else:
-            raise ValueError(f"{res_str_load['error']}")
+            raise ValueError(f"{res_str_load['error']}") from exc
 
 def get_failed_card_from_response(res_str: str, card_json: dict):
 

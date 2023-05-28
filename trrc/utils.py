@@ -95,10 +95,10 @@ class Card:
                     back = splited_card_list[1]
 
                 # if splited_card_list[1] doesn't exist, then return None.
-                except IndexError:
+                except IndexError as exc:
                     main_logger.debug('index error: %s, type: %s',
                                       splited_card_list, type(splited_card_list))
-                    raise Exception(ErrorMessages.basictype)
+                    raise Exception(ErrorMessages.basictype) from exc
 
                 # tag does not need to be splited
                 # suggestion : len(list) condition
