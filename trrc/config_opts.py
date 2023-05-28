@@ -99,15 +99,10 @@ def read_toml_config(config_file_name):
         return {}
 
     except PermissionError:
-        # pring error of default config file when debugging
-        main_logger.debug("""Permission error: '%s'.
-Please check the permission of the file with 'ls -l %s'.""", config_file, config_file)
-
-        # if user config file has PermissionError, break
-        if config_file_name not in DEFAULT_CONFIG_FILES:
-            print(f"PermissionError in user config file: '{config_file}'. " \
-                  f"Please check the config file name.", file=sys.stderr)
-            sys.exit(1)
+        # whatever config file has PermissionError, break
+        print(f"Permission error: '{config_file}'. " \
+              f"Please check the permission of the file with 'ls -l {config_file}'.", file=sys.stderr)
+        sys.exit(1)
 
         return {}
 
