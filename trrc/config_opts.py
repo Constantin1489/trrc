@@ -3,7 +3,7 @@ import os
 import logging
 # tomllib is new in python 3.11. To support backward-compatiblity I use third
 # party lib.
-from tomlkit import loads, exceptions
+from tomlkit import loads
 import tomli_w
 main_logger = logging.getLogger(__name__)
 
@@ -89,6 +89,7 @@ def read_toml_config(config_file_name, section):
     try:
         with open(config_file, "r", encoding="utf-8") as file_obj:
             toml_load = loads(file_obj.read())
+            return toml_load
 
     # if there is no config file, then return empty dict to prevent not to break program.
     except FileNotFoundError:
@@ -116,16 +117,6 @@ Please check the permission of the file with 'ls -l %s'.""", config_file, config
             sys.exit(1)
 
         return {}
-
-    try:
-        config = toml_load[section]
-        main_logger.debug('load config section: %s', section)
-        return config
-
-    except exceptions.NonExistentKey:
-        print(f"""There is no '{section}' section in the config file.
-Sections found: {[i for i in toml_load]}""", file=sys.stderr)
-        sys.exit(5)
 
 def mask_apikey(config: dict):
     """
