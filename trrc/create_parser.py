@@ -343,9 +343,6 @@ def send_card_ankiconnect(ankiconnect_info, card_json, action, apikey: str):
         error_message_coloring(ErrorMessages.ask_check_network)
         sys.exit(4)
 
-    except ValueError as err:
-        print(err)
-        sys.exit(4)
 
 def check_response(responsetext, card_json, ankiconnect_info, apikey):
     """
