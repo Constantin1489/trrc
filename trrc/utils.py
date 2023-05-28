@@ -22,11 +22,12 @@ class RegexPattern:
 
 class ErrorMessages:
     ask_check_network = """
-Sending a card to AnkiConnect is failed.
+AnkiConnect doesn't respond.
+
 Check list
 1. Is your Anki running now? your Anki must be running to use AnkiConnect.
 2. Is your AnkiConnect plugin installed in your Anki application and enabled?
-3. Is an ip and port config correct?
+3. Are an ip and port in option or config files correct?
 4. Does your serverside allow port?
 """
     connect_time_out = "It's a connection time out."

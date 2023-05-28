@@ -336,13 +336,15 @@ def send_card_ankiconnect(ankiconnect_info, card_json, action, apikey: str):
 
     except requests.exceptions.ConnectTimeout:
         error_message_coloring(ErrorMessages.connect_time_out)
+        error_message_coloring(ankiconnect_info, 'AnkiConnectTarget: ')
         error_message_coloring(ErrorMessages.ask_check_network)
         sys.exit(4)
 
     except requests.exceptions.ConnectionError:
+
+        error_message_coloring(ankiconnect_info, '\nAnkiConnect Target: ')
         error_message_coloring(ErrorMessages.ask_check_network)
         sys.exit(4)
-
 
 def check_response(responsetext, card_json, ankiconnect_info, apikey):
     """
@@ -387,7 +389,8 @@ def get_failed_card_from_multi_response(res_str):
 
     except KeyError as exc:
         if res_str_load['error'] == 'valid api key must be provided':
-            error_message_coloring(ErrorMessages.valid_api_key_require)
+            error_message_coloring(ErrorMessages.valid_api_key_require,
+                                   'AnkiConnect')
             sys.exit(1)
         else:
             raise ValueError(f"{res_str_load['error']}") from exc
