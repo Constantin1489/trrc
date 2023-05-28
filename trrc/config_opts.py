@@ -68,7 +68,8 @@ class ParsedConfig:
 DEFAULT_CONFIG_FILES = ['~/.trrc', # HOME directory.
                         './.trrc'] # Working directory.
 
-def read_toml_config(config_file_name, section):
+# TODO: remove section parameter in the read_toml_config.
+def read_toml_config(config_file_name):
     """
     Read config files in default location and a user config file from argument.
     """
@@ -77,14 +78,6 @@ def read_toml_config(config_file_name, section):
     config_file = os.path.expanduser(config_file_name)
     main_logger.debug('config_file: %s', config_file)
 
-    # If user doesn't set section, then use 'default' even the config file is a
-    # default config files or user config file.
-    # So user can use both 'default' section of default config file and user
-    # section of user config file.
-
-    if section is None:
-        main_logger.debug('default section')
-        section = 'default'
 
     try:
         with open(config_file, "r", encoding="utf-8") as file_obj:
