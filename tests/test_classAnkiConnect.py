@@ -2,12 +2,25 @@ import sys
 import re
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import trrc.utils as ankiadderall
-import argparse
+from trrc.utils import AnkiConnectInfo
+import pytest
 
-def test_get_default_get_ankiconnect_url():
-    assert ankiadderall.get_user_ankiconnect() == 'http://localhost:8765'
-    assert ankiadderall.get_user_ankiconnect('0.0.0.0', 132) == 'http://0.0.0.0:132'
-    assert ankiadderall.get_user_ankiconnect('0.0.0.0', 132) != '0.0.0.0'
-    assert ankiadderall.get_user_ankiconnect('personalWeb.com', 132) == 'http://personalWeb.com:132'
-    assert ankiadderall.get_user_ankiconnect('https://personalWeb.com', 132) == 'https://personalWeb.com:132'
+@pytest.mark.parametrize("ip, ip_answer",
+                         [('localhost', 'localhost'),
+                          ('192.1.1.123', '192.1.1.123'),
+                          ('http://192.1.1.123', '192.1.1.123'),
+                          ('https://192.1.1.123', '192.1.1.123')],)
+@pytest.mark.parametrize("port",
+                         [123],)
+@pytest.mark.parametrize("apikey",
+                         ['password'],)
+def test_get_default_get_ankiconnect_url(ip: str, ip_answer, port, apikey):
+
+    protocol = 'https' if ip.startswith('https://') else 'http'
+
+    ankiconnect_info = AnkiConnectInfo(ip, port, apikey)
+    assert ankiconnect_info.ip == ip_answer
+    assert ankiconnect_info.port == port
+    assert ankiconnect_info.protocol == protocol
+    assert ankiconnect_info.url == f'{protocol}://{ip_answer}:{port}'
+    assert ankiconnect_info.apikey == apikey
