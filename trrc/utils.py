@@ -57,6 +57,42 @@ def get_user_ankiconnect(web_bind_address='localhost', web_bind_port=8765):
         return f"{web_bind_address}:{web_bind_port}"
     return f"http://{web_bind_address}:{web_bind_port}"
 
+class AnkiConnectInfo:
+    """Object contains ip, port, apikey"""
+
+    def __init__(self, web_bind_address='localhost', web_bind_port=8765,
+                 apikey=''):
+        """TODO: to be defined. """
+        self.ip = self._get_ip(web_bind_address)
+        self.port = web_bind_port
+        self.url = self._get_user_ankiconnect(web_bind_address, web_bind_port)
+        self.protocol = self._get_protocol(web_bind_address)
+        self.apikey = apikey
+
+    def _get_user_ankiconnect(self, web_bind_address, web_bind_port):
+
+        if web_bind_address.startswith(('http://', 'https://')):
+            return f"{web_bind_address}:{web_bind_port}"
+        return f"http://{web_bind_address}:{web_bind_port}"
+
+    def _get_ip(self, web_bind_address):
+        if web_bind_address.startswith('http://'):
+            return web_bind_address[7:]
+
+        if web_bind_address.startswith('https://'):
+            return web_bind_address[8:]
+
+        return web_bind_address
+
+    def _get_protocol(self, web_bind_address):
+        if web_bind_address.startswith('http://'):
+            return 'http'
+
+        if web_bind_address.startswith('https://'):
+            return 'https'
+
+        return 'http'
+
 class Card:
     """
     A class for card object
