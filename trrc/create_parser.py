@@ -438,37 +438,86 @@ def sync(ankiconnect_info, apikey=''):
                              timeout=(1,1))
     print(f'sync: {response.text}')
 
-def parse_config(parsed_arg=None):
+DEFAULT_ALIAS = 'default'
+
+def parse_config(parsed_arg):
     """Parse config options from default config files and user option argument."""
 
-    if parsed_arg:
-        # parse hard coded options
-        options = ParsedConfig(parsed_arg)
-        main_logger.debug('hard coded options: %s', mask_apikey(vars(options)))
+    # If user doesn't set section, then use 'default' even the config file is a
+    # default config files or user config file.
+    # So user can use both 'default' section of default config file and user
+    # section of user config file.
+
+    alias = parsed_arg.alias
+    user_config_file = parsed_arg.config
+
+    # parse hard coded options
+    options = ParsedConfig(parsed_arg)
+    main_logger.debug('hard coded options: %s', mask_apikey(vars(options)))
+
+    # if there is no user config option then, read default config files.
+    # this is a default routine.
+    if not user_config_file:
+
+        toml_configs = []
+        found_section = {}
+        alias_read = False
 
         # parse default config files
         for default_config in DEFAULT_CONFIG_FILES:
-            options.overwrite_config(read_toml_config(default_config,
-                                                      parsed_arg.alias))
 
-        # parse user config file
-        if parsed_arg.config:
-            options.overwrite_config(read_toml_config(parsed_arg.config, parsed_arg.alias))
-            main_logger.debug('TOML overwriting: %s', mask_apikey(vars(options)))
+            toml_config = read_toml_config(default_config)
+            found_section.update({default_config: [i for i in toml_config]})
 
-        # finally overwrite argparse options
-        options.overwrite_config(vars(parsed_arg))
-        main_logger.debug('argument overwriting: %s', mask_apikey(vars(options)))
+            if DEFAULT_ALIAS in toml_config:
+                main_logger.debug('section: default')
+                toml_configs.append(toml_config[DEFAULT_ALIAS])
 
-        return options
+            # if alias is None type, then skip
+            if alias and alias in toml_config:
+                main_logger.debug('section: %s', alias)
+                toml_configs.append(toml_config[alias])
+                alias_read = True
 
-    # parse hard coded options
-    options = ParsedConfig({})
+        # if user set alias option but no alias found, then break.
+        if alias and not alias_read:
+            print(f"""There is no '{alias}' section in the config file.
+Sections found: {found_section}""", file=sys.stderr)
+            sys.exit(5)
 
-    # if ther is no user argument,
-    # parse default config files
-    for default_config in DEFAULT_CONFIG_FILES:
-        options.overwrite_config(read_toml_config(default_config,
-                                                  'default'))
+        for i in toml_configs:
+            options.overwrite_config(i)
+
+    # if there is user config file, ignore default config files.
+    if user_config_file:
+
+        alias_read = False
+        toml_configs = []
+        toml_config = read_toml_config(user_config_file)
+        found_section = {user_config_file: [i for i in toml_config]}
+
+        main_logger.debug('TOML overwriting: %s', mask_apikey(vars(options)))
+
+        if DEFAULT_ALIAS in toml_config:
+            main_logger.debug('section: default')
+            toml_configs.append(toml_config[DEFAULT_ALIAS])
+
+        if alias and alias in toml_config:
+            main_logger.debug('section: %s', alias)
+            toml_configs.append(toml_config[alias])
+            alias_read = True
+
+        # if user set alias option but no alias found, then break.
+        if alias and not alias_read:
+            print(f"""There is no '{alias}' section in the config file.
+Sections found: {found_section}""", file=sys.stderr)
+            sys.exit(5)
+
+        for i in toml_configs:
+            options.overwrite_config(i)
+
+    # finally overwrite argparse options
+    options.overwrite_config(vars(parsed_arg))
+    main_logger.debug('argument overwriting: %s', mask_apikey(vars(options)))
 
     return options
