@@ -295,7 +295,9 @@ def get_api_dict(action, parameter='', apikey=''):
                                    "params": { "notes" : parameter }},
                      'multi' : {"action" : "multi",
                                 "version": 6,
-                                "params": { "actions" : parameter }}
+                                "params": { "actions" : parameter }},
+                     'get_type_name' : { "action": "modelNames",
+                                        "version": 6 }
                      }
 
     return dict_template[action]
