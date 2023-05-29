@@ -283,7 +283,7 @@ def process_card(cardcontents: str, options, regex_compiles):
 
     return temp_card_obj.create_cardjson_note()
 
-def get_api_dict(action, parameter, apikey=''):
+def get_api_dict(action, parameter='', apikey=''):
     """Get AnkiConnect API obj"""
 
     dict_template = { 'addNote' : {"action" : "addNote",
@@ -317,7 +317,8 @@ def send_card_ankiconnect(ankiconnect_info, card_json, action, apikey: str):
 
         # If a number of the cards are over 100, then allow a longer time to
         # send a request.
-        if len(card_json) > 100:
+        # if card_json: this allows to use send_card_ankiconnect generally
+        if card_json and len(card_json) > 100:
             waiting_sec = len(card_json) // 100 + DEFAULT_WAITING_RESPONSE_READ_SEC
             timeout_value = (10, waiting_sec)
         else:
