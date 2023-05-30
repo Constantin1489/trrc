@@ -507,13 +507,8 @@ def get_failed_card_from_response(res_str: str, card_json: dict):
     except TypeError as exc:
         # eg: res_str_load = { 'result': '', 'error': '' }
         # network error. So No result but error.
-        if res_str_load['error'] == 'valid api key must be provided':
-            error_message_coloring(ErrorMessages.valid_api_key_require,
-                                   'AnkiConnect')
-            sys.exit(1)
-
-        else:
-            raise ValueError(f"{res_str_load['error']}") from exc
+        explain_error_response(res_str_load['error'], ankiconnect_info)
+        sys.exit(1)
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
     """TODO: Docstring for check_cloze_is_mistakely_there.
