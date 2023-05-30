@@ -404,8 +404,91 @@ def get_failed_card_from_multi_response(res_str):
             error_message_coloring(ErrorMessages.valid_api_key_require,
                                    'AnkiConnect')
             sys.exit(1)
+
+def explain_error_response(message_to_explain: str, ankiconnect_url, apikey):
+    """
+    print user-friendly explanation of the error message if the explanation exists.
+    """
+
+    ERROR_DICT = {
+            "Minimum Anki version supported: 2.1.45": '',
+            "Since Anki 2.1.28 it's not possible ": '',
+            'Gui review is not currently active.': '',
+            'Model name already exists': '',
+            'Must provide a "fields" or "tags" property.': '',
+            'Must provide at least one card for cardTemplates': '',
+            'Must provide at least one field for inOrderFields': '',
+            'Must provide tags as a list of strings': '',
+            'The field values you have provided would make an empty question on all cards.': '',
+            'You must provide a "data", "path", or "url" field.': '',
+            'actions has invalid value': '',
+            'cannot create note because it is a duplicate': "It's a duplicate. " \
+                    "If you want to add it, use '--force-add' option. To view " \
+                    "details of command, use '-h'",
+            'cannot create note because it is empty': (ankiconnect_url, 'Basic', 'get_fields_of_model', apikey),
+            'cannot create note for unknown reason': '',
+            'collection is not available': '',
+            'database is not available': '',
+            'decks are not available': '',
+            'media is not available': '',
+            'option parameter "allowDuplicate" must be boolean': '',
+            'option parameter "duplicateScopeOptions.checkAllModels" must be boolean': '',
+            'option parameter "duplicateScopeOptions.checkChildren" must be boolean': '',
+            'reviewer is not available': '',
+            'scheduler is not available': '',
+            'scopes has invalid value': '',
+            'unsupported action': '',
+            'valid api key must be provided': ErrorMessages.valid_api_key_require
+            }
+
+    ERROR_DICT_STARTSWITH = {
+            'template was not found in': '',
+            #'template was not found in {}: {}'
+            'model was not found': (ankiconnect_url, '', 'get_type_name', apikey),
+            #'model was not found: {}'
+            'fontSize should be an integer': '',
+            #'fontSize should be an integer: {}'
+            'font should be a string': '',
+            #'font should be a string: {}'
+            'field was not found in': '',
+            #'field was not found in {}: {}'
+            'description should be a string': '',
+            #'description should be a string: {}'
+            'deck was not found':
+            #'deck was not found: {}'
+            (ankiconnect_url, '', 'get_deck_list', apikey)
+            }
+
+    if message_to_explain in ERROR_DICT:
+        if ERROR_DICT[message_to_explain]:
+            if type(ERROR_DICT[message_to_explain]) is not str:
+                err_message = get_error_explanation_from_response(send_card_ankiconnect(*ERROR_DICT[message_to_explain]))
+                error_message_coloring(err_message['result'], 'Tip')
+            else:
+                error_message_coloring(ERROR_DICT[message_to_explain], 'Tip')
+            return
+
         else:
-            raise ValueError(f"{res_str_load['error']}") from exc
+            error_message_coloring('Please, report this issue to trrc github issue page',
+                                   'Never Considered Error')
+            error_message_coloring(message_to_explain, 'AnkiConnect')
+            return
+
+    for key in ERROR_DICT_STARTSWITH:
+        if message_to_explain.startswith(key):
+            # If no detailed explanation in the code, then just print it.
+            if not ERROR_DICT_STARTSWITH[key]:
+                error_message_coloring(message_to_explain, 'AnkiConnect')
+                return
+            if type(ERROR_DICT_STARTSWITH[key]) is not str:
+                err_message = get_error_explanation_from_response(send_card_ankiconnect(*ERROR_DICT_STARTSWITH[key]))
+                error_message_coloring(err_message['result'], 'AnkiConnect')
+            return
+
+    error_message_coloring('Please, report this issue to trrc github issue page', 'Never Considered Error')
+    error_message_coloring(message_to_explain, 'AnkiConnect')
+    return
+
 
 def get_failed_card_from_response(res_str: str, card_json: dict):
 
