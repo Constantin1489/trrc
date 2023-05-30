@@ -405,6 +405,12 @@ def get_failed_card_from_multi_response(res_str):
                                    'AnkiConnect')
             sys.exit(1)
 
+def get_error_explanation_from_response(res_str):
+    res_str_load: dict = json.loads(res_str.text)
+    # TODO: error code
+    #breakpoint()
+    return res_str_load
+
 def explain_error_response(message_to_explain: str, ankiconnect_url, apikey):
     """
     print user-friendly explanation of the error message if the explanation exists.
