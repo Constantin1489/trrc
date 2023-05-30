@@ -345,6 +345,11 @@ def send_card_ankiconnect(ankiconnect_url, card_json, action, apikey: str):
         error_message_coloring(ankiconnect_url, 'AnkiConnect Target: ')
         error_message_coloring(ErrorMessages.ask_check_network)
 
+    except requests.exceptions.InvalidURL:
+        error_message_coloring(ankiconnect_url, 'Invalid url: ')
+        # e.g.: --port 1212412412
+        error_message_coloring('your port is wrong')
+
     # if exception occurs, exit.
     sys.exit(4)
 
