@@ -7,7 +7,7 @@ import requests
 from .utils import (
         Card,
         ErrorMessages,
-        get_user_ankiconnect,
+        AnkiConnectInfo,
         error_message_coloring,
         RegexPattern)
 from .parser_opts import create_parser
@@ -154,13 +154,12 @@ def parse_card(card_candidates, options):
     Loop card_candidates to create cards.
     """
 
-    ankiconnect_info = get_user_ankiconnect(options.ip, options.port)
-
+    ankiconnect_info = AnkiConnectInfo(options.ip, options.port, options.apikey)
     regexes = RegexPattern()
 
     if len(card_candidates) == 0:
         if options.sync:
-            sync(ankiconnect_info, options.apikey)
+            sync(ankiconnect_info.url, ankiconnect_info.apikey)
             sys.exit(0)
 
     notes = []
@@ -189,15 +188,15 @@ Please check the permission of the file with 'ls -l {afile}'.""", file=sys.stder
             notes.extend(gather_card_from(lines, options, regexes, afile))
 
     if options.dryrun is False:
-        response = send_card_ankiconnect(ankiconnect_info,
+        response = send_card_ankiconnect(ankiconnect_info.url,
                                          notes,
                                          'addNotes',
-                                         options.apikey)
+                                         ankiconnect_info.apikey)
 
-        check_response(response.text, notes, ankiconnect_info, options.apikey)
+        check_response(response.text, notes, ankiconnect_info.url, ankiconnect_info.apikey)
 
     if options.sync:
-        sync(ankiconnect_info, options.apikey)
+        sync(ankiconnect_info.url, ankiconnect_info.apikey)
 
 def gather_card_from(card_candidates, options, regexes, filename=None):
 
@@ -302,7 +301,7 @@ def get_api_dict(action, parameter='', apikey=''):
 
     return dict_template[action]
 
-def send_card_ankiconnect(ankiconnect_info, card_json, action, apikey: str):
+def send_card_ankiconnect(ankiconnect_url, card_json, action, apikey: str):
 
     # if apikey exist then update it
     jsonobj = get_api_dict(action, card_json)
@@ -331,7 +330,7 @@ def send_card_ankiconnect(ankiconnect_info, card_json, action, apikey: str):
         main_logger.debug('timeout_value: %s, type: %s',
                           timeout_value, type(timeout_value))
 
-        return requests.post(ankiconnect_info, json=jsonobj, timeout=timeout_value)
+        return requests.post(ankiconnect_url, json=jsonobj, timeout=timeout_value)
 
     except requests.exceptions.ReadTimeout:
         error_message_coloring(ErrorMessages.read_timed_out)
@@ -339,17 +338,17 @@ def send_card_ankiconnect(ankiconnect_info, card_json, action, apikey: str):
 
     except requests.exceptions.ConnectTimeout:
         error_message_coloring(ErrorMessages.connect_time_out)
-        error_message_coloring(ankiconnect_info, 'AnkiConnectTarget: ')
+        error_message_coloring(ankiconnect_url, 'AnkiConnect Target: ')
         error_message_coloring(ErrorMessages.ask_check_network)
         sys.exit(4)
 
     except requests.exceptions.ConnectionError:
 
-        error_message_coloring(ankiconnect_info, '\nAnkiConnect Target: ')
+        error_message_coloring(ankiconnect_url, 'AnkiConnect Target: ')
         error_message_coloring(ErrorMessages.ask_check_network)
         sys.exit(4)
 
-def check_response(responsetext, card_json, ankiconnect_info, apikey):
+def check_response(responsetext, card_json, ankiconnect_url, apikey):
     """
     Parse response text to debug if the AnkiConnect doesn't add the card.
     """
@@ -361,7 +360,7 @@ def check_response(responsetext, card_json, ankiconnect_info, apikey):
         multi_failed_card = [ get_api_dict('addNote', card, apikey)
                              for card in fail_to_add_card_list ]
 
-        multi_response = send_card_ankiconnect(ankiconnect_info,
+        multi_response = send_card_ankiconnect(ankiconnect_url,
                                                multi_failed_card,
                                                'multi',
                                                apikey)

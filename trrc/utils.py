@@ -51,12 +51,6 @@ def error_message_coloring(error_message_string, message_type=None):
         errormessage =  f'{ColorsPrint.FAIL + ColorsPrint.BOLD + error_message_string + ColorsPrint.ENDC}'
     print(errormessage, file=sys.stderr)
 
-def get_user_ankiconnect(web_bind_address='localhost', web_bind_port=8765):
-
-    if web_bind_address.startswith(('http://', 'https://')):
-        return f"{web_bind_address}:{web_bind_port}"
-    return f"http://{web_bind_address}:{web_bind_port}"
-
 class AnkiConnectInfo:
     """Object contains ip, port, apikey"""
 
