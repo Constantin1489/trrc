@@ -296,7 +296,12 @@ def get_api_dict(action, parameter='', apikey=''):
                                 "version": 6,
                                 "params": { "actions" : parameter }},
                      'get_type_name' : { "action": "modelNames",
-                                        "version": 6 }
+                                        "version": 6 },
+                     'get_deck_list' : { "action": "deckNames",
+                                        "version": 6 },
+                     'get_fields_of_model' : { "action": "modelFieldNames",
+                                              "version": 6,
+                                              "params": { "modelName": parameter }},
                      }
 
     return dict_template[action]
