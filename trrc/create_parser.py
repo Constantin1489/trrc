@@ -375,7 +375,8 @@ def check_response(responsetext, card_json, ankiconnect_url, apikey):
                                                'multi',
                                                apikey)
 
-        reasons = get_failed_card_from_multi_response(multi_response.text)
+        reasons = get_failed_card_from_multi_response(multi_response.text,
+                                                      ankiconnect_url, apikey)
 
         for i, card in enumerate(fail_to_add_card_list):
             error_message_coloring(card, 'Failed: ')
@@ -392,7 +393,7 @@ def check_response(responsetext, card_json, ankiconnect_url, apikey):
     print(f"Total cards: {len(card_json)} " \
     f"Total fails: {len(fail_to_add_card_list)}", file=sys.stdout)
 
-def get_failed_card_from_multi_response(res_str):
+def get_failed_card_from_multi_response(res_str: str, ankiconnect_url, apikey):
 
     res_str_load: dict = json.loads(res_str)
 
@@ -400,10 +401,9 @@ def get_failed_card_from_multi_response(res_str):
         return dict(enumerate(res_str_load['result']))
 
     except KeyError as exc:
-        if res_str_load['error'] == 'valid api key must be provided':
-            error_message_coloring(ErrorMessages.valid_api_key_require,
-                                   'AnkiConnect')
-            sys.exit(1)
+        # eg: res_str_load = { 'result': '', 'error': '' }
+        explain_error_response(res_str_load['error'], ankiconnect_url, apikey)
+        sys.exit(1)
 
 def get_error_explanation_from_response(res_str):
     res_str_load: dict = json.loads(res_str.text)
