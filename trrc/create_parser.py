@@ -388,6 +388,7 @@ def check_response(responsetext, card_json, ankiconnect_url, apikey):
         print(f"\n#### Kinds of failures: {len(reasons_set)}")
         for i, v in enumerate(reasons_set, start=1):
             print(f'{i}: {v}')
+            explain_error_response(v, ankiconnect_url, apikey)
         print("####")
 
     print(f"Total cards: {len(card_json)} " \
