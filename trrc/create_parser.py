@@ -334,19 +334,19 @@ def send_card_ankiconnect(ankiconnect_url, card_json, action, apikey: str):
 
     except requests.exceptions.ReadTimeout:
         error_message_coloring(ErrorMessages.read_timed_out)
-        sys.exit(4)
 
     except requests.exceptions.ConnectTimeout:
         error_message_coloring(ErrorMessages.connect_time_out)
         error_message_coloring(ankiconnect_url, 'AnkiConnect Target: ')
         error_message_coloring(ErrorMessages.ask_check_network)
-        sys.exit(4)
 
     except requests.exceptions.ConnectionError:
 
         error_message_coloring(ankiconnect_url, 'AnkiConnect Target: ')
         error_message_coloring(ErrorMessages.ask_check_network)
-        sys.exit(4)
+
+    # if exception occurs, exit.
+    sys.exit(4)
 
 def check_response(responsetext, card_json, ankiconnect_url, apikey):
     """
