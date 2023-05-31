@@ -24,14 +24,22 @@ class RegexPattern:
                                   # escaped new line
                                   }
 
+    # it's for import_if_file_in_content method.
+    # read a file as a string for HTML.
+    # '@@@': import_if_file_in_content method joins lines of the file with
+    # '@@@'(new line). Therefore, to HTML interpret it as a new line, '<br>'
+    # '\\\\': '\n' in file is '\\n'. So, to prevent it to be interpret, '&#92;'
+    text_file_newline_to_html_br_pattern = { '@@@' : '<br>',
+                                            '\\\\' : '&#92;'}
+
     str_to_html_pattern = { ' ' : '&nbsp;',
                            # it is a space character.
                            '	' : '&emsp;'
                            # it is a tab character.
                            }
 
-    str_to_html_pattern |= newline_to_html_br_pattern
-    str_to_html_pattern |= prevent_html_interpret_pattern
+    str_to_html_pattern.update(text_file_newline_to_html_br_pattern)
+    str_to_html_pattern.update(prevent_html_interpret_pattern)
 
     def __init__(self):
         self.prevent_html_interpret_compile = re.compile("|".join(map(re.escape, self.prevent_html_interpret_pattern.keys())))
@@ -292,7 +300,7 @@ class Card:
 
                 # replace to regexed string
                 self.content.update({key :
-                                     card_str_regex_substitute('\\n'.join(lines_of_the_file),
+                                     card_str_regex_substitute('@@@'.join(lines_of_the_file),
                                                                regex_compile,
                                                                pattern)})
 
