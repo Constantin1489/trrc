@@ -287,7 +287,7 @@ class Card:
             if os.path.isfile(file_in_field):
                 main_logger.debug('There is a file to import as a content: %s', file_in_field)
                 lines_of_the_file = []
-                with open(file_in_field) as f:
+                with open(file_in_field, encoding='utf-8') as f:
                     lines_of_the_file += f.read().splitlines()
 
                 # replace to regexed string
