@@ -225,11 +225,6 @@ class Card:
         # this break all loops.
         return None
 
-    def card_str_regex_substitute(self, regex_compile, pattern):
-
-        # For each match, look-up corresponding value in dictionary
-        self.card_str = regex_compile.sub(lambda mo: pattern[mo.group()], self.card_str)
-
 
     def make_card(self):
         """
@@ -266,3 +261,8 @@ class Card:
                 "modelName": self.notetype,
                 "fields": self.content,
                 "tags": self.tag }
+
+def card_str_regex_substitute(str_to_substitute, regex_compile, pattern):
+
+    # For each match, look-up corresponding value in dictionary
+    return regex_compile.sub(lambda x: pattern[x.group()], str_to_substitute)
