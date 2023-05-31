@@ -9,11 +9,12 @@ class ColorsPrint:
     BOLD = '\033[1m'
 
 class RegexPattern:
-    prevent_html_interpret_pattern =  { '<' : '&lt',
-                                       '>' : '&gt'}
+    prevent_html_interpret_pattern =  { '<' : '&lt;',
+                                       '>' : '&gt;'}
     newline_to_html_br_pattern = { '\\n' : '<br>',
-                                  '\\\\n' : '&#92n' }
-    str_to_html_pattern = { ' ' : '&nbsp'}
+                                  '\\\\n' : '&#92n;' }
+    str_to_html_pattern = { ' ' : '&nbsp;',
+                           '	' : '&emsp;' }
 
     def __init__(self):
         self.prevent_html_interpret_compile = re.compile("|".join(map(re.escape, self.prevent_html_interpret_pattern.keys())))
