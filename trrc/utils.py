@@ -1,4 +1,5 @@
 import sys
+import os
 import re
 import logging
 main_logger = logging.getLogger(__name__)
@@ -262,6 +263,22 @@ class Card:
                 "modelName": self.notetype,
                 "fields": self.content,
                 "tags": self.tag }
+
+    def import_if_file_in_content(self, regex_compile, pattern):
+
+        for key in self.content:
+            file_in_field = self.content[key]
+            if os.path.isfile(file_in_field):
+                main_logger.debug('There is a file to import as a content: %s', file_in_field)
+                lines_of_the_file = []
+                with open(file_in_field) as f:
+                    lines_of_the_file += f.read().splitlines()
+
+                # replace to regexed string
+                self.content.update({key :
+                                     card_str_regex_substitute('\\n'.join(lines_of_the_file),
+                                                               regex_compile,
+                                                               pattern)})
 
 def card_str_regex_substitute(str_to_substitute, regex_compile, pattern):
 
