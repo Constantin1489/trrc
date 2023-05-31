@@ -17,6 +17,9 @@ class RegexPattern:
     str_to_html_pattern = { ' ' : '&nbsp;',
                            '	' : '&emsp;' }
 
+    str_to_html_pattern |= newline_to_html_br_pattern
+    str_to_html_pattern |= prevent_html_interpret_pattern
+
     def __init__(self):
         self.prevent_html_interpret_compile = re.compile("|".join(map(re.escape, self.prevent_html_interpret_pattern.keys())))
         self.newline_to_html_br_compile = re.compile("|".join(map(re.escape, self.newline_to_html_br_pattern.keys())))
