@@ -70,7 +70,7 @@ def create_parser():
 
     parser.add_argument(
             '-c', '--config',
-			metavar="FILE",
+            metavar="FILE",
             action='store', dest='config',
             help=(
             "Set a config file to import config options. Without this option, " \
@@ -79,7 +79,7 @@ def create_parser():
 
     parser.add_argument(
             '--alias',
-			metavar="SECTION",
+            metavar="SECTION",
             action='store', dest='alias',
             help=(
             "Set a section of a config file to apply options. Without this " \
@@ -97,7 +97,7 @@ def create_parser():
     parser.add_argument(
             '--field',
             metavar="COLON:DELIMITER-SEPARATED:FIELDS",
-			action='store', dest='field',
+            action='store', dest='field',
             help=(
             "Set a card field corresponding to the cardContents. The default " \
             "is 'Front:Back:Tags'."
@@ -105,7 +105,7 @@ def create_parser():
 
     parser.add_argument(
             '--cloze-field',
-			metavar="COLON:DELIMITER-SEPARATED:FIELDS",
+            metavar="COLON:DELIMITER-SEPARATED:FIELDS",
             action='store', dest='cloze_field',
             help=(
             "Set a cloze type card field corresponding to the cardContents. " \
@@ -127,7 +127,7 @@ def create_parser():
 
     parser.add_argument(
             '--toml-write',
-			metavar="FILE",
+            metavar="FILE",
             action='store', dest='toml_write',
             help=(
             "Write a toml file with options used. To set a section, use " \
@@ -136,7 +136,7 @@ def create_parser():
 
     parser.add_argument(
             '--toml-section',
-			metavar="SECTION",
+            metavar="SECTION",
             action='store', dest='toml_section',
             help=(
             "Set a toml section. The default is 'untitled'."
