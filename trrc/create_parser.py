@@ -278,6 +278,10 @@ def process_card(cardcontents: str, options, regex_compiles):
 
     temp_card_obj.make_card()
 
+    if options.contents_file_import is True:
+        temp_card_obj.import_if_file_in_content(regex_compiles.str_to_html_compile,
+                                                 regex_compiles.str_to_html_pattern)
+
     if options.force_add:
         card = temp_card_obj.create_cardjson_note()
         card.update({"options" : { "allowDuplicate": True, "duplicateScope": "deck"}})
