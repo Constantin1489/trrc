@@ -181,6 +181,13 @@ def create_parser():
             ))
 
     parser.add_argument(
+            '--read-file-in-a-content',
+            action='store_true', dest='contents_file_import',
+            help=(
+            "Set to allow to replace a file in contents with its contents. a default setting doesn't read it"
+            ))
+
+    parser.add_argument(
             '-v', '--verbose',
             action='store_const', dest='verbose', const=logging.INFO,
             help=(
