@@ -10,12 +10,25 @@ class ColorsPrint:
     BOLD = '\033[1m'
 
 class RegexPattern:
+
+   # prevent to read it as a HTML tag
     prevent_html_interpret_pattern =  { '<' : '&lt;',
-                                       '>' : '&gt;'}
+                                       '>' : '&gt;'
+                                       }
+
+    # commandline 'first_sentence\nSecond_sentent'
+    # commandline 'This is \\n. It is not new line.'
     newline_to_html_br_pattern = { '\\n' : '<br>',
-                                  '\\\\n' : '&#92n;' }
+                                  # new line.
+                                  '\\\\n' : '&#92n;'
+                                  # escaped new line
+                                  }
+
     str_to_html_pattern = { ' ' : '&nbsp;',
-                           '	' : '&emsp;' }
+                           # it is a space character.
+                           '	' : '&emsp;'
+                           # it is a tab character.
+                           }
 
     str_to_html_pattern |= newline_to_html_br_pattern
     str_to_html_pattern |= prevent_html_interpret_pattern
