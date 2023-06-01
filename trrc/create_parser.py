@@ -80,6 +80,9 @@ def parse_argument(args=None):
         parser.print_help()
         sys.exit(2)
 
+    if card_candidates == [] and options.file == None:
+        sys.exit(0)
+
     return card_candidates, options
 
 # if both debug and verbose options are on, then use debug.
