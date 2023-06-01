@@ -28,7 +28,20 @@ def parse_argument(args=None):
     parsed_arg = parser.parse_args(args)
 
     # enable logger
-    logging.basicConfig(encoding='utf-8', level=get_logging_level(parsed_arg))
+    logger_level = get_logging_level(parsed_arg)
+    debugger_type = type(logger_level)
+
+    if debugger_type is int:
+        logging.basicConfig(encoding='utf-8', level=logger_level)
+
+    # if file to logging is specified
+    if debugger_type is str:
+        logging.basicConfig(filename=parsed_arg.debug,
+                            filemode='a',
+                            encoding='utf-8',
+                            level=logging.DEBUG)
+
+    main_logger.debug('#######################################')
 
     # TOML
     if parsed_arg.toml_generate or parsed_arg.toml_write:
