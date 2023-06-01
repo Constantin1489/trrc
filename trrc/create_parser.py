@@ -56,17 +56,15 @@ def parse_argument(args=None):
     # parse configs from default config files and user option arguments.
     options = parse_config(parsed_arg)
 
-    if len(args) >= 1 and sys.stdin.isatty() is True:
+    if len(args) >= 1:
 
         cardcontents_handle(options)
         card_candidates = options.cardContents if options.cardContents else []
-        main_logger.debug('stdin: sys.stdin.isatty')
 
-    else:
+        # get contents from PIPE.
+        if '-' in card_candidates:
+            card_candidates.remove('-')
 
-        if sys.stdin.isatty() is False:
-
-            card_candidates = []
             for card in sys.stdin.readlines():
 
                 # skip comment
@@ -76,11 +74,11 @@ def parse_argument(args=None):
                 parsed_a_line = card.rstrip('\n')
                 card_candidates.append(parsed_a_line)
 
-            main_logger.debug('Pipe redirection: not sys.stdin.isatty.')
+            main_logger.debug('PIPE: %s', card_candidates)
 
-        else:
-            parser.print_help()
-            sys.exit(2)
+    else:
+        parser.print_help()
+        sys.exit(2)
 
     return card_candidates, options
 
