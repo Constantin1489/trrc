@@ -195,8 +195,7 @@ def create_parser():
             ))
 
     parser.add_argument(
-            '--debug',
-            action='store_const', dest='debug', const=logging.DEBUG,
+            '--debug', dest='debug', nargs='?', const=logging.DEBUG,
             help=(
             'Print debug information.'
             ))
