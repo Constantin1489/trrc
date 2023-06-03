@@ -36,7 +36,8 @@ def parse_argument(args=None):
 
     # if file to logging is specified
     if debugger_type is str:
-        logging.basicConfig(filename=parsed_arg.debug,
+        DEBUG_FILE = os.path.expanduser(parsed_arg.debug)
+        logging.basicConfig(filename=DEBUG_FILE,
                             filemode='a',
                             encoding='utf-8',
                             level=logging.DEBUG)
