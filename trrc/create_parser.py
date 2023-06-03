@@ -428,11 +428,17 @@ def get_failed_card_from_multi_response(res_str: str, ankiconnect_url, apikey):
         explain_error_response(res_str_load['error'], ankiconnect_url, apikey)
         sys.exit(1)
 
-def get_error_explanation_from_response(res_str):
+def get_error_explanation_from_response(ankiconnect_url, card_json, action, apikey):
+    res_str = send_card_ankiconnect(ankiconnect_url, card_json, action, apikey)
     res_str_load: dict = json.loads(res_str.text)
-    # TODO: error code
-    #breakpoint()
-    return res_str_load
+
+    if action == 'get_fields_of_model':
+        return f"""--field '{':'.join(res_str_load['result'])}:Tags'
+You don't have to use all those fields.
+If a field has 'Front:Back:Source:Sound:Tags'
+you can use just 'Front:Back:Tags'."""
+
+    return res_str_load['result']
 
 def explain_error_response(message_to_explain: str, ankiconnect_url, apikey):
     """
@@ -491,10 +497,10 @@ def explain_error_response(message_to_explain: str, ankiconnect_url, apikey):
     if message_to_explain in ERROR_DICT:
         if ERROR_DICT[message_to_explain]:
             if type(ERROR_DICT[message_to_explain]) is not str:
-                err_message = get_error_explanation_from_response(send_card_ankiconnect(*ERROR_DICT[message_to_explain]))
-                error_message_coloring(err_message['result'], 'Tip')
+                err_message = get_error_explanation_from_response(*ERROR_DICT[message_to_explain])
+                error_message_coloring(err_message, 'TRRC Tip')
             else:
-                error_message_coloring(ERROR_DICT[message_to_explain], 'Tip')
+                error_message_coloring(ERROR_DICT[message_to_explain], 'TRRC Tip')
             return
 
         else:
@@ -510,8 +516,8 @@ def explain_error_response(message_to_explain: str, ankiconnect_url, apikey):
                 error_message_coloring(message_to_explain, 'AnkiConnect')
                 return
             if type(ERROR_DICT_STARTSWITH[key]) is not str:
-                err_message = get_error_explanation_from_response(send_card_ankiconnect(*ERROR_DICT_STARTSWITH[key]))
-                error_message_coloring(err_message['result'], 'AnkiConnect')
+                err_message = get_error_explanation_from_response(*ERROR_DICT_STARTSWITH[key])
+                error_message_coloring(err_message, 'AnkiConnect')
             return
 
     error_message_coloring('Please, report this issue to trrc github issue page', 'Never Considered Error')
