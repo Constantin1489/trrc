@@ -197,8 +197,9 @@ def create_parser():
 
     parser.add_argument(
             '--debug', dest='debug', nargs='?', const=logging.DEBUG,
+            metavar="FILE",
             help=(
-            'print debug information.'
+            'print debug information. if you specify FILE, trrc writes debug there.'
             ))
 
     parser.add_argument(
