@@ -393,6 +393,10 @@ But if your want to send a card using **trrc** from outside of your computer whi
 * #### router
 Google 'YOUR_ROUTER_NAME port forwarding'
 
+### How to make iOS shortcuts with **trrc**
+
+See [iOS_shortcuts_example](docs/tips/iOS_shortcuts_setting_example/iOS_shortcuts_example.md)
+
 ### This software misses some characters.
 
 Thank you for letting me know! Please report the bug in [issue tracker](https://github.com/Constantin1489/ankistreamadd/issues).
