@@ -1,3 +1,4 @@
+"""module for parser using argparse"""
 import argparse
 import logging
 
