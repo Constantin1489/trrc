@@ -19,6 +19,22 @@ I intent to make it as a Unix-like application. Therefore it **leverages a lot o
 
 - you can **sync Anki** with option `--sync` of **trrc** with or without soon after adding cards.
 
+- It's **user-friendly**. In well-known cases, **trrc** provides solutions. If you
+  mistake deck name, it will print all deck name available. if your field is
+  wrong, it will print field of the card type used.
+
+```sh
+# default card type is 'Basic'
+$trrc --field 'fron:bakc:tags' 'What is GPL?	The GNU General Public License is a free, copyleft license for software and other kinds of works.	LICENSE::GPL'
+#### Kinds of failures: 1
+TRRC Tip: --field 'Front:Back:Tags'
+You don't have to use all those fields.
+If a field has 'Front:Back:Source:Sound:Tags',
+you can use just 'Front:Back:Tags'.
+####
+Total cards: 1 Total fails: 1
+```
+
 So you can add your card at any circumstance conveniently.
 
 ***if you decide to use this app, I highly recommend to turn apikey option in your AnkiConnect to prevent malicious attack. (It's not a fault of this app nor AnkiConnect. If the port of AnkiConnect opens without an apikey, anybody can modify your anki deck.)*** See also [AnkiConnect Configure](docs/tips/AnkiConnect_configure/AnkiConnect_addon_configure_example.md)
@@ -40,18 +56,20 @@ To solve common mistakes, I wrote a lot of examples.
 
 ### Standard Input
 ```sh
-# the black characters except a spacebar in 'Korean Conversation' is a tab.
+# the blank characters except a spacebar in 'Korean Conversation' is a tab.
 # the default IFS is a tab.
 trrc '안녕	Hello	Korean Conversation'
+          # ^         ^
+          #tab character
 
-# -F is --IFS. It sets a Internal Field Separator. Mobile devices may nott
-support a tab character in their keyboard. In that case, you should use --IFS
-options.
+# -F is --IFS. It sets a Internal Field Separator. Mobile devices may not
+#support a tab character in their keyboard. In that case, you should use --IFS
+#options. (e.g.:-F@)
 trrc "back\ttestfront\tvim" -F '\t'
 
 # you can set whatever character you want.
 trrc --IFS % '안녕%Hello%Korean'
-trrc -F % '안녕%Hello%Korean'
+trrc -F @ '안녕@Hello@Korean'
 
 # you can choose only part of the fields of the card type.
 # you  can change order of the fields.
@@ -74,7 +92,6 @@ To use PIPE, put `-` in the argument.
 
 ```sh
 echo 'basic_type_front_normal_tab with option	basic_type_back	basic_type_tag' | trrc -
-                                                                                       ^
 ```
 
 ```sh
@@ -144,7 +161,105 @@ EOF
 
 See [LOCATIONS](#locations) and [How to create a trrc config file](#how-to-create-a-trrc-config-file%3F)
 
+## Locations
+
+By default, *TRRC* searches for rc(config) files in directories of the below.
+It means if you wrote the config file(only *.trrc*, without any file name.) there,
+trrc import the setting in the files if they exists in order.
+
+macOS, Linux:
+
+* `$(HOME)/.trrc` # e.g. : `~/.trrc`
+
+* `./.trrc` # working directory.
+
+### Locations: macOS e.g.
+* `/Users/username/.trrc`
+
+* If you are in `/Users/username/study/english/`, then also, `/Users/username/study/english/.trrc`
+
+### Locations: Linux e.g.
+* `/home/username/.trrc`
+
+* If you are in `/home/username/study/english/`, then also, `/home/username/study/english/.trrc`
+
 ## Options
+
+```
+usage: trrc [-h] [-D DECK] [-t CARDTYPE] [-i IP] [-p PORT] [-f [FILE ...]]
+            [-c FILE] [--alias SECTION] [-F IFS]
+            [--field COLON:DELIMITER-SEPARATED:FIELDS]
+            [--cloze-field COLON:DELIMITER-SEPARATED:FIELDS]
+            [--cloze-type CLOZE_TYPE] [--toml-generate] [--toml-write FILE]
+            [--toml-section SECTION] [-H] [--apikey APIKEY] [--sync]
+            [--force-add] [--dry-run] [--read-file-in-a-content] [-v]
+            [--debug [FILE]] [-V]
+            [cardContents ...]
+
+A command line application to create Anki cards using AnkiConnect API.
+
+positional arguments:
+  cardContents          a string divided by IFS. the default IFS is a tab
+                        character. instead of a string, It can also take a
+                        file consists of strings without '--FILE' option.
+
+options:
+  -h, --help            show this help message and exit
+  -D DECK, --deck DECK  set a Deck. the default is 'default'.
+  -t CARDTYPE, --type CARDTYPE
+                        set a card type. the default is 'Basic'.
+  -i IP, --ip IP        set a ip that AnkiConnect specified. the default is
+                        '127.0.0.1'.
+  -p PORT, --port PORT  set a port number that AnkiConnect specified. the
+                        default is '8765'.
+  -f [FILE ...], --file [FILE ...]
+                        set a file that contains card contents.
+  -c FILE, --config FILE
+                        set a config file to import config options. without
+                        this option, this program searches '~/.trrc'.
+  --alias SECTION       set a section of a config file to apply options.
+                        without this argument, the default is 'default'.
+  -F IFS, --IFS IFS     set a delimiter of card contents to use any character
+                        other than a tab character. the default is a tab
+                        character.
+  --field COLON:DELIMITER-SEPARATED:FIELDS
+                        set a card field corresponding to the cardContents.
+                        the default is 'Front:Back:Tags'.
+  --cloze-field COLON:DELIMITER-SEPARATED:FIELDS
+                        set a cloze type card field corresponding to the
+                        cardContents. The default is 'Text:Back Extra:Tags'.
+  --cloze-type CLOZE_TYPE
+                        set a type of a fallback for a cloze type. the default
+                        is 'cloze'. if user set --field option, then the
+                        default won't work. even a string contains cloze, the
+                        program will process as a field unless user set
+                        --cloze-type
+  --toml-generate       print toml configs with current arguments. to set a
+                        section of it, use it with '--toml-section' option.
+  --toml-write FILE     write a config file with options used. to set a
+                        section, use '--toml-section'.
+  --toml-section SECTION
+                        set a toml section. the default is 'untitled'.
+  -H, --render-HTML     set to allow to render a HTML tag. the default doesn't
+                        allow render a HTML tag, therefore <br> won't be a new
+                        line.
+  --apikey APIKEY       set an api key for AnkiConnect. if it is specified,
+                        --debug options will mask it because of security
+                        concern.
+  --sync                sync Anki. if there is a card to process, trrc syncs
+                        after adding the card. the default is not to sync.
+  --force-add           create a card even if there is a duplicate in the
+                        deck.
+  --dry-run             perform a trial run without sending to Anki.
+  --read-file-in-a-content
+                        set to allow to replace a file in contents with its
+                        contents. a default setting doesn't read it
+  -v, --verbose         print a card being currently processed.
+  --debug [FILE]        print debug information. if you specify FILE, trrc
+                        writes debug there.
+  -V, --version         print a version number and a license of trrc.
+```
+
 ### --file option
 
 #### examplefile.txt
@@ -173,29 +288,6 @@ trrc '[Rust] print "Hello, world!"	rust_hello.txt	rust::println' --read-file-in-
 ```
 
 trrc will read the file 'rust_hello.txt' and use it as a content.
-
-## Locations
-
-By default, *TRRC* searches for rc(config) files in directories of the below.
-It means if you wrote the config file(only *.trrc*, without any file name.) there,
-trrc import the setting in the files if they exists in order.
-
-macOS, Linux:
-
-* `$(HOME)/.trrc` # e.g. : `~/.trrc`
-
-* `./.trrc` # working directory.
-
-### Locations: macOS e.g.
-* `/Users/username/.trrc`
-
-* If you are in `/Users/username/study/english/`, then also, `/Users/username/study/english/.trrc`
-
-### Locations: Linux e.g.
-* `/home/username/.trrc`
-
-* If you are in `/home/username/study/english/`, then also, `/home/username/study/english/.trrc`
-
 ## FAQ
 
 ### How to add several tags?
@@ -279,7 +371,9 @@ set +x
 ### How to add a new line?
 
 Use `\n` to make a new line.
-`First line\nSecond line	back	tag`
+```
+trrc 'First line\nSecond line	back	tag'
+```
 
 ### How to open a port?
 
@@ -287,7 +381,7 @@ Basically, when you are running anki with an AnkiConnect addon, the port(default
 
 But if your want to send a card using **trrc** from outside of your computer which is running Anki with AnkiConnect, you may need to modify firewall option on the computer or a router.
 
-* #### RHEL (fedora, cent, rocky, alma)
+* #### RHEL (Fedora, Cent, Rocky, Alma)
 - [ ] add port open explanation.
 
 * #### Ubuntu
@@ -303,29 +397,37 @@ Google 'YOUR_ROUTER_NAME port forwarding'
 
 Thank you for letting me know! Please report the bug in [issue tracker](https://github.com/Constantin1489/ankistreamadd/issues).
 
-## Development Plan
+## Contribution
 
 Personally I like this app as a method to add cards and use daily, so I will keep developing it. Because I'm trying to get a job, an update delivery can be slow. But after getting a job, I will learn some good clean code conventions and apply it.
 
 Currently I'm writing tests to guarantee a basic functionality, documents and comments on codes.
 
-Also there is no massive changes by now. If there is, I'll write how it changes, examples on how to change your codes.
+Also there won't be massive changes for a while. Because I think I should
+redesign the program for scalability. Think about making card from 'git-diff'. To make such functions quickly I need to redesign.
+
+If there is changes, I'll write how it changes, examples on how to change your codes.
 
 I'm happy to accept criticism, PR, and so on.
+
+There are a lot of grammar mistakes. English is not my language. Catch! PR! PLEASE!
 
 If you're good at unix, linux, or shell, please enlighten me! I really want to hear about book recomendations, cli application to benchmark and so on.
 
 ## TODO
 
 - [ ] send media files directly to Anki.
+- [ ] create card from git-diff, git-show
+    - option: --mode=git --header 'Optimize logging message\n		'
+    - without --header, use git commit message as header.
 - [ ] get fields of a deck.
+    - error handle.
 - [ ] check whether your cards good to send.
 - [ ] support shell environment variable.
-- [x] verbose option
-    - [x] Is verbose critical or info.
-    - [x] if (verbose and debug), debug overwrites verbose. or other algo
-        - [x] if debug:; elif verbose:; else; return None
+    - prefix: TRRC
+    - e.g.: TRRC_deck, TRRC_tag: global tag
 - [ ] new verbose purpose.
+    - -v : stdout, other logging format.
 - [ ] add reliable and insightful pytests
 - [x] config file option
 - [x] HTML interpret on-off mode.
