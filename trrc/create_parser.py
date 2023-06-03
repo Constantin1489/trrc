@@ -382,7 +382,10 @@ def check_response(responsetext, card_json, ankiconnect_url, apikey):
     Parse response text to debug if the AnkiConnect doesn't add the card.
     """
 
-    fail_to_add_card_list = get_failed_card_from_response(responsetext, card_json)
+    fail_to_add_card_list = get_failed_card_from_response(responsetext,
+                                                          card_json,
+                                                          ankiconnect_url,
+                                                          apikey)
 
     if len(fail_to_add_card_list) > 0:
 
@@ -516,7 +519,7 @@ def explain_error_response(message_to_explain: str, ankiconnect_url, apikey):
     return
 
 
-def get_failed_card_from_response(res_str: str, card_json: dict):
+def get_failed_card_from_response(res_str: str, card_json: dict, ankiconnect_url, apikey):
 
     res_str_load: dict = json.loads(res_str)
 
@@ -527,7 +530,7 @@ def get_failed_card_from_response(res_str: str, card_json: dict):
     except TypeError as exc:
         # eg: res_str_load = { 'result': '', 'error': '' }
         # network error. So No result but error.
-        explain_error_response(res_str_load['error'], ankiconnect_info)
+        explain_error_response(res_str_load['error'], ankiconnect_url, apikey)
         sys.exit(1)
 
 def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
