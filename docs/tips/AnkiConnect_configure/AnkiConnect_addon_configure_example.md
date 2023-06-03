@@ -22,9 +22,14 @@ In this case, to use `--apikey` of trrc,
 trrc --apikey 'THIS_IS_THE_APIKEY' 'front card	back card	test'
 ```
 
-To use the `--apikey` by default config,
+**To use the `--apikey` by default config,**
 ```sh
-trrc --apikey 'THIS_IS_THE_APIKEY' --toml-generate
+trrc --apikey 'THIS_IS_THE_APIKEY' --toml-generate --toml-section 'default'
+```
+the result
+```
+[default]
+apikey = "asdfasdfadc"
 ```
 
 Copy and paste the result into the config file(e.g.: ~/.trrc).
