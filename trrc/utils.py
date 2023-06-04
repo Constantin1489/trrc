@@ -58,7 +58,7 @@ Check list
 """
     connect_time_out = "It's a connection time out."
     unknown_network_error = """It's an unknown error.
-Please report it to https://github.com/Constantin1489/ankistreamadd/issues"""
+Please report it to https://github.com/Constantin1489/trrc/issues"""
     basictype = 'Basic type must have at least two fields'
     wrong_field = '"cannot create note because it is empty"'
     check_notetype = "ERROR: 'def _check_notetype' No predefined notetype is here"

@@ -8,7 +8,7 @@ License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law."""
 
-DESCRIPTION = "A command line application to create Anki cards using AnkiConnect API."
+DESCRIPTION = "A command-line unix-like program to create Anki cards using AnkiConnect API."
 
 CLOZE_TYPE_HELP = "set a type of a fallback for a cloze type. the default is " \
 "'cloze'. if user set --field option, then the default won't work. even a string " \

@@ -434,9 +434,10 @@ def get_error_explanation_from_response(ankiconnect_url, card_json, action, apik
 
     if action == 'get_fields_of_model':
         return f"""--field '{':'.join(res_str_load['result'])}:Tags'
+
 You don't have to use all those fields.
-If a field has 'Front:Back:Source:Sound:Tags'
-you can use just 'Front:Back:Tags'."""
+For example, if all fields of a type is 'Front:Back:Source:Sound:Tags'
+you can use only some of them. e.g.: 'Front:Back:Tags'."""
 
     return res_str_load['result']
 
@@ -498,9 +499,9 @@ def explain_error_response(message_to_explain: str, ankiconnect_url, apikey):
         if ERROR_DICT[message_to_explain]:
             if type(ERROR_DICT[message_to_explain]) is not str:
                 err_message = get_error_explanation_from_response(*ERROR_DICT[message_to_explain])
-                error_message_coloring(err_message, 'TRRC Tip')
+                error_message_coloring(err_message, 'trrc Tip')
             else:
-                error_message_coloring(ERROR_DICT[message_to_explain], 'TRRC Tip')
+                error_message_coloring(ERROR_DICT[message_to_explain], 'trrc Tip')
             return
 
         else:

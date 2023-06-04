@@ -4,14 +4,22 @@
 * [INSTALLATION](#installation)
     * [PIP](#pip)
     * [MANUAL_INSTALLATION](#manual-installation)
+* [USAGE](#usage)
+* [CONFIG_FILE](#config-file)
+* [LOCATIONS](#locations)
+* [OPTIONS](#options)
+* [FAQ](#faq)
+* [CONTRIBUTION](#contribution)
 
 ## INTRODUCTION
 
-**ToRRential Card processor**(**TRRC**) is a command line unix application to create anki cards using AnkiConnect plugin.(Think a yt-dlp, but this application is for adding cards into Anki.)
+**ToRRential Card processor**(**trrc**) is a command-line unix-like program to create anki cards using AnkiConnect plugin.(Think a yt-dlp, but this program is for adding cards into Anki.)
 
-I intent to make it as a Unix-like application. Therefore it **leverages a lot of Unix concepts**.
+I intent to make it as a Unix-like program. Therefore it **leverages a lot of Unix concepts**.
 
-- it **supports a standard input, pipe, redirection.** Therefore, you can add bulk cards after mangling your cards with your favorite text editors. With the benefit of Unix-like application, with basic shell script, you can make convenient simple card adding script yourself with your favorite text editors like Vim, Emacs, VScode and so on.
+- it **supports a standard input, PIPE, redirection.** Therefore, you can add bulk cards after mangling your cards with your favorite text editors. With the benefit of unix-like program, you can make a convenient script yourself with your favorite text editors like Vim, Emacs, VScode and so on. See [Usage](#usage)
+
+- It **adds multiple cards at once** using [`--file`](#–file-option) or [PIPE](#pipe) and so on. See [Usage](#usage)
 
 - It also **supports options for ip, port and apikey**. So even some environments you don't want to install Anki, you can add cards if your Anki is running in your home or somewhere, boundlessly.
 
@@ -27,15 +35,14 @@ I intent to make it as a Unix-like application. Therefore it **leverages a lot o
 # default card type is 'Basic'
 $trrc --field 'fron:bakc:tags' 'What is GPL?	The GNU General Public License is a free, copyleft license for software and other kinds of works.	LICENSE::GPL'
 #### Kinds of failures: 1
-TRRC Tip: --field 'Front:Back:Tags'
+trrc Tip: --field 'Front:Back:Tags'
+
 You don't have to use all those fields.
-If a field has 'Front:Back:Source:Sound:Tags',
-you can use just 'Front:Back:Tags'.
+For example, if all field of a type is 'Front:Back:Source:Sound:Tags',
+you can use only some of them. e.g.: 'Front:Back:Tags'.
 ####
 Total cards: 1 Total fails: 1
 ```
-
-So you can add your card at any circumstance conveniently.
 
 ***if you decide to use this app, I highly recommend to turn apikey option in your AnkiConnect to prevent malicious attack. (It's not a fault of this app nor AnkiConnect. If the port of AnkiConnect opens without an apikey, anybody can modify your anki deck.)*** See also [AnkiConnect Configure](docs/tips/AnkiConnect_configure/AnkiConnect_addon_configure_example.md)
 
@@ -84,7 +91,7 @@ trrc --ip 192.168.1.230 --port 4832 --file Korean_English_conversation.txt
 trrc $'안녕\tHello\tKorean'
       ^
 ```
-Check this: [How to use '\t' in a card content?](#how-to-use-‘%5Ct’-in-a-card-content%3F)
+See also [How to use '\t' in a card content?](#how-to-use-‘%5Ct’-in-a-card-content%3F)
 
 ### PIPE
 
@@ -155,21 +162,21 @@ front2	back	test
 EOF
 ```
 
-## config file
+## Config File
 
-*TRRC*'s config file extension is `.trrc`.
+*trrc*'s config file extension is `.trrc`.
 
 See [LOCATIONS](#locations) and [How to create a trrc config file](#how-to-create-a-trrc-config-file%3F)
 
 ## Locations
 
-By default, *TRRC* searches for rc(config) files in directories of the below.
+By default, *trrc* searches for rc(config) files in directories of the below.
 It means if you wrote the config file(only *.trrc*, without any file name.) there,
 trrc import the setting in the files if they exists in order.
 
 macOS, Linux:
 
-* `$(HOME)/.trrc` # e.g. : `~/.trrc`
+* `${HOME}/.trrc` # e.g. : `~/.trrc`
 
 * `./.trrc` # working directory.
 
@@ -196,7 +203,7 @@ usage: trrc [-h] [-D DECK] [-t CARDTYPE] [-i IP] [-p PORT] [-f [FILE ...]]
             [--debug [FILE]] [-V]
             [cardContents ...]
 
-A command line application to create Anki cards using AnkiConnect API.
+A command-line program to create Anki cards using AnkiConnect API.
 
 positional arguments:
   cardContents          a string divided by IFS. the default IFS is a tab
@@ -300,7 +307,7 @@ So for example, (IFS of tags is a tab character as a default.): `CS linux::http 
 trrc '[linux] port 80	HTTP's port	CS linux::http linux::network'
 ```
 
-TRRC will interpret `CS linux::http linux::network` as a list which is `['CS', 'linux::http', 'linux::network']`
+trrc will interpret `CS linux::http linux::network` as a list which is `['CS', 'linux::http', 'linux::network']`
 
 ### How to create a trrc config file?
 
@@ -340,8 +347,8 @@ or use `--toml-write`
 ```sh
 trrc -F@ --type 'Basic' --ip 127.0.0.1 --field 'Front:Back:Tags' --deck 'Computer Science' 'What is GPL?@The GNU General Public License is a free, copyleft license for software and other kinds of works.@LICENSE::GPL' --toml-section 'CS' --toml-write ~/.trrc
 ```
+And you can reuse your config with `--alias CS`.
 
-And you can reuse your config with `--alias CS`
 
 Also you can overwrite the config with an argument,
 ```sh
@@ -349,15 +356,26 @@ Also you can overwrite the config with an argument,
 ```
 It will use CS config but IFS is '^'.
 
+### How to reuse the specific config?
+
+If your config file has 'CS' section, the append `--alias 'CS'` in your command.
+
 ### Tip for writing your own script.
-***In the case with your own script, for a backup purpose, I recommend to create a temp file to use `--file` option or PIPE.***
+
+In the case with your own script, for a backup purpose, I recommend to create a temp file to use `--file` option or PIPE.
+
+Avoid to use the modules of the library directly because it's alpha version.
+
+This program's License is GPL3. See [License](LICENSE).
+
+If you need to submit your code using trrc, discuss with the person concerned about the license.
 
 ### How to use '\t' in a card content?
 
-Yes, It's possible to interpret `\t` as a tab.
-But in a default '	'(tab) IFS, to shell behavior is a normal behavior,
-therefore if you add a card(s) using '\t' as a IFS in a standard input, you need
-to use `--IFS '\t'` or put `$` in front of single qoute.
+Yes, It's possible to interpret `\t` as a tab. But in a default '	'(tab) IFS,
+the shell behavior that doesn't interpret '\t' as a tab character is a normal
+behavior, therefore if you add a card using '\t' as a IFS in a standard
+input, you need to use `--IFS '\t'` or put `$` in front of single qoute.
 - [ ] add detailed explanation.
 
 ```sh
@@ -381,27 +399,16 @@ Basically, when you are running anki with an AnkiConnect addon, the port(default
 
 But if your want to send a card using **trrc** from outside of your computer which is running Anki with AnkiConnect, you may need to modify firewall option on the computer or a router.
 
-* #### RHEL (Fedora, Cent, Rocky, Alma)
-- [ ] add port open explanation.
-
-* #### Ubuntu
-- [ ] add port open explanation.
-
-* #### macOS
-- [ ] add port open explanation.
-
-* #### router
-Google 'YOUR_ROUTER_NAME port forwarding'
-
 ### How to make iOS shortcuts with **trrc**
 
 See [iOS_shortcuts_example](docs/tips/iOS_shortcuts_setting_example/iOS_shortcuts_example.md)
 
 ### This software misses some characters.
 
-Thank you for letting me know! Please report the bug in [issue tracker](https://github.com/Constantin1489/ankistreamadd/issues).
 
 ## Contribution
+
+Thank you for letting me know the bug! Please report the bug in [issue tracker](https://github.com/Constantin1489/trrc/issues).
 
 Personally I like this app as a method to add cards and use daily, so I will keep developing it. Because I'm trying to get a job, an update delivery can be slow. But after getting a job, I will learn some good clean code conventions and apply it.
 
@@ -416,17 +423,20 @@ I'm happy to accept criticism, PR, and so on.
 
 There are a lot of grammar mistakes. English is not my language. Catch! PR! PLEASE!
 
-If you're good at unix, linux, or shell, please enlighten me! I really want to hear about book recomendations, cli application to benchmark and so on.
+If you're good at unix, linux, or shell, please enlighten me! I really want to hear about book recomendations, cli program to benchmark and so on.
 
 ## TODO
 
+- [ ] remove dependency: requests lib.
+- [ ] windows support.
+    - py2exe
+    - file path (e.g.: default config file)
 - [ ] send media files directly to Anki.
 - [ ] create card from git-diff, git-show
     - option: --mode=git --header 'Optimize logging message\n		'
     - without --header, use git commit message as header.
 - [ ] get fields of a deck.
     - error handle.
-- [ ] check whether your cards good to send.
 - [ ] support shell environment variable.
     - prefix: TRRC
     - e.g.: TRRC_deck, TRRC_tag: global tag
@@ -438,9 +448,9 @@ If you're good at unix, linux, or shell, please enlighten me! I really want to h
     - [x] \<br\> &lt, &gt & HTML on <-> HTML off and `\n`
         - [x] First, change every HTML tags to &gt &lt. then change \n to <br>
     - [x] should it be a HTML off mode a default?
-- [ ] Embedding modules: allow TRRC as a module to use in python script.
+- [ ] Embedding modules: allow trrc as a module to use in python script.
 - [x] Error message: file doesn't exist.
-- [ ] search rc file in the working directory.
+- [x] search rc file in the working directory.
 - [ ] use # comment in a file as a temporary card option or method switcher.
     - [ ] Allow adding card vertically
         - [ ] #NEW FRONT(field)

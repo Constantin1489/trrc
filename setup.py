@@ -7,7 +7,7 @@ setup(
     description='a command-line program for creating anki card using AnkiConnect API.',
     author='Constantin Hong',
     author_email='hongconstantin@gmail.com',
-    url='https://github.com/Constantin1489/ankistreamadd',
+    url='https://github.com/Constantin1489/trrc',
     maintainer='Constantin Hong',
     maintainer_email='hongconstantin@gmail.com',
     readme = "README.md",
@@ -20,9 +20,9 @@ setup(
         "tomli_w",
         ],
     project_urls = {
-        'Documentation': 'https://github.com/Constantin1489/ankistreamadd#readme',
-        'Source': 'https://github.com/Constantin1489/ankistreamadd',
-        'Tracker': 'https://github.com/Constantin1489/ankistreamadd/issues',
+        'Documentation': 'https://github.com/Constantin1489/trrc#readme',
+        'Source': 'https://github.com/Constantin1489/trrc',
+        'Tracker': 'https://github.com/Constantin1489/trrc/issues',
         },
     classifiers=[
         'Intended Audience :: Education',
