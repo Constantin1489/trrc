@@ -3,8 +3,8 @@ from setuptools import setup
 
 setup(
     name = 'trrc',
-    version = '0.1.0',
-    description='a command line program for creating anki card using AnkiConnect API.',
+    version = '0.1.1',
+    description='a command-line program for creating anki card using AnkiConnect API.',
     author='Constantin Hong',
     author_email='hongconstantin@gmail.com',
     url='https://github.com/Constantin1489/ankistreamadd',
@@ -12,7 +12,7 @@ setup(
     maintainer_email='hongconstantin@gmail.com',
     readme = "README.md",
     packages = ['trrc'],
-    data_files = [('share/man/man1', ['trrc.1'])],
+    data_files = [('share/man/man1', ['docs/trrc.1'])],
     python_requires='>=3.9',
     install_requires=[
         "requests",

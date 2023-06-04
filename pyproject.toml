@@ -1,8 +1,46 @@
 [project]
 name = "trrc"
-version = "0.1.0"
-description = "a package"
+version = "0.1.1"
+authors = [
+    { name="Constantin Hong", email="hongconstantin@gmail.com" },
+]
+maintainers = [
+    { name="Constantin Hong", email="hongconstantin@gmail.com" },
+]
+license = {file = "LICENSE"}
+description = "a command-line program for creating anki card using AnkiConnect API."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers=[
+    'Intended Audience :: Education',
+    'Development Status :: 3 - Alpha',
+    'Environment :: Console',
+    'Topic :: Education',
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Utilities",
+    'Operating System :: MacOS :: MacOS X',
+    'Operating System :: POSIX :: Linux',
+    'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+]
+
+dependencies = [
+    "requests",
+    "tomlkit",
+    "tomli_w",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/Constantin1489/trrc"
+"Bug Tracker" = "https://github.com/Constantin1489/trrc/issues"
+"Documentation" = "https://github.com/Constantin1489/trrc#readme"
+
+[project.entry-points.console_scripts]
+trrc = "trrc.__main__:main"
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"

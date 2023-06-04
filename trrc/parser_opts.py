@@ -2,7 +2,7 @@
 import argparse
 import logging
 
-VERSION_MESSAGE = """trrc - ToRRential Card processor 0.1.0
+VERSION_MESSAGE = """trrc - ToRRential Card processor 0.1.1
 Copyright (C) 2023  Constantin Hong
 License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
 This is free software: you are free to change and redistribute it.

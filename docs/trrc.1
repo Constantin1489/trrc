@@ -1,0 +1,122 @@
+.TH TRRC "1" "2023\-06\-04" "ToRRential Card processor" "Generated Python Manual"
+.SH NAME
+trrc
+.SH SYNOPSIS
+.B FIELDS]
+[--cloze-type CLOZE_TYPE] [--toml-generate] [--toml-write FILE] [--toml-section SECTION] [-H] [--apikey APIKEY] [--sync] [--force-add] [--dry-run] [--read-file-in-a-content] [-v] [--debug [FILE]] [-V] [cardContents ...]
+.SH DESCRIPTION
+A command\-line unix\-like program to create Anki cards using AnkiConnect API.
+
+.TP
+\fBcardContents\fR
+a string divided by IFS. the default IFS is a tab character. instead of a string, It can also take a file consists of strings without '\-\-FILE' option.
+
+.SH OPTIONS
+.TP
+\fB\-D\fR \fI\,DECK\/\fR, \fB\-\-deck\fR \fI\,DECK\/\fR
+set a Deck. the default is 'default'.
+
+.TP
+\fB\-t\fR \fI\,CARDTYPE\/\fR, \fB\-\-type\fR \fI\,CARDTYPE\/\fR
+set a card type. the default is 'Basic'.
+
+.TP
+\fB\-i\fR \fI\,IP\/\fR, \fB\-\-ip\fR \fI\,IP\/\fR
+set a ip that AnkiConnect specified. the default is '127.0.0.1'.
+
+.TP
+\fB\-p\fR \fI\,PORT\/\fR, \fB\-\-port\fR \fI\,PORT\/\fR
+set a port number that AnkiConnect specified. the default is '8765'.
+
+.TP
+\fB\-f\fR \fI\,[FILE ...]\/\fR, \fB\-\-file\fR \fI\,[FILE ...]\/\fR
+set a file that contains card contents.
+
+.TP
+\fB\-c\fR \fI\,FILE\/\fR, \fB\-\-config\fR \fI\,FILE\/\fR
+set a config file to import config options. without this option, this program searches '~/.trrc'.
+
+.TP
+\fB\-\-alias\fR \fI\,SECTION\/\fR
+set a section of a config file to apply options. without this argument, the default is 'default'.
+
+.TP
+\fB\-F\fR \fI\,IFS\/\fR, \fB\-\-IFS\fR \fI\,IFS\/\fR
+set a delimiter of card contents to use any character other than a tab character. the default is a tab character.
+
+.TP
+\fB\-\-field\fR \fI\,COLON:DELIMITER\-SEPARATED:FIELDS\/\fR
+set a card field corresponding to the cardContents. the default is 'Front:Back:Tags'.
+
+.TP
+\fB\-\-cloze\-field\fR \fI\,COLON:DELIMITER\-SEPARATED:FIELDS\/\fR
+set a cloze type card field corresponding to the cardContents. The default is 'Text:Back Extra:Tags'.
+
+.TP
+\fB\-\-cloze\-type\fR \fI\,CLOZE_TYPE\/\fR
+set a type of a fallback for a cloze type. the default is 'cloze'. if user set \-\-field option, then the default won't work. even a string contains cloze, the program will process as a field unless user set \-\-cloze\-type
+
+.TP
+\fB\-\-toml\-generate\fR
+print toml configs with current arguments. to set a section of it, use it with '\-\-toml\-section' option.
+
+.TP
+\fB\-\-toml\-write\fR \fI\,FILE\/\fR
+write a config file with options used. to set a section, use '\-\-toml\-section'.
+
+.TP
+\fB\-\-toml\-section\fR \fI\,SECTION\/\fR
+set a toml section. the default is 'untitled'.
+
+.TP
+\fB\-H\fR, \fB\-\-render\-HTML\fR
+set to allow to render a HTML tag. the default doesn't allow render a HTML tag, therefore <br> won't be a new line.
+
+.TP
+\fB\-\-apikey\fR \fI\,APIKEY\/\fR
+set an api key for AnkiConnect. if it is specified, \-\-debug options will mask it because of security concern.
+
+.TP
+\fB\-\-sync\fR
+sync Anki. if there is a card to process, trrc syncs after adding the card. the default is not to sync.
+
+.TP
+\fB\-\-force\-add\fR
+create a card even if there is a duplicate in the deck.
+
+.TP
+\fB\-\-dry\-run\fR
+perform a trial run without sending to Anki.
+
+.TP
+\fB\-\-read\-file\-in\-a\-content\fR
+set to allow to replace a file in contents with its contents. a default setting doesn't read it
+
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+print a card being currently processed.
+
+.TP
+\fB\-\-debug\fR \fI\,[FILE]\/\fR
+print debug information. if you specify FILE, trrc writes debug there.
+
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+print a version number and a license of trrc.
+.SH EXAMPLE
+trrc '안녕  Hello   Korean Conversation'
+
+trrc $'안녕\\tHello\\tKorean'
+
+trrc "back\\ttestfront\\tvim" -F '\\t'
+
+trrc --IFS % '안녕%Hello%Korean'
+
+trrc --field 'ArbitraryFourthFieldName:ArbitrarysecondFieldName:Tags' 'FourthContent\tsecondContent\ttag'
+
+trrc --ip 192.168.1.230 --port 4832 --debug --file Korean_English_conversation.txt
+
+.SH AUTHOR
+.nf
+Constantin Hong <hongconstantin@gmail.com>
+.fi
