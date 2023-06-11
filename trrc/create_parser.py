@@ -321,6 +321,7 @@ def get_api_dict(action, parameter='', apikey=''):
                      'get_fields_of_model' : { "action": "modelFieldNames",
                                               "version": 6,
                                               "params": { "modelName": parameter }},
+                     'sync' : {"action": "sync", "version": 6,'key' : parameter},
                      }
 
     return dict_template[action]
@@ -554,15 +555,19 @@ def check_cloze_is_mistakely_there(card_contents: str, cardtype: str) -> str:
 
     return get_proper_cardtype(cardtype)
 
-def sync(ankiconnect_info, apikey=''):
+def sync(ankiconnect_url, apikey=''):
     """
     Sync an anki.
     :ankiconnect_info: TODO
     """
-    response = requests.post(ankiconnect_info,
-                             json={"action": "sync", "version": 6,'key' : apikey},
-                             timeout=(1,1))
-    print(f'sync: {response.text}')
+
+    response = send_card_ankiconnect(ankiconnect_url, '', 'sync', apikey)
+
+    if response.text == '{"result": null, "error": null}':
+        print('sync: triggered')
+        return
+
+    check_response(response.text, '', ankiconnect_url, apikey)
 
 DEFAULT_ALIAS = 'default'
 
