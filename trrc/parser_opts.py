@@ -18,8 +18,7 @@ CLOZE_TYPE_HELP = "Set a type of a fallback for a cloze type. The default is " \
 CARD_CONTENT_HELP = "A quoted string divided by IFS. The default IFS is a tab character. " \
         "Instead of a string, it can also take a file consists of strings " \
         "without '--FILE' option. A [CARD_CONTENT] of '-' stands for standa" \
-        "rd input. <<EOF in [CARD_CONTENT] will trigger Pseudo HEREDOC " \
-        "mode. See #pseudo-heredoc-mode in README."
+        "rd input."
 
 def create_parser():
     """
