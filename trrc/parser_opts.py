@@ -2,7 +2,7 @@
 import argparse
 import logging
 
-VERSION_MESSAGE = """trrc - ToRRential Card processor 0.1.1
+VERSION_MESSAGE = """trrc - ToRRential Card processor 0.1.2
 Copyright (C) 2023  Constantin Hong
 License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
 This is free software: you are free to change and redistribute it.
@@ -10,10 +10,16 @@ There is NO WARRANTY, to the extent permitted by law."""
 
 DESCRIPTION = "A command-line unix-like program to create Anki cards using AnkiConnect API."
 
-CLOZE_TYPE_HELP = "set a type of a fallback for a cloze type. the default is " \
-"'cloze'. if user set --field option, then the default won't work. even a string " \
+CLOZE_TYPE_HELP = "Set a type of a fallback for a cloze type. The default is " \
+"'cloze'. If user set --field option, then the default won't work. Even a string " \
 "contains cloze, the program will process as a field unless user set " \
 "--cloze-type"
+
+CARD_CONTENT_HELP = "A quoted string divided by IFS. The default IFS is a tab character. " \
+        "Instead of a string, it can also take a file consists of strings " \
+        "without '--FILE' option. A [CARD_CONTENT] of '-' stands for standa" \
+        "rd input. <<EOF in [CARD_CONTENT] will trigger Pseudo HEREDOC " \
+        "mode. See #pseudo-heredoc-mode in README."
 
 def create_parser():
     """
@@ -28,45 +34,42 @@ def create_parser():
 
     parser.add_argument(
             'cardContents', action='store', nargs='*',
-            help=(
-            "a string divided by IFS. the default IFS is a tab character. " \
-            "instead of a string, It can also take a file consists of strings " \
-            "without '--FILE' option."
-            ))
+            metavar="CARD_CONTENT",
+            help=CARD_CONTENT_HELP)
 
     parser.add_argument(
             '-D', '--deck',
             action='store', dest='deck',
             help=(
-            "set a Deck. the default is 'default'."
+            "Set a Deck. The default is 'default'."
             ))
 
     parser.add_argument(
             '-t', '--type',
             action='store', dest='cardtype',
             help=(
-            "set a card type. the default is 'Basic'."
+            "Set a card type. The default is 'Basic'."
             ))
 
     parser.add_argument(
             '-i', '--ip',
             action='store', dest='ip',
             help=(
-            "set a ip that AnkiConnect specified. the default is '127.0.0.1'."
+            "Set a ip that AnkiConnect specified. The default is '127.0.0.1'."
             ))
 
     parser.add_argument(
             '-p', '--port',
             action='store', dest='port', type=int,
             help=(
-            "set a port number that AnkiConnect specified. the default is '8765'."
+            "Set a port number that AnkiConnect specified. The default is '8765'."
             ))
 
     parser.add_argument(
             '-f', '--file',
             action='store', dest='file', nargs='*',
             help=(
-            'set a file that contains card contents.'
+            'Set a file that contains card contents.'
             ))
 
     parser.add_argument(
@@ -74,8 +77,8 @@ def create_parser():
             metavar="FILE",
             action='store', dest='config',
             help=(
-            "set a config file to import config options. without this option, " \
-            "this program searches '~/.trrc'."
+            "Set a config file to import config options. Without this option, " \
+            "this program searches '~/.trrc', '$PWD/.trrc'."
             ))
 
     parser.add_argument(
@@ -83,7 +86,7 @@ def create_parser():
             metavar="SECTION",
             action='store', dest='alias',
             help=(
-            "set a section of a config file to apply options. without this " \
+            "Set a section of a config file to apply options. Without this " \
             "argument, the default is 'default'."
             ))
 
@@ -91,8 +94,8 @@ def create_parser():
             '-F', '--IFS',
             action='store', dest='ifs',
             help=(
-            "set a delimiter of card contents to use any character other than " \
-            "a tab character. the default is a tab character."
+            "Set a delimiter of card contents to use any character other than " \
+            "a tab character. The default is a tab character."
             ))
 
     parser.add_argument(
@@ -100,7 +103,7 @@ def create_parser():
             metavar="COLON:DELIMITER-SEPARATED:FIELDS",
             action='store', dest='field',
             help=(
-            "set a card field corresponding to the cardContents. the default " \
+            "Set a card field corresponding to the [CARD_CONTENT]. The default " \
             "is 'Front:Back:Tags'."
             ))
 
@@ -109,7 +112,7 @@ def create_parser():
             metavar="COLON:DELIMITER-SEPARATED:FIELDS",
             action='store', dest='cloze_field',
             help=(
-            "set a cloze type card field corresponding to the cardContents. " \
+            "Set a cloze type card field corresponding to the [CARD_CONTENT]. " \
             "The default is 'Text:Back Extra:Tags'."
             ))
 
@@ -122,7 +125,7 @@ def create_parser():
             '--toml-generate',
             action='store_true', dest='toml_generate',
             help=(
-            "print toml configs with current arguments. to set a section of " \
+            "Print toml configs with current arguments. To set a section of " \
             "it, use it with '--toml-section' option."
             ))
 
@@ -131,7 +134,7 @@ def create_parser():
             metavar="FILE",
             action='store', dest='toml_write',
             help=(
-            "write a config file with options used. to set a section, use " \
+            "Write a config file with options used. To set a section, use " \
             "'--toml-section'."
             ))
 
@@ -140,14 +143,14 @@ def create_parser():
             metavar="SECTION",
             action='store', dest='toml_section',
             help=(
-            "set a toml section. the default is 'untitled'."
+            "Set a toml section. The default is 'untitled'."
             ))
 
     parser.add_argument(
             '-H', '--render-HTML',
             action='store_true', dest='allow_HTML',
             help=(
-            "set to allow to render a HTML tag. the default doesn't allow " \
+            "Set to allow to render a HTML tag. The default doesn't allow " \
             "render a HTML tag, therefore <br> won't be a new line."
             ))
 
@@ -155,58 +158,58 @@ def create_parser():
             '--apikey',
             action='store', dest='apikey',
             help=(
-            "set an api key for AnkiConnect. if it is specified, --debug " \
-            "options will mask it because of security concern."
+            "Set an api key for AnkiConnect. If it is specified, --debug " \
+            "option will mask it because of security concern."
             ))
 
     parser.add_argument(
             '--sync',
             action='store_true', dest='sync',
             help=(
-            "sync Anki. if there is a card to process, trrc syncs after " \
-            "adding the card. the default is not to sync."
+            "Sync Anki. If there is a card to process, trrc syncs after " \
+            "adding the card. The default is not to sync."
             ))
 
     parser.add_argument(
             '--force-add',
             action='store_true', dest='force_add',
             help=(
-            "create a card even if there is a duplicate in the deck."
+            "Create a card even if there is a duplicate in the deck."
             ))
 
     parser.add_argument(
             '--dry-run',
             action='store_true', dest='dryrun',
             help=(
-            'perform a trial run without sending to Anki.'
+            'Perform a trial run without sending to Anki.'
             ))
 
     parser.add_argument(
             '--read-file-in-a-content',
             action='store_true', dest='contents_file_import',
             help=(
-            "set to allow to replace a file in contents with its contents. a default setting doesn't read it"
+            "Set to allow to replace a file in contents with its contents. A default setting doesn't read it"
             ))
 
     parser.add_argument(
             '-v', '--verbose',
             action='store_const', dest='verbose', const=logging.INFO,
             help=(
-            'print a card being currently processed.'
+            'Print a card being currently processed.'
             ))
 
     parser.add_argument(
             '--debug', dest='debug', nargs='?', const=logging.DEBUG,
             metavar="FILE",
             help=(
-            'print debug information. if you specify FILE, trrc writes debug there.'
+            'Print debug information. If you specify FILE, trrc writes debug there.'
             ))
 
     parser.add_argument(
             '-V', '--version',
             action='version', dest='version', version=VERSION_MESSAGE,
             help=(
-            'print a version number and a license of trrc.'
+            'Print a version number and a license of trrc.'
             ))
 
     return parser

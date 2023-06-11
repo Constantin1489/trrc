@@ -54,7 +54,7 @@ Check list
 1. Is your Anki running now? your Anki must be running to use AnkiConnect.
 2. Is your AnkiConnect plugin installed in your Anki application and enabled?
 3. Are an ip and port in option or config files correct?
-4. Does your serverside allow port?
+4. Does your serverside open port?
 """
     connect_time_out = "It's a connection time out."
     unknown_network_error = """It's an unknown error.

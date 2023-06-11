@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name = 'trrc',
-    version = '0.1.1',
+    version = '0.1.2',
     description='a command-line program for creating anki card using AnkiConnect API.',
     author='Constantin Hong',
     author_email='hongconstantin@gmail.com',
