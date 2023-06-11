@@ -9,6 +9,7 @@
 * [LOCATIONS](#locations)
 * [OPTIONS](#options)
 * [FAQ](#faq)
+* [CANGELOG](#changelog)
 * [CONTRIBUTION](#contribution)
 
 ## INTRODUCTION
@@ -43,6 +44,8 @@ you can use only some of them. e.g.: 'Front:Back:Tags'.
 ####
 Total cards: 1 Total fails: 1
 ```
+
+See [Youtube demonstration video of the author](https://www.youtube.com/watch?v=-3jCwUEAOHE)
 
 ***if you decide to use this app, I highly recommend to turn apikey option in your AnkiConnect to prevent malicious attack. (It's not a fault of this app nor AnkiConnect. If the port of AnkiConnect opens without an apikey, anybody can modify your anki deck.)*** See also [AnkiConnect Configure](docs/tips/AnkiConnect_configure/AnkiConnect_addon_configure_example.md)
 
@@ -403,8 +406,12 @@ But if your want to send a card using **trrc** from outside of your computer whi
 
 See [iOS_shortcuts_example](docs/tips/iOS_shortcuts_setting_example/iOS_shortcuts_example.md)
 
-### This software misses some characters.
+## Changelog
 
+| Version | Note                     | 
+|:--------|:-------------------------|
+| HEAD    | fix sync option error handle. | 
+| 0.1.1   | init                     | 
 
 ## Contribution
 
