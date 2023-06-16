@@ -1,0 +1,33 @@
+#compdef trrc
+
+local curcontext="$curcontext"
+typeset -A opt_args
+
+local rc=1
+_arguments -C \
+{-h,--help}'[Show this help message and exit]' \
+{-D,--deck}'[Set a Deck.]':'<deck>' \
+{-t,--type}'[Set a card type.]':'<type>' \
+{-i,--ip}'[Set a ip that AnkiConnect specified.]':'<ip>' \
+{-p,--port}'[Set a port number that AnkiConnect specified.]':'<port>' \
+{-f,--file}'[Set a file that contains card contents.]':'<file>':_files  \
+{-c,--config}'[Set a config file to import config options.]':'<file>':_files \
+--alias'[Set a section of a config file to apply options.]':'<section>' \
+{-F,--IFS}'[Set a delimiter of card contents to use any character other than a tab character.]':'<IFS>' \
+--field'[Set a card field corresponding to the cardContents.]':'<COLON:DELIMITER-SEPARATED:FIELDS>' \
+--cloze-field'[Set a cloze type card field corresponding to the cardContents.]':'<COLON:DELIMITER-SEPARATED:FIELDS>' \
+--cloze-type'[Set a type of a fallback for a cloze type.]':'<type>' \
+--toml-generate'[Print toml configs with current arguments.]' \
+--toml-write'[Write a config file with options used.]':'<file>':_files \
+--toml-section'[Set a toml section.]':'<section>' \
+{-H,--render-HTML}'[Set to allow to render a HTML tag.]' \
+--apikey'[Set an api key for AnkiConnect.]':'<apikey>' \
+--sync'[Sync Anki.]' \
+--force-add'[Create a card even if there is a duplicate in the deck.]' \
+--dry-run'[Perform a trial run without sending to Anki.]' \
+--read-file-in-a-content'[ Set to allow to replace a file in contents with its contents.]' \
+{-v,--verbose}'[Print a card being currently processed.]' \
+--debug'[Print debug information.]':'<file>':_files \
+{-V,--version}'[Print a version number and a license of trrc.]' && rc=0
+
+return rc
