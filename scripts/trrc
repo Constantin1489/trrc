@@ -1,0 +1,16 @@
+__trrc()
+{
+    local cur prev opts fileopts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--help --deck --type --ip --port --file --config --alias --IFS --field --cloze-field --cloze-type --toml-generate --toml-write --toml-section --render-HTML --apikey --sync --force-add --dry-run --read-file-in-a-content --verbose --debug --version"
+    fileopts="--config|--file|--toml-write|--debug"
+
+    if [[ ${prev} =~ ${fileopts} ]]; then
+        COMPREPLY=( $(compgen -f -- ${cur}) )
+	else
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+	fi
+}
+complete -F __trrc trrc
