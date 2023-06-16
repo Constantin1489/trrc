@@ -12,7 +12,11 @@ setup(
     maintainer_email='hongconstantin@gmail.com',
     readme = "README.md",
     packages = ['trrc'],
-    data_files = [('share/man/man1', ['docs/trrc.1'])],
+    data_files = [
+        ('share/man/man1', ['docs/trrc.1']),
+        ('share/bash-completion/completions', ['scripts/bash/trrc']),
+        ('share/zsh/site-functions', ['scripts/zsh/_trrc'])
+        ],
     python_requires='>=3.9',
     install_requires=[
         "requests",
