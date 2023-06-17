@@ -9,7 +9,7 @@
 * [LOCATIONS](#locations)
 * [OPTIONS](#options)
 * [FAQ](#faq)
-* [CANGELOG](#changelog)
+* [CHANGELOG](#changelog)
 * [CONTRIBUTION](#contribution)
 
 ## INTRODUCTION
@@ -18,7 +18,7 @@
 
 I intent to make it as a Unix-like program. Therefore it **leverages a lot of Unix concepts**.
 
-- it **supports a standard input, PIPE, redirection.** Therefore, you can add bulk cards after mangling your cards with your favorite text editors. With the benefit of unix-like program, you can make a convenient script yourself with your favorite text editors like Vim, Emacs, VScode and so on. See [Usage](#usage)
+- It **supports a standard input, PIPE, redirection.** Therefore, you can add bulk cards after mangling your cards with your favorite text editors. With the benefit of unix-like program, you can make a convenient script yourself with your favorite text editors like Vim, Emacs, VScode and so on. See [Usage](#usage)
 
 - It **adds multiple cards at once** using [`--file`](#–file-option) or [PIPE](#pipe) and so on. See [Usage](#usage)
 
@@ -29,7 +29,7 @@ I intent to make it as a Unix-like program. Therefore it **leverages a lot of Un
 - you can **sync Anki** with option `--sync` of **trrc** with or without soon after adding cards.
 
 - It's **user-friendly**. In well-known cases, **trrc** provides solutions. If you
-  mistake deck name, it will print all deck name available. if your field is
+  mistake deck name, it will print all deck name available. If your field is
   wrong, it will print field of the card type used.
 
 ```sh
@@ -82,7 +82,7 @@ trrc --IFS % '안녕%Hello%Korean'
 trrc -F @ '안녕@Hello@Korean'
 
 # you can choose only part of the fields of the card type.
-# you  can change order of the fields.
+# you can change order of the fields.
 trrc --field 'Arbitrary4thField:Arbitrary2ndFieldName:tags' 'FourthContent\tsecondContent\ttag'
 
 # to send your card to other computer(e.g.: ip is 192.168.1.230, port is 4832).
@@ -277,7 +277,7 @@ This is an example which trrc takes. IFS is a tab which is a default IFS.
 
 ```
 Anki	Anki is a free and open-source flashcard program using spaced repetition	anki
-To make  a log message in python, What library Should I use?	logging	python::library
+To make a log message in python, What library Should I use?	logging	python::library
 ```
 * `trrc --file examplefile.txt`
 
