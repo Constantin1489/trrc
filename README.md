@@ -20,6 +20,8 @@ I intent to make it as a Unix-like program. Therefore it **leverages a lot of Un
 
 - It **supports a standard input, PIPE, redirection.** Therefore, you can add bulk cards after mangling your cards with your favorite text editors. With the benefit of unix-like program, you can make a convenient script yourself with your favorite text editors like Vim, Emacs, VScode and so on. See [Usage](#usage)
 
+- It has **shell completions(Zsh, Bash)**.
+
 - It **adds multiple cards at once** using [`--file`](#–file-option) or [PIPE](#pipe) and so on. See [Usage](#usage)
 
 - It also **supports options for ip, port and apikey**. So even some environments you don't want to install Anki, you can add cards if your Anki is running in your home or somewhere, boundlessly.
@@ -442,6 +444,9 @@ If you're good at unix, linux, or shell, please enlighten me! I really want to h
 - [ ] create card from git-diff, git-show
     - option: --mode=git --header 'Optimize logging message\n		'
     - without --header, use git commit message as header.
+- [ ] support markdown, mad type and so on.
+    - --vertical?
+    - Pseudo HEREDOC mode.
 - [ ] get fields of a deck.
     - error handle.
 - [ ] support shell environment variable.
