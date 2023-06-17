@@ -412,7 +412,8 @@ See [iOS_shortcuts_example](docs/tips/iOS_shortcuts_setting_example/iOS_shortcut
 
 | Version | Note                     | 
 |:--------|:-------------------------|
-| HEAD    | fix sync option error handle. | 
+| HEAD    | add shell completion. | 
+| 0.1.2    | fix sync option error handle. | 
 | 0.1.1   | init                     | 
 
 ## Contribution
